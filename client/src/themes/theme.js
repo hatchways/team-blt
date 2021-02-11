@@ -1,11 +1,23 @@
 import { createMuiTheme } from "@material-ui/core";
+import { green } from "@material-ui/core/colors";
+import LandingPage from "../pages/Landing";
 
 export const theme = createMuiTheme({
-  typography: {
-    fontFamily: '"Roboto"'
-  },
-  primary: "#f04040",
-  secondary: "#1f1f1f",
-  error: "#d8000c",
-  bgcolor: "#f6f6f6"
+  pallet: {
+    primary: { 
+      main: green[500] 
+    }
+  }
 });
+
+export const modalStyles = {
+  overlay: {
+    background: 'rgba(36,39,60, 0.5)',
+  },
+  content: {
+    width: '40%',
+    height: '70%',
+    margin: 'auto',
+    borderRadius: '5px'
+  }
+}
