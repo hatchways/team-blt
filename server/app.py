@@ -6,15 +6,23 @@ from flask_pymongo import PyMongo
 
 
 app = Flask(__name__)
-app.config["MONGO_URI"] = "mongodb://localhost:27017/myDatabase"
+app.config["MONGO_URI"] = mongodb+srv://TeamBLT-Admin:jcPCzsMV2021HatchwaysTeamBLT@teambltcluster0.5hi8c.mongodb.net/TeamBLTCluster0?retryWrites=true&w=majority
 mongo = PyMongo(app)
 
 app.register_blueprint(home_handler)
 app.register_blueprint(ping_handler)
 
 @app.route('/')
-def hello():
-    return 'hello world'
+def index():
+    return '''
+        <form method="POST", action="/user/signup", enctype="multipart/form-data">
+            <input type="text" name="Username">
+            <input type="text" name="Email">
+            <input type="text" name="Password">
+            <input type="text" name="Confirm Password">
+            <input type="submit">
+        </form>
+    '''
 
 class User:
     def __init__(self, name, email, password):
@@ -22,29 +30,46 @@ class User:
         self.name = name
         self.email = email
         self.password = password
+        self.encrypted_password = hash(password)
+        self.is_login = True
 
     def export(self):
         return {
             "_id": "",
             "name": self.name,
             "email": self.email,
-            "password": self.password
+            "encrypted_password": self.encrypted_password,
         }
 
-class RegistrationForm(Form):
-    name = StringField('Username', [validators.Length(min=6, max=20)])
-    email = StringField('Email Address', [validators.Length(min=6, max=20)])
-    password = PasswordField('New Password', [
-        validators.DataRequired(),
-        validators.EqualTo('confirm', message='Passwords must match')
-    ])
-    confirm = PasswordField('Repeat Password')
+    def validate(self):
+        if len(str(self.name)) < 6:
+            return False
+        if len(str(self.email)) < 6:
+            return False
+        if len(str(self.password)) < 6:
+            return False
+        return True
 
-@app.route('/user/signup', methods=['GET', 'POST'])
+
+@app.route('/user/signup', methods=['POST'])
 def signup():
-    form = RegistrationForm(request.form)
-    if request.method == 'POST' and form.validate():
-        user = User(form.name.data, form.email.data,
-                    form.password.data)
+    user = User(request.form.get("Username"), request.form.get("Email"),
+                request.form.get("Password"))
+    if user.validate():
+        mongo.db.users.insert_one(user.export())
         return user.export()
-    return 'fail'
+    return 'invalid user!'
+
+@app.route('/login', methods=['POST'])
+def login():
+    return'''
+        <form method="POST", action="/user/signup", enctype="multipart/form-data">
+            <input type="text" name="Username1">
+            <input type="text" name="Password1">
+            <input type="submit">
+        </form>
+    '''
+
+@app.route('/login1', methods=['GET','POST'])
+def login_status():
+    '''if db finds user, return success'''
