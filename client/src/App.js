@@ -15,7 +15,7 @@ import LandingPage from "./pages/Landing";
 Modal.setAppElement('#root');
 
 function App() {
-  const [signedIn, setSignedIn] = useState(true);
+  const [signedIn, setSignedIn] = useState(false);
   
   return (
     <MuiThemeProvider theme={theme}>
@@ -23,12 +23,8 @@ function App() {
           <Route exact path="/">
             {!signedIn ? <Redirect to="/sign-in" /> : <LandingPage />}
           </Route>
-          <Route exact path="/sign-in">
-            {signedIn ? <Redirect to="/" /> : <SignIn />}
-          </Route>
-          <Route exact path="/sign-up">
-            {signedIn ? <Redirect to="/" /> : <SignUp />}
-          </Route>
+          <Route exact path='/sign-in' component={SignIn} />
+          <Route exact path='/sign-up' component={SignUp} />
       </BrowserRouter>    
     </MuiThemeProvider>
   );
