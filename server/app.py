@@ -6,7 +6,7 @@ from flask_pymongo import PyMongo
 
 
 app = Flask(__name__)
-app.config["MONGO_URI"] = mongodb+srv://TeamBLT-Admin:jcPCzsMV2021HatchwaysTeamBLT@teambltcluster0.5hi8c.mongodb.net/TeamBLTCluster0?retryWrites=true&w=majority
+app.config["MONGO_URI"] = 'abc'
 mongo = PyMongo(app)
 
 app.register_blueprint(home_handler)
