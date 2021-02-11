@@ -3,9 +3,9 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Modal from 'react-modal';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { modalStyles } from '../themes/theme';
-import '../themes/SignUp.css';
+//import '../themes/SignUp.css';
 
 function SignUp() {
     const [modalIsOpen, setModalIsOpen] = useState(true);
@@ -32,8 +32,11 @@ function SignUp() {
     function handleChange(event) {
         const field = event.target.name;
         const tempUser = user;
+        const err = error;
+        err[field] = false;
         tempUser[field] = event.target.value;
- 
+        
+        setError({...err})
         setUser({...tempUser});
         console.log(user)
     }
