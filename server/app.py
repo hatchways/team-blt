@@ -1,15 +1,14 @@
-from flask import Flask, render_template, flash, redirect
+from flask import Flask, render_template, flash, redirect, url_for
 from flask_mongoengine import MongoEngine
 from flask_login import LoginManager, UserMixin, current_user, login_user, logout_user, login_required
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import StringField, PasswordField, SubmitField, ValidationError
 from wtforms.fields.html5 import EmailField
 from wtforms.validators import DataRequired, Length, EqualTo
 from config import Config
 from werkzeug.security import generate_password_hash, check_password_hash
 from api.ping_handler import ping_handler
 from api.home_handler import home_handler
-
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -94,4 +93,5 @@ def signup():
         new_user = User(username=form.username.data, email=form.email.data)
         new_user.set_password(form.password.data)
         new_user.save()
+        return redirect(url_for('login'))
     return render_template('signup.html', title='Sign Up', form=form)
