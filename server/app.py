@@ -12,8 +12,6 @@ from api.home_handler import home_handler
 
 app = Flask(__name__)
 app.config.from_object(Config)
-
-# Setup Flask-MongoEngine
 db = MongoEngine(app)
 login = LoginManager(app)
 
@@ -46,9 +44,9 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Sign In')
 
 class SignupForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired(), Length(min=3, max=20)])
-    email = EmailField('Email', validators=[DataRequired(), Length(min=3, max=60)])
-    password = PasswordField('Password', validators=[DataRequired(), Length(min=3, max=20), EqualTo('confirm', message='Passwords must match')])
+    username = StringField('Username', validators=[DataRequired(), Length(min=6)])
+    email = EmailField('Email', validators=[DataRequired(), Length(min=6)])
+    password = PasswordField('Password', validators=[DataRequired(), Length(min=7), EqualTo('confirm', message='Passwords must match')])
     confirm = PasswordField('Confirm')
     submit = SubmitField('Submit')
 
@@ -76,15 +74,10 @@ def login():
     if form.validate_on_submit():
         user = User.objects(username=form.username.data).first()
         if user is None or not user.check_password(form.password.data):
-            return redirect(url_for('login'))
+            return redirect(url_for('login')), 401
         login_user(user)
         return redirect(url_for('index'))
     return render_template('login.html', title='Sign In', form=form)
-
-@app.route('/logout')
-def logout():
-    logout_user()
-    return redirect(url_for('index'))
 
 @app.route('/signup', methods = ['GET','POST'])
 def signup():
@@ -93,5 +86,5 @@ def signup():
         new_user = User(username=form.username.data, email=form.email.data)
         new_user.set_password(form.password.data)
         new_user.save()
-        return redirect(url_for('login'))
+        return redirect(url_for('login')), 201
     return render_template('signup.html', title='Sign Up', form=form)
