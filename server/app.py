@@ -95,29 +95,3 @@ def signup():
         new_user.set_password(form.password.data)
         new_user.save()
     return render_template('signup.html', title='Sign Up', form=form)
-
-
-
-
-# @app.route('/user/signup', methods=['POST'])
-# def signup():
-#     user = User(request.form.get("Username"), request.form.get("Email"),
-#                 request.form.get("Password"))
-#     if user.validate():
-#         mongo.db.users.insert_one(user.export())
-#         return user.export()
-#     return 'invalid user!'
-#
-# @app.route('/login', methods=['POST'])
-# def login():
-#     return'''
-#         <form method="POST", action="/user/signup", enctype="multipart/form-data">
-#             <input type="text" name="Username1">
-#             <input type="text" name="Password1">
-#             <input type="submit">
-#         </form>
-#     '''
-#
-# @app.route('/login1', methods=['GET','POST'])
-# def login_status():
-#     '''if db finds user, return success'''
