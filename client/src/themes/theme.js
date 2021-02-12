@@ -1,5 +1,6 @@
 import { createMuiTheme } from "@material-ui/core";
 
+// Material UI themes
 export const theme = createMuiTheme({
   palette: {
     primary: {
@@ -23,6 +24,7 @@ export const theme = createMuiTheme({
   },
 });
 
+// Styling for modal container
 export const modalStyles = {
   overlay: {
     background: "rgba(36,39,60, 0.5)",
@@ -37,6 +39,7 @@ export const modalStyles = {
   },
 };
 
+// Styling for the sign in page
 export const signInStyles = {
   display: "flex",
   flexDirection: "column",
@@ -45,12 +48,14 @@ export const signInStyles = {
   margin: "30px",
 };
 
+// Styling for the sign up page
 export const signUpStyles = {
   display: "flex",
   flexDirection: "column",
   margin: "30px",
 };
 
+// Styling for the sign in and sign up forms
 export const formStyles = {
   justifyContent: "space-between",
   margin: "30px",
