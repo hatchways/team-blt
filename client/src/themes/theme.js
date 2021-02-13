@@ -12,8 +12,8 @@ export const theme = createMuiTheme({
       root: {
         borderRadius: "50px",
         marginBottom: "50px",
-        padding: "20px 50px",
-      },
+        padding: "15px",
+      }
     },
     MuiTextField: {
       root: {
@@ -57,6 +57,8 @@ export const signUpStyles = {
 
 // Styling for the sign in and sign up forms
 export const formStyles = {
+  display: "flex",
+  flexDirection: "column",
   justifyContent: "space-between",
   margin: "30px",
 };
