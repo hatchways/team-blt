@@ -3,14 +3,22 @@ import React, { Component } from "react";
 import { Typography } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import { Route, Link } from "react-router-dom";
+import Switch from '@material-ui/core/Switch';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormGroup from '@material-ui/core/FormGroup';
 
-import Ping from "./Ping";
+import ButtonAppBar from "./Navbar";
+import ShoppingLists from "../features/ShoppingLists";
+import Friends from "../features/Friends";
+import Login from "./Login";
+import Notifications from "../features/Notifications";
 
 const landinPageStyle = theme => ({
   landingContainer: {
-    margin: theme.spacing.unit * 2
+    //margin: theme.spacing.unit * 2
   }
 });
+
 
 class LandingPage extends Component {
   state = {
@@ -38,15 +46,36 @@ class LandingPage extends Component {
     this.setState(prevState => ({ step: (prevState.step += 1) }));
   };
 
+  
+
   render() {
     const { classes } = this.props;
+    
+    
     return (
       <div className={classes.landingContainer}>
-        <Typography>{this.state.welcomeMessage}</Typography>
+        <ButtonAppBar/>        
+        <Route
+              path="/" exact
+              component={ShoppingLists}
+              />
+              <Route
+              path="/friends"
+              component={Friends}
+              />
+              <Route
+                path="/login"
+                component={Login}
+              />
+              <Route
+                path="/notifications"
+                component={Notifications}
+              />
+        {/* <Typography>{this.state.welcomeMessage}</Typography>
         {this.state.step >= 1 && (
           <React.Fragment>
             <Link to="/ping">Step 2: Click here </Link>
-            <Route
+            {/* <Route
               path="/ping"
               render={props => {
                 return (
@@ -57,12 +86,13 @@ class LandingPage extends Component {
                   />
                 );
               }}
-            />
+            /> 
+            
           </React.Fragment>
         )}
         {this.state.step >= 3 && (
           <Typography>All done! Now go make a pull request!</Typography>
-        )}
+        )} */}
       </div>
     );
   }
