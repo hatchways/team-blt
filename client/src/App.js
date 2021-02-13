@@ -1,19 +1,33 @@
-import React from "react";
-import { MuiThemeProvider } from "@material-ui/core";
-import { BrowserRouter, Route } from "react-router-dom";
+import React, { useState } from "react";
+import { BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
 
 import { theme } from "./themes/theme";
-import LandingPage from "./pages/Landing";
 
 import "./App.css";
+import SignIn from "./pages/SignIn";
+import SignUp from "./pages/SignUp";
+import LandingPage from "./pages/Landing";
+import ThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
+
 
 function App() {
+  const [signedIn, setSignedIn] = useState(false);
+  
   return (
-    <MuiThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
       <BrowserRouter>
-        <Route path="/" component={LandingPage} />
-      </BrowserRouter>
-    </MuiThemeProvider>
+          <Switch>
+            <Route exact path='/'>
+              {signedIn 
+                ?  <Route exact path='/' component={LandingPage} /> 
+                : <Redirect to='/sign-in' />
+              }
+            </Route>
+            <Route exact path='/sign-in' component={SignIn} />
+            <Route exact path='/sign-up' component={SignUp} />
+          </Switch>
+      </BrowserRouter> 
+    </ThemeProvider>
   );
 }
 
