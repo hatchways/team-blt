@@ -40,7 +40,16 @@ function SignIn() {
             id="password"
           />
 
-          <Button type="submit" variant="contained" color="primary">
+          <Button 
+            type="submit" 
+            variant="contained" 
+            color="primary"
+            style={{
+              width: '150px',
+              margin: 'auto',
+              marginBottom: '50px'
+            }}
+          >
             Sign In
           </Button>
         </form>
