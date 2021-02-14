@@ -1,10 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
-    listsDisplay: {
-        margin: theme.spacing(0, 0, 12, 0)
-    }
+    
 }));
 
 const Notifications = (props) => {
@@ -12,7 +10,7 @@ const Notifications = (props) => {
 
     return (
         <div>
-            Notifications Deafult
+            Notifications Default
         </div>
     );
 };

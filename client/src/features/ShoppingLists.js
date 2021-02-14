@@ -1,10 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
-    listsDisplay: {
-        margin: theme.spacing(0, 0, 12, 0)
-    }
+    
 }));
 
 const ShoppingLists = (props) => {
@@ -12,7 +10,7 @@ const ShoppingLists = (props) => {
 
     return (
         <div>
-            Shopping List Deafult
+            Shopping List Default
         </div>
     );
 };

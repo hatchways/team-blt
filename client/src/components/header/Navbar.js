@@ -1,14 +1,13 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
 import Avatar from "@material-ui/core/Avatar";
-import { Tab, Tabs } from "@material-ui/core";
-import logo from "../assets/logo.png";
-import avatar from "../assets/images/0de4ded0e2792aca81775eb8e2f067ae84a4f5f5.png";
-import MenuTabs from "../components/MenuTabs";
+import logo from "../../assets/logo.png";
+import avatar from "../../assets/images/0de4ded0e2792aca81775eb8e2f067ae84a4f5f5.png";
+
+import MenuTabs from "./MenuTabs";
 import {Menu, MenuItem} from "@material-ui/core/"
 
 const useStyles = makeStyles((theme) => ({
@@ -34,15 +33,17 @@ const useStyles = makeStyles((theme) => ({
     marginRight: "auto",
   },
   tabContainer: {
-    //padding: theme.spacing(3),
     marginLeft: "auto",
   },
   avatar: {
-    marginLeft: theme.spacing(6),
+    marginRight: theme.spacing(1),
+  },
+  button: {    
+    textTransform: "none",
   },
 }));
 
-export default function ButtonAppBar() {
+export default function Navbar() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const isMenuOpen = Boolean(anchorEl);
@@ -81,7 +82,7 @@ export default function ButtonAppBar() {
           <div className={classes.tabContainer}>
             <MenuTabs />
           </div>
-          <Avatar alt="Remy Sharp" src={avatar} className={classes.avatar} />
+          
           <Button
             color="inherit"
             className={classes.button}
@@ -91,6 +92,7 @@ export default function ButtonAppBar() {
             aria-haspopup="true"
             onClick={handleProfileMenuOpen}
           >
+            <Avatar alt="Remy Sharp" src={avatar} className={classes.avatar} />
             Profile
           </Button>
         </Toolbar>
