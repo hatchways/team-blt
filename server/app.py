@@ -1,33 +1,26 @@
 from flask import Flask
-from dotenv import load_dotenv
-load_dotenv()
-import os
-import pymongo
-import dns
+from db import initialize_db
+from flask_restful import Api
+from routes import UsersApi, UserApi, SignupApi, LoginApi
+from flask_jwt_extended import JWTManager
 from api.ping_handler import ping_handler
 from api.home_handler import home_handler
+import os
 
 app = Flask(__name__)
-
-try:
-  client = pymongo.MongoClient(f"mongodb+srv://TeamBLT-Admin:{os.getenv('MONGODB_PWD')}@teambltcluster0.5hi8c.mongodb.net/TeamBLTCluster0?retryWrites=true&w=majority")
-  db = client['test']
-  col = db['item']
-  print(client.list_database_names())
-except Exception as ex:
-  print("****** ERROR - Cannot connect to db ******")
-  print(ex)
-  print("******************************************")
-
-
-
-
+app.config['MONGODB_HOST']=os.environ['MONGODB_HOST']
+app.config['SECRET_KEY']=os.environ['SECRET_KEY']
+app.config['JWT_SECRET_KEY'] = os.environ['JWT_SECRET_KEY']
 app.register_blueprint(home_handler)
 app.register_blueprint(ping_handler)
+api = Api(app)
+initialize_db(app)
+jwt = JWTManager(app)
 
-@app.route("/", methods=["GET"])
-def index():
-  return f"{os.getenv('TEST_ENV')}... App is running..."
+def initialize_routes(api):
+    api.add_resource(UsersApi, '/users')
+    api.add_resource(UserApi, '/users/<username>')
+    api.add_resource(SignupApi, '/signup')
+    api.add_resource(LoginApi, '/login')
 
-if __name__ == "__main__":
-  app.run(port=5000, debug=True)
+initialize_routes(api)
