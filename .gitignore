@@ -21,6 +21,7 @@ yarn-error.log*
 __pycache__/
 instance/
 .webassets-cache
+server\.env
 
 
 # PyCharm
@@ -30,4 +31,4 @@ instance/
 .vscode
 
 
-server/.env
+
