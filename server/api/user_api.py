@@ -10,10 +10,6 @@ class UsersApi(Resource):
         users = User.objects().to_json()
         return Response(users, mimetype="application/json", status=200)
 
-    def delete(self):
-        user = User.objects.delete()
-        return '', 200
-
     def post(self):
         body = request.get_json()
         user = User(**body)
@@ -27,14 +23,19 @@ class UsersApi(Resource):
 class UserApi(Resource):
     @jwt_required()
     def put(self, username):
+        user_id = get_jwt_identity()
+        user = User.objects.get(username=user_id)
         body = request.get_json()
-        User.objects.get(username=username).update(**body)
+        user.update(**body)
         return '', 200
 
     @jwt_required()
     def delete(self, username):
-        user = User.objects.get(username=username).delete()
-        return '', 200
+        user_id = get_jwt_identity()
+        if username == user_id:
+            user = User.objects.get(username=user_id)
+            user.delete()
+            return '', 200
 
     @jwt_required()
     def get(self, username):
