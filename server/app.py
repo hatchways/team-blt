@@ -1,8 +1,8 @@
 from flask import Flask
 from db import initialize_db
 from flask_restful import Api
-from api.user_api import UsersApi, UserApi, SignupApi, LoginApi
-from api.products_api import ProductApi, ProductsListApi, CreateProductsListApi, AddProductApi
+from routes.user_api import UsersApi, UserApi, SignupApi, LoginApi
+from routes.products_api import ProductApi, ProductsListApi, CreateProductsListApi, AddProductApi
 from flask_jwt_extended import JWTManager
 import os
 
