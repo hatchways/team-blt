@@ -48,8 +48,6 @@ class AddProductApi(Resource):
         product = Product(**body, added_by=user)
         product.save()
         product_name = product.product_name
-        user.update(push__products=product)
-        user.save()
         user_list.update(push__products=product)
         user_list.save()
         return {'name': str(product_name)}, 201
