@@ -2,7 +2,7 @@ from flask import Flask
 from db import initialize_db
 from flask_restful import Api
 from routes.user_api import UsersApi, UserApi, SignupApi, LoginApi
-from routes.products_api import ProductApi, ProductsListApi, CreateProductsListApi, AddProductApi
+from routes.products_api import ProductApi, ProductsListApi
 from flask_jwt_extended import JWTManager
 import os
 
@@ -19,9 +19,7 @@ def initialize_routes(api):
     api.add_resource(UserApi, '/users/<username>')
     api.add_resource(SignupApi, '/signup')
     api.add_resource(LoginApi, '/login')
-    api.add_resource(CreateProductsListApi, '/create-list')
-    api.add_resource(ProductsListApi, '/<list_title>')
-    api.add_resource(AddProductApi, '/<list_title>/add-product')
-    api.add_resource(ProductApi, '/<list_title>/<product_name>')
+    api.add_resource(ProductsListApi, '/create-list', '/lists', '/lists/<list_title>')
+    api.add_resource(ProductApi, '/lists/<list_title>/add-product', '/lists/<list_title>/products', '/lists/<list_title>/products/<product_name>')
 
 initialize_routes(api)
