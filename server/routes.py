@@ -1,4 +1,4 @@
-from flask import request, Response, make_response
+from flask import request, Response, make_response, jsonify
 from flask_restful import Resource, Api
 from flask_jwt_extended import create_access_token, jwt_required
 from models import User
@@ -15,7 +15,10 @@ class UsersApi(Resource):
 
     def post(self):
         body = request.get_json()
-        user = User(**body)
+        username = body.get('name')
+        email = body.get('email')
+        password = body.get('password')
+        user = User(username=username, email=email, password=password)
         user.hash_password()
         user.save()
         username = user.username
@@ -27,7 +30,11 @@ class UserApi(Resource):
     @jwt_required
     def put(self, username):
         body = request.get_json()
-        User.objects.get(username=username).update(**body)
+        username = body.get('name')
+        email = body.get('email')
+        password = body.get('password')
+        user = User(username=username, email=email, password=password)
+        User.objects.get(username=username).update(username=username, email=email, password=password)
         return '', 200
 
     @jwt_required
@@ -44,14 +51,15 @@ class UserApi(Resource):
 class SignupApi(Resource):
     def post(self):
         body = request.get_json()
-        user = User(**body)
+        username = body.get('name')
+        email = body.get('email')
+        password = body.get('password')
+        user = User(username=username, email=email, password=password)
         user.hash_password()
         user.save()
-        username = user.username
-        return {'username': str(username)}, 201
+        return username, 201
 
 class LoginApi(Resource):
-    @jwt_required
     def post(self):
         body = request.get_json()
         user = User.objects.get(username=body.get('username'))

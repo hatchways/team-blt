@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { Formik, Form, Field } from "formik";
@@ -47,13 +47,19 @@ function SignUp() {
             }
             return errors;
           }}
-          onSubmit={(values, { setSubmitting }) => {
-            setTimeout(() => {
-              setSubmitting(false);
 
-              // Send a POST request to the backend with the user's sign-up details
-
-            }, 500);
+          onSubmit={async (values) => {
+            const response = await fetch("/signup", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify(values)
+            });
+            console.log(values);
+            if (response.ok) {
+              console.log("response worked!");
+            }
           }}
         >
           {({ submitForm, isSubmitting }) => (
