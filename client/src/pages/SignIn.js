@@ -33,7 +33,17 @@ function SignIn() {
             return errors;
           }}
           onSubmit={async (values) => {
-            // Do some kind of POST request and check if the email and password entered is the same.
+            const response = await fetch("/login", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify(values)
+            });
+            console.log(values);
+            if (response.ok) {
+              console.log("response worked!");
+            }
           }}
         >
           {({ submitForm, isSubmitting }) => (
