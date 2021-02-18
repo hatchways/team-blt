@@ -15,7 +15,7 @@ function SignIn() {
     <Modal isOpen={modalIsOpen} style={modalStyles}>
       <div className="signIn" style={signInStyles}>
         <Formik
-          initialVlaues={{
+          initialValues={{
             email: "",
             password: "",
           }}
@@ -24,7 +24,7 @@ function SignIn() {
 
             //Check for email input
             if (!values.email) {
-              errors.name = "Please enter your e-mail.";
+              errors.email = "Please enter your e-mail.";
             }
             //Check for password input
             if (!values.password) {
