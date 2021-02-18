@@ -5,9 +5,20 @@ from models.user import User
 from models.product import Product
 from models.list import List
 
-
-# Creating the empty list
-class CreateProductsListApi(Resource):
+# List of products
+class ProductsListApi(Resource):
+    @jwt_required()
+    def get(self, list_title=None):
+        user_id = get_jwt_identity()
+        user = User.objects.get(username=user_id)
+        # Retrieve one of the user's list based on the list title.
+        if list_title:
+            list_of_products = List.objects.get(list_title=list_title, added_by=user).to_json()
+        # Retrieve all of the lists the user created
+        else:
+            list_of_products = List.objects(added_by=user).to_json()
+        return Response(list_of_products, mimetype="application/json", status=200)
+    
     @jwt_required()
     def post(self):
         user_id = get_jwt_identity()
@@ -20,15 +31,6 @@ class CreateProductsListApi(Resource):
         user.save()
         return {'name': str(list_name)}, 201
 
-# List of products
-class ProductsListApi(Resource):
-    @jwt_required()
-    def get(self, list_title):
-        user_id = get_jwt_identity()
-        user = User.objects.get(username=user_id)
-        list_of_products = List.objects.get(list_title=list_title, added_by=user).to_json()
-        return Response(list_of_products, mimetype="application/json", status=200)
-    
     @jwt_required()
     def delete(self, list_title):
         user_id = get_jwt_identity()
@@ -37,8 +39,8 @@ class ProductsListApi(Resource):
         list_of_products.delete()
         return 'Your list has been deleted.', 200
 
-# Adding individual products to the list
-class AddProductApi(Resource):
+# Individual products
+class ProductApi(Resource):
     @jwt_required()
     def post(self, list_title):
         user_id = get_jwt_identity()
@@ -52,8 +54,6 @@ class AddProductApi(Resource):
         user_list.save()
         return {'name': str(product_name)}, 201
 
-# Individual products
-class ProductApi(Resource):
     @jwt_required()
     def put(self, list_title, product_name):
         user_id = get_jwt_identity()
@@ -74,10 +74,15 @@ class ProductApi(Resource):
         return 'Product has been deleted.', 200
 
     @jwt_required()
-    def get(self, list_title, product_name):
+    def get(self, list_title, product_name=None):
         user_id = get_jwt_identity()
         user = User.objects.get(username=user_id)
         list_of_products = List.objects.get(list_title=list_title, added_by=user).to_json()
-        product = Product.objects.get(product_name=product_name, added_by=user).to_json()
+        # Retrieve one of the user's product based on the product name.
+        if product_name:
+            product = Product.objects.get(product_name=product_name, added_by=user).to_json()
+        # Retrieve all of the products in the user's specified list.
+        else: 
+            product = Product.objects(added_by=user).to_json()
         return Response(product, mimetype="application/json", status=200)
         
