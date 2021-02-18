@@ -63,65 +63,67 @@ function SignUp() {
           }}
         >
           {({ submitForm, isSubmitting }) => (
-            <Form style={formStyles} required>
+            <>
               <Typography variant="h4">Sign Up</Typography>
-              <Typography variant="h6">Your name:</Typography>
-              <Field
-                component={TextField}
-                name="name"
-                type="name"
-                placeholder="Name"
-                variant="outlined"
-              />
+              <Form style={formStyles} required>
+                <Typography variant="h6">Your name:</Typography>
+                <Field
+                  component={TextField}
+                  name="name"
+                  type="name"
+                  placeholder="Name"
+                  variant="outlined"
+                />
 
-              <Typography variant="h6">Your e-mail address:</Typography>
-              <Field
-                component={TextField}
-                name="email"
-                type="email"
-                placeholder="E-mail"
-                variant="outlined"
-              />
+                <Typography variant="h6">Your e-mail address:</Typography>
+                <Field
+                  component={TextField}
+                  name="email"
+                  type="email"
+                  placeholder="E-mail"
+                  variant="outlined"
+                />
 
-              <Typography variant="h6">Password:</Typography>
-              <Field
-                component={TextField}
-                name="password"
-                type="password"
-                placeholder="Password"
-                variant="outlined"
-              />
+                <Typography variant="h6">Password:</Typography>
+                <Field
+                  component={TextField}
+                  name="password"
+                  type="password"
+                  placeholder="Password"
+                  variant="outlined"
+                />
 
-              <Typography variant="h6">Retype your password:</Typography>
-              <Field
-                component={TextField}
-                name="passwordConfirm"
-                type="password"
-                placeholder="Confirm password"
-                variant="outlined"
-              />
+                <Typography variant="h6">Retype your password:</Typography>
+                <Field
+                  component={TextField}
+                  name="passwordConfirm"
+                  type="password"
+                  placeholder="Confirm password"
+                  variant="outlined"
+                />
 
-              <Button
-                variant="contained"
-                disabled={isSubmitting}
-                onClick={submitForm}
-                color="primary"
-                style={{
-                  width: '300px',
-                  margin: 'auto',
-                  marginBottom: '50px'
-                }}
-              >
-                CREATE ACCOUNT
-              </Button>
-            </Form>
+                <Button
+                  variant="contained"
+                  disabled={isSubmitting}
+                  onClick={submitForm}
+                  color="primary"
+                  style={{
+                    width: '300px',
+                    margin: 'auto',
+                    marginBottom: '50px'
+                  }}
+                >
+                  CREATE ACCOUNT
+                </Button>
+              </Form>
+            </>
           )}
         </Formik>
         <div className="signUp__footer">
           Already a member?{" "}
           <Link
             to={{
-              pathname: "/sign-in",
+              pathname: "/login",
               state: { modal: true },
             }}
           >
