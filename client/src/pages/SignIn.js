@@ -4,7 +4,7 @@ import Typography from "@material-ui/core/Typography";
 import { Formik, Form, Field } from "formik";
 import { TextField } from "formik-material-ui";
 import Modal from "react-modal";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { formStyles, modalStyles, signInStyles } from "../themes/theme";
 
 Modal.setAppElement("#root");
@@ -43,6 +43,7 @@ function SignIn() {
             console.log(values);
             if (response.ok) {
               console.log("response worked!");
+              <Redirect to="/" />
             }
           }}
         >
