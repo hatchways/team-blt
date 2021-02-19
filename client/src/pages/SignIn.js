@@ -6,11 +6,13 @@ import { TextField } from "formik-material-ui";
 import Modal from "react-modal";
 import { Link, Redirect } from "react-router-dom";
 import { formStyles, modalStyles, signInStyles } from "../themes/theme";
+import LandingPage from "./Landing";
 
 Modal.setAppElement("#root");
 
-function SignIn() {
+function SignIn({ history, setSignedIn }) {
   const [modalIsOpen, setModalIsOpen] = useState(true);
+
   return (
     <Modal isOpen={modalIsOpen} style={modalStyles}>
       <div className="signIn" style={signInStyles}>
@@ -41,9 +43,9 @@ function SignIn() {
               body: JSON.stringify(values)
             });
             console.log(values);
-            if (response.ok) {
-              console.log("response worked!");
-              <Redirect to="/" />
+            if (response.ok) { 
+              setSignedIn(true) 
+              history.push('/')
             }
           }}
         >
@@ -71,6 +73,7 @@ function SignIn() {
 
                 <Button
                   variant="contained"
+                  type="submit"
                   disabled={isSubmitting}
                   onClick={submitForm}
                   color="primary"
