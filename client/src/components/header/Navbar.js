@@ -36,10 +36,12 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: "auto",
   },
   avatar: {
-    marginRight: theme.spacing(1),
+    marginRight: theme.spacing(1),    
   },
   button: {    
     textTransform: "none",
+    color:"inherit",
+    marginTop: theme.spacing(6),
   },
 }));
 
@@ -83,8 +85,7 @@ export default function Navbar() {
             <MenuTabs />
           </div>
           
-          <Button
-            color="inherit"
+          <Button            
             className={classes.button}
             edge="end"
             aria-label="account of current user"
