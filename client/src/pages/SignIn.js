@@ -42,11 +42,11 @@ function SignIn({ history }) {
               },
               body: JSON.stringify(values)
             });
-            console.log(values);
-            if (response.ok) {  
+            if (response.ok) {
               history.push('/')
             if (response.ok) {
               console.log(Cookies.get(values.email));
+              console.log(values.email + " is log in!");
             }
           }}}
         >

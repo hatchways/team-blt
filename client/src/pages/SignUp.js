@@ -58,7 +58,7 @@ function SignUp({ history }) {
             });
             console.log(values);
             if (response.ok) {
-              console.log("response worked!");
+              console.log("Sign up is successful!");
               history.push('/login')
             }
           }}
