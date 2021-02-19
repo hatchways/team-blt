@@ -4,8 +4,8 @@ from .product import *
 from .list import *
 
 class User(db.Document):
-    username = db.StringField(required=True, unique=True, min_length=6)
-    email = db.EmailField(required=True, min_length=6)
+    username = db.StringField(required=True, unique=True)
+    email = db.EmailField(required=True, unique=True, min_length=6)
     password = db.StringField(required=True, min_length=6)
     list_of_products = db.ListField(db.ReferenceField('List', reverse_delete_rule=db.PULL))
 
