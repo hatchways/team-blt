@@ -7,7 +7,7 @@ import "./App.css";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import LandingPage from "./pages/Landing";
-import ThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
+import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
 
 
 function App() {
@@ -18,9 +18,9 @@ function App() {
   //     response.json().then(data =>
   //       {console.log(data);}))
   // }, [])
-  const [signedIn, setSignedIn] = useState(false);
+  const [signedIn, setSignedIn] = useState(true);
   return (
-    <ThemeProvider theme={theme}>
+    <MuiThemeProvider theme={theme}>
       <BrowserRouter>
           <Switch>
             <Route exact path='/'>
@@ -33,7 +33,7 @@ function App() {
             <Route exact path='/signup' component={SignUp} />
           </Switch>
       </BrowserRouter>
-    </ThemeProvider>
+    </MuiThemeProvider>
   );
 }
 
