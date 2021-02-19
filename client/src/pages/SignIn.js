@@ -43,12 +43,11 @@ function SignIn({ history }) {
               body: JSON.stringify(values)
             });
             console.log(values);
-            if (response.ok) {  
-              history.push('/')
             if (response.ok) {
+              history.push('/')
               console.log(Cookies.get(values.email));
             }
-          }}}
+          }}
         >
           {({ submitForm, isSubmitting }) => (
             <>
