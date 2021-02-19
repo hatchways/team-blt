@@ -10,7 +10,8 @@ class ProductsListApi(Resource):
     @jwt_required()
     def get(self, list_title=None):
         user_id = get_jwt_identity()
-        user = User.objects.get(username=user_id)
+        print(user_id)
+        user = User.objects.get(email=user_id)
         # Retrieve one of the user's list based on the list title.
         if list_title:
             list_of_products = List.objects.get(list_title=list_title, added_by=user).to_json()
@@ -23,7 +24,7 @@ class ProductsListApi(Resource):
     def post(self):
         user_id = get_jwt_identity()
         body = request.get_json()
-        user = User.objects.get(username=user_id)
+        user = User.objects.get(email=user_id)
         list_of_products = List(**body, added_by=user)
         list_of_products.save()
         list_name = list_of_products.list_title
@@ -34,7 +35,7 @@ class ProductsListApi(Resource):
     @jwt_required()
     def delete(self, list_title):
         user_id = get_jwt_identity()
-        user = User.objects.get(username=user_id)
+        user = User.objects.get(email=user_id)
         list_of_products = List.objects(list_title=list_title, added_by=user)
         list_of_products.delete()
         return 'Your list has been deleted.', 200
@@ -45,7 +46,7 @@ class ProductApi(Resource):
     def post(self, list_title):
         user_id = get_jwt_identity()
         body = request.get_json()
-        user = User.objects.get(username=user_id)
+        user = User.objects.get(email=user_id)
         user_list = List.objects.get(list_title=list_title, added_by=user)
         product = Product(**body, added_by=user)
         product.save()
@@ -57,7 +58,7 @@ class ProductApi(Resource):
     @jwt_required()
     def put(self, list_title, product_name):
         user_id = get_jwt_identity()
-        user = User.objects.get(username=user_id)
+        user = User.objects.get(email=user_id)
         list_of_products = List.objects.get(list_title=list_title, added_by=user).to_json()
         product = Product.objects.get(product_name=product_name, added_by=user)
         body = request.get_json()
@@ -67,7 +68,7 @@ class ProductApi(Resource):
     @jwt_required()
     def delete(self,list_title, product_name):
         user_id = get_jwt_identity()
-        user = User.objects.get(username=user_id)
+        user = User.objects.get(email=user_id)
         list_of_products = List.objects.get(list_title=list_title, added_by=user).to_json()
         product = Product.objects(product_name=product_name, added_by=user)
         product.delete()
@@ -76,7 +77,7 @@ class ProductApi(Resource):
     @jwt_required()
     def get(self, list_title, product_name=None):
         user_id = get_jwt_identity()
-        user = User.objects.get(username=user_id)
+        user = User.objects.get(email=user_id)
         list_of_products = List.objects.get(list_title=list_title, added_by=user).to_json()
         # Retrieve one of the user's product based on the product name.
         if product_name:
