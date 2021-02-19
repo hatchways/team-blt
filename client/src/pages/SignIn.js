@@ -4,13 +4,13 @@ import Typography from "@material-ui/core/Typography";
 import { Formik, Form, Field } from "formik";
 import { TextField } from "formik-material-ui";
 import Modal from "react-modal";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { formStyles, modalStyles, signInStyles } from "../themes/theme";
-import LandingPage from "./Landing";
+import Cookies from 'js-cookie';
 
 Modal.setAppElement("#root");
 
-function SignIn({ history, setSignedIn }) {
+function SignIn({ history }) {
   const [modalIsOpen, setModalIsOpen] = useState(true);
 
   return (
@@ -43,9 +43,11 @@ function SignIn({ history, setSignedIn }) {
               body: JSON.stringify(values)
             });
             console.log(values);
-            if (response.ok) { 
-              setSignedIn(true) 
+            if (response.ok) {  
               history.push('/')
+            if (response.ok) {
+              console.log(Cookies.get(values.email));
+
             }
           }}
         >
