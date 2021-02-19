@@ -46,6 +46,7 @@ function SignIn({ history }) {
             if (response.ok) {
               history.push('/')
               console.log(Cookies.get(values.email));
+              console.log(values.email + " is log in!");
             }
           }}
         >
