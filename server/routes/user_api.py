@@ -6,6 +6,7 @@ import datetime
 
 
 class UsersApi(Resource):
+    # Read the list of users
     def get(self):
         users = User.objects().to_json()
         return Response(users, mimetype="application/json", status=200)
@@ -22,8 +23,16 @@ class UsersApi(Resource):
         password = user.password
         return {'name': str(name)}, 201
 
+'''
+get_jwt_identity() returns the identity of the JWT that is accessing the endpoint.
+In this case, get_jwt_identity() will return the user's email. In order to check
+if the current use has access to specific enpoints such as the editing and 
+deleting the user's profile, the user's email will be compared to the returned 
+result of get_jwt_identity(). 
+'''
 
 class UserApi(Resource):
+    # Update user profile
     @jwt_required()
     def put(self, name):
         user_id = get_jwt_identity()
@@ -37,6 +46,7 @@ class UserApi(Resource):
         user.update(**body)
         return '', 200
 
+    # Delete user profile
     @jwt_required()
     def delete(self, name):
         user_id = get_jwt_identity()
@@ -45,6 +55,7 @@ class UserApi(Resource):
             user.delete()
             return '', 200
 
+    # Read user prolfile
     @jwt_required()
     def get(self, name):
         user = User.objects.get(name=name).to_json()
@@ -52,6 +63,7 @@ class UserApi(Resource):
 
 
 class SignupApi(Resource):
+    # Create user account
     def post(self):
         body = request.get_json()
         name = body.get('name')
@@ -64,6 +76,7 @@ class SignupApi(Resource):
 
 
 class LoginApi(Resource):
+    # Log in user
     def post(self):
         body = request.get_json()
         user = User.objects.get(email=body.get('email'))
