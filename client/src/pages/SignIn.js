@@ -6,6 +6,7 @@ import { TextField } from "formik-material-ui";
 import Modal from "react-modal";
 import { Link, Redirect } from "react-router-dom";
 import { formStyles, modalStyles, signInStyles } from "../themes/theme";
+import Cookies from 'js-cookie';
 
 Modal.setAppElement("#root");
 
@@ -42,8 +43,8 @@ function SignIn() {
             });
             console.log(values);
             if (response.ok) {
-              console.log("response worked!");
-              <Redirect to="/" />
+              console.log(Cookies.get(values.email));
+
             }
           }}
         >

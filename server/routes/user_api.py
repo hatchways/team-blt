@@ -73,7 +73,9 @@ class LoginApi(Resource):
 
         expires = datetime.timedelta(days=7)
         access_token = create_access_token(
-            identity=str(user.username), expires_delta=expires)
-        response = make_response('given access')
-        response.set_cookie('access token', access_token, httponly=True)
-        return 'succeed', 201
+            identity=str(user.email), expires_delta=expires)
+
+        response = jsonify(access_token)
+        response.status_code = 201
+        response.set_cookie(user.email, access_token)
+        return response
