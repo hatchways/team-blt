@@ -47,9 +47,8 @@ function SignIn({ history }) {
               history.push('/')
             if (response.ok) {
               console.log(Cookies.get(values.email));
-
             }
-          }}
+          }}}
         >
           {({ submitForm, isSubmitting }) => (
             <>
