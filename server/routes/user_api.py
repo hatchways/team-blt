@@ -12,55 +12,55 @@ class UsersApi(Resource):
 
     def post(self):
         body = request.get_json()
-        username = body.get('name')
+        name = body.get('name')
         email = body.get('email')
         password = body.get('password')
-        user = User(username=username, email=email, password=password)
+        user = User(name=name, email=email, password=password)
         user.hash_password()
         user.save()
-        username = user.username
+        name = user.name
         password = user.password
-        return {'username': str(username)}, 201
+        return {'name': str(name)}, 201
 
 
 class UserApi(Resource):
     @jwt_required()
-    def put(self, username):
+    def put(self, name):
         user_id = get_jwt_identity()
-        user = User.objects.get(username=user_id)
+        user = User.objects.get(email=user_id)
         body = request.get_json()
-        username = body.get('name')
+        name = body.get('name')
         email = body.get('email')
         password = body.get('password')
-        user = User(username=username, email=email, password=password)
-        User.objects.get(username=username).update(username=username, email=email, password=password)
+        user = User(name=name, email=email, password=password)
+        User.objects.get(name=name).update(name=name, email=email, password=password)
         user.update(**body)
         return '', 200
 
     @jwt_required()
-    def delete(self, username):
+    def delete(self, name):
         user_id = get_jwt_identity()
-        if username == user_id:
-            user = User.objects.get(username=user_id)
+        if name == user_id:
+            user = User.objects.get(email=user_id)
             user.delete()
             return '', 200
 
     @jwt_required()
-    def get(self, username):
-        user = User.objects.get(username=username).to_json()
+    def get(self, name):
+        user = User.objects.get(name=name).to_json()
         return Response(user, mimetype="application/json", status=200)
 
 
 class SignupApi(Resource):
     def post(self):
         body = request.get_json()
-        username = body.get('name')
+        name = body.get('name')
         email = body.get('email')
         password = body.get('password')
-        user = User(username=username, email=email, password=password)
+        user = User(name=name, email=email, password=password)
         user.hash_password()
         user.save()
-        return username, 201
+        return name, 201
 
 
 class LoginApi(Resource):
