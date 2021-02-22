@@ -67,7 +67,6 @@ const AddItemDialogue = (props) => {
   const { openDialogue, closeDialogue } = props;
   const addButtonClick = async (e) => {
     closeDialogue();
-    console.log("Dialog Closed, Magic happens here!");
   };
 
   return (

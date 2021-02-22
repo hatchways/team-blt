@@ -46,6 +46,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: "1",
     marginRight: "1rem",
     minWidth: 100,
+    marginTop:"1rem",
   },
   media: {
     height: 250,
@@ -59,7 +60,10 @@ const ListCards = (props) => {
   const classes = useStyles();
 
   return (
+      
+      
     <Grid className={classes.cardContainer}>
+        
       {defaultLists.map((item, i) => (
         <Card className={classes.root}>
           <CardActionArea>

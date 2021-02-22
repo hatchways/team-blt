@@ -10,15 +10,20 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     padding: "5rem",
   },
+  listLabel:{
+    margin:"2rem 0",
+  },
 }));
 
 const ListsContainer = (props) => {
   const classes = useStyles();
   return (
     <Grid className={classes.container}>
+      <Grid item xs={3} className={classes.listLabel}>
       <Typography variant="h6">
         My Shopping Lists:
       </Typography>
+      </Grid>
       <ListCards/>
     </Grid>
   );

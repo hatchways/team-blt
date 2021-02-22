@@ -1,26 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
-    Grid,
-    Card,
-    CardActionArea,
-    CardActions,
-    CardContent,
-    CardMedia,
-    Button,
-    Typography,
-    IconButton,
-  } from "@material-ui/core";
+  Grid,
+  Card,
+  CardActionArea,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Button,
+  Typography,
+  IconButton,
+} from "@material-ui/core";
+import AddListDialogue from "./AddListDialogue";
+
 
 const useStyles = makeStyles((theme) => ({
-    
-  AddIcon:{
-      color: "#DF1B1B",
+  AddIcon: {
+    color: "#DF1B1B",
   },
   root: {
     maxWidth: 250,
     flexGrow: "1",
-    height:325,
+    height: 325,
   },
   media: {
     height: 250,
@@ -31,13 +32,20 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AddNewList = (props) => {
-    const classes = useStyles();
+  const classes = useStyles();
+  const [openListDialogue, setOpenListDialogue] = useState(false);
+  const openNewListDialogue = () => setOpenListDialogue(true);
+  const closeListDialogue = () =>setOpenListDialogue(false);
 
-    return (
-        <Card className={classes.root}>
+  const addListClick = () => {
+    openNewListDialogue();
+  };
+
+  return (
+    <>
+      <Card onClick={addListClick} className={classes.root}>
         <CardActionArea>
           <CardContent className={classes.content}>
-            
             <Typography className={classes.AddIcon} variant="h1">
               +
             </Typography>
@@ -47,7 +55,9 @@ const AddNewList = (props) => {
           </CardContent>
         </CardActionArea>
       </Card>
-    );
+      {<AddListDialogue {...{ openListDialogue, closeListDialogue }} />}
+    </>
+  );
 };
 
 export default AddNewList;

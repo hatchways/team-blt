@@ -66,7 +66,7 @@ const AddItem = (props) => {
 
   const addButtonClick = async (e) => {
     openItemDialogue();
-    console.log("Button Clicked, Magic happens here!");    
+    console.log("Button Clicked, Magic happens here! Itm");     
   };
 
   return (

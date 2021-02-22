@@ -6,7 +6,6 @@ import { Box } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
     root:{
-        display: "flex",
     },
 }));
 
@@ -14,7 +13,7 @@ const ShoppingLists = (props) => {
     const classes = useStyles();
 
     return (
-        <Box>
+        <Box className={classes.root}>
             <AddItem />
             <ListsContainer/>
         </Box>
