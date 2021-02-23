@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ListsContainer = (props) => {
+const ListsContainer = () => {
   const classes = useStyles();
   return (
     <Grid className={classes.container}>

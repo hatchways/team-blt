@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AddItem = (props) => {
+const AddItem = () => {
   const classes = useStyles();
   const [openDialogue, setOpenDialogue] = useState(false);
   const openItemDialogue = ()=> setOpenDialogue(true);

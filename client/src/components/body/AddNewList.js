@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AddNewList = (props) => {
+const AddNewList = () => {
   const classes = useStyles();
   const [openListDialogue, setOpenListDialogue] = useState(false);
   const openNewListDialogue = () => setOpenListDialogue(true);

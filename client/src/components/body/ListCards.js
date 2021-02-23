@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ListCards = (props) => {
+const ListCards = () => {
   const classes = useStyles();
 
   return (
