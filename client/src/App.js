@@ -11,14 +11,14 @@ import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
 
 
 function App() {
-  // this can be used to show all the user information in dataset.
-
-  // useEffect(() => {
-  //   fetch('/users').then(response =>
-  //     response.json().then(data =>
-  //       {console.log(data);}))
-  // }, [])
   const [signedIn, setSignedIn] = useState(true);
+
+  const token = JSON.parse(localStorage.getItem('token'));
+  // console.log(token);
+  // if (!token){
+  //   setSignedIn(false);
+  // }
+
   return (
     <MuiThemeProvider theme={theme}>
       <BrowserRouter>
