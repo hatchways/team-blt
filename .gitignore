@@ -33,3 +33,4 @@ server.env
 
 
 server/.env
+client/.env
