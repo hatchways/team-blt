@@ -14,7 +14,7 @@ import Dropzone from "react-dropzone";
 import CropOriginalIcon from "@material-ui/icons/CropOriginal";
 import Image from "material-ui-image";
 import S3 from "react-aws-s3";
-import S3FileUpload from "react-s3";
+import Cookies from "js-cookie";
 
 const useStyles = makeStyles((theme) => ({
   dialog: {
@@ -76,10 +76,29 @@ function UserSetting({ handleSetting }) {
     const ReactS3Client = new S3(config);
     ReactS3Client.uploadFile(imageFile, fileName)
     .then(data => {
-      console.log(data.location);
-      setImageUrl(data.location);
+      console.log(data.location)
+      setImageUrl(data.location)
     })
     .catch(err => console.log(err))
+
+    // Send post request to backend to update User model
+    const user = Object.keys(Cookies.get());
+    const postImage = async () => {
+      const response = await fetch(`/users/:${user}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${Cookies.get(user)}`
+        },
+        body: JSON.stringify({profile_pic: `${imageUrl}`})
+      });
+      if (response.ok) {
+        console.log('Success')
+      } else {
+        console.log(response)
+      }
+    }
+    postImage();
   }
 
   return (
@@ -95,7 +114,11 @@ function UserSetting({ handleSetting }) {
         <DialogContentText id="alert-dialog-description">
           <Box>
             <Typography variant="h6">Profile Picture</Typography>
-            <Image src={imageUrl} alt="Profile Picture" />
+            <Image src={
+              imageUrl ? imageUrl 
+              : 'https://dealsmateprofilepic.s3.us-east-2.amazonaws.com/mr-anonymous.png'
+              } alt="Profile Picture" 
+            />
           </Box>
           <Box className={classes.boxSelect}>
             <Typography variant="h6" gutterBottom>
