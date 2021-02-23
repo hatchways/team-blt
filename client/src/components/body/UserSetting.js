@@ -13,12 +13,14 @@ import { makeStyles } from "@material-ui/core/styles";
 import Dropzone from "react-dropzone";
 import CropOriginalIcon from "@material-ui/icons/CropOriginal";
 import Image from "material-ui-image";
+import S3 from "react-aws-s3";
+import S3FileUpload from "react-s3";
 
 const useStyles = makeStyles((theme) => ({
   dialog: {
     justifyContent: "center",
     textAlign: "center",
-    margin: "auto"
+    margin: "auto",
   },
   addButton: {
     borderRadius: "10rem",
@@ -53,29 +55,31 @@ const useStyles = makeStyles((theme) => ({
 
 function UserSetting({ handleSetting }) {
   const classes = useStyles();
+  const [imageFile, setImageFile] = useState({})
+  const [fileName, setFileName] = useState("")
   const [imageUrl, setImageUrl] = useState(""); //Use this with AWS and flask
 
-  const onDrop = (acceptedFiles) => {
-    acceptedFiles.forEach((file) => {
-      const reader = new FileReader();
-      reader.addEventListener(
-        "load",
-        function () {
-          // convert image file to base64 string
-          let src = reader.result;
-          setImageUrl(src);
-        },
-        false
-      );
-      if (file) {
-        reader.readAsDataURL(file);
-      }
-    });
+  const onDrop = (acceptedFile) => {
+    setImageFile(acceptedFile[0])
+    setFileName(acceptedFile[0].name);
   };
 
   const onSubmit = (event) => {
     // Image upload post to AWS
-    // Name change post to backend
+    event.preventDefault();
+    const config = {
+      bucketName: `${process.env.REACT_APP_BUCKET_NAME}`,
+      region: `${process.env.REACT_APP_REGION}`,
+      accessKeyId: `${process.env.REACT_APP_ACCESS_ID}`,
+      secretAccessKey: `${process.env.REACT_APP_ACCESS_KEY}`
+    };
+    const ReactS3Client = new S3(config);
+    ReactS3Client.uploadFile(imageFile, fileName)
+    .then(data => {
+      console.log(data.location);
+      setImageUrl(data.location);
+    })
+    .catch(err => console.log(err))
   }
 
   return (
@@ -89,9 +93,9 @@ function UserSetting({ handleSetting }) {
       </DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          <Box className={classes.boxInput}>
+          <Box>
             <Typography variant="h6">Profile Picture</Typography>
-            <Image src="https://upload.wikimedia.org/wikipedia/commons/4/4f/Rosy-faced_lovebird_%28Agapornis_roseicollis_roseicollis%29.jpg" />
+            <Image src={imageUrl} alt="Profile Picture" />
           </Box>
           <Box className={classes.boxSelect}>
             <Typography variant="h6" gutterBottom>
@@ -112,7 +116,7 @@ function UserSetting({ handleSetting }) {
                   <input {...getInputProps()} />
                   {acceptedFiles.length == 0
                     ? "Drop an image here or select a file"
-                    : acceptedFiles.map((file) => <p>{file.name}</p>)}
+                    : acceptedFiles.map((file) => file.name)}
                   {isDragReject && "the file type is not accepted"}
                 </Box>
               )}
