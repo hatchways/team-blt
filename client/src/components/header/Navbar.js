@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -6,7 +6,7 @@ import Button from "@material-ui/core/Button";
 import Avatar from "@material-ui/core/Avatar";
 import logo from "../../assets/logo.png";
 import avatar from "../../assets/images/0de4ded0e2792aca81775eb8e2f067ae84a4f5f5.png";
-
+import UserSetting from "../body/UserSetting";
 import MenuTabs from "./MenuTabs";
 import {Menu, MenuItem} from "@material-ui/core/"
 
@@ -47,8 +47,20 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Navbar() {
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const isMenuOpen = Boolean(anchorEl);
+
+  // Handling user setting modal
+  const [openSettingDialogue, setOpenSettingDialogue] = useState(false);
+  const handleSetting = (event) => {
+    if (openSettingDialogue == true) {
+      setOpenSettingDialogue(false);
+    } else {
+      setOpenSettingDialogue(true);
+      handleMenuClose();
+    }
+  };
+  
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -71,6 +83,7 @@ export default function Navbar() {
     >
       <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
       <MenuItem onClick={handleMenuClose}>Go to Profile</MenuItem>
+      <MenuItem onClick={handleSetting}>Settings</MenuItem>
     </Menu>
   );
 
@@ -97,6 +110,7 @@ export default function Navbar() {
             Profile
           </Button>
         </Toolbar>
+        {openSettingDialogue ? <UserSetting {...{ handleSetting }}/> : null}
       </AppBar>
       {renderMenu}
     </div>
