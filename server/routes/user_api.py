@@ -34,31 +34,26 @@ result of get_jwt_identity().
 class UserApi(Resource):
     # Update user profile
     @jwt_required()
-    def put(self, name):
+    def put(self, email):
         user_id = get_jwt_identity()
         user = User.objects.get(email=user_id)
-        body = request.get_json()
-        name = body.get('name')
-        email = body.get('email')
-        password = body.get('password')
-        user = User(name=name, email=email, password=password)
-        User.objects.get(name=name).update(name=name, email=email, password=password)
+        body=request.get_json()
         user.update(**body)
         return '', 200
 
     # Delete user profile
     @jwt_required()
-    def delete(self, name):
+    def delete(self, email):
         user_id = get_jwt_identity()
-        if name == user_id:
+        if email == user_id:
             user = User.objects.get(email=user_id)
             user.delete()
             return '', 200
 
     # Read user prolfile
     @jwt_required()
-    def get(self, name):
-        user = User.objects.get(name=name).to_json()
+    def get(self, email):
+        user = User.objects.get(email=email).to_json()
         return Response(user, mimetype="application/json", status=200)
 
 
