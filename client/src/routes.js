@@ -8,10 +8,6 @@ const routes = [
 		path: '/login',
 		component: Login,
 	},
-	{
-		path: '/',
-		component: LandingPage,
-	},
   {
     path: '/signup',
     component: SignUp,

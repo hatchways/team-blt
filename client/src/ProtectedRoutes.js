@@ -4,19 +4,18 @@ import Login from './pages/SignIn';
 import LandingPage from './pages/Landing';
 import { useAuthState, useAuthDispatch } from './context';
 
-const ProtectedRoutes = ({ component: Component, path, loglout, ...rest }) => {
+const ProtectedRoutes = ({component: Component, path,}) => {
 	const currentUser = useAuthState();
   return (
 		<Route
 			path={path}
 			render={(props) => {
 				if (!Boolean(currentUser.token)) {
-					return <Redirect to={{ pathname: '/login' }} />;
+					return <Redirect to={{ pathname:'/login' }} />;
 				} else {
-          return <Component {...props} />;
+          return <Component {...LandingPage} />;
         }
 			}}
-			{...rest}
 		/>
 	);
 };

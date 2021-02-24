@@ -6,6 +6,7 @@ import routes from "./routes";
 import { AuthProvider } from "./context";
 import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
 import ProtectedRoutes from "./ProtectedRoutes"
+import LandingPage from './pages/Landing';
 
 function App() {
   return (
@@ -14,12 +15,16 @@ function App() {
         <BrowserRouter>
           <Switch>
             {routes.map((route) => (
-              <ProtectedRoutes
+              <Route
                 key={route.path}
                 path={route.path}
                 component={route.component}
               />
             ))}
+            <ProtectedRoutes
+              path={'/'} 
+              component={LandingPage}
+            />
           </Switch>
         </BrowserRouter>
       </AuthProvider>
