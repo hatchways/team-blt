@@ -53,6 +53,7 @@ export default function Navbar() {
   // Handling user setting modal
   const [openSettingDialogue, setOpenSettingDialogue] = useState(false);
   const handleSetting = (event) => {
+    event.preventDefault();
     if (openSettingDialogue == true) {
       setOpenSettingDialogue(false);
     } else {
@@ -110,7 +111,7 @@ export default function Navbar() {
             Profile
           </Button>
         </Toolbar>
-        {openSettingDialogue ? <UserSetting {...{ handleSetting }}/> : null}
+        {openSettingDialogue ? <UserSetting {...{ handleSetting, openSettingDialogue }}/> : null}
       </AppBar>
       {renderMenu}
     </div>
