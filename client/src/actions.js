@@ -17,6 +17,8 @@ export async function loginUser(dispatch, loginPayload) {
       dispatch({ type: 'LOGIN_SUCCESS', payload: {'email':email, 'token': token}});
       localStorage.setItem('email', JSON.stringify(email));
       localStorage.setItem('token', JSON.stringify(token));
+      localStorage.setItem('login', true);
+
       console.log(email + ' is login!')
       return {'email':email, 'token': token}
     }
@@ -30,4 +32,5 @@ export async function logout(dispatch) {
   dispatch({ type: 'LOGOUT' });
   localStorage.removeItem('email');
   localStorage.removeItem('token');
+  localStorage.removeItem('login');
 }

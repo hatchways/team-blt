@@ -6,11 +6,14 @@ let email = localStorage.getItem('email')
 let token = localStorage.getItem('token')
 	? JSON.parse(localStorage.getItem('token'))
 	: '';
+let login = localStorage.getItem('login')
+	? JSON.parse(localStorage.getItem('login'))
+	: false;
 
 export const initialState = {
-	user: '' || email,
+	email: '' || email,
 	token: '' || token,
-	login: false,
+	login: false || login,
 	errorMessage: null,
 };
 
@@ -19,7 +22,7 @@ export const AuthReducer = (initialState, action) => {
 		case 'REQUEST_LOGIN':
 			return {
 				...initialState,
-        login: true,
+        login: false,
 			};
 		case 'LOGIN_SUCCESS':
 			return {
@@ -33,6 +36,7 @@ export const AuthReducer = (initialState, action) => {
 				...initialState,
 				email: '',
 				token: '',
+        login: false,
 			};
 
 		default:

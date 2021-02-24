@@ -15,8 +15,7 @@ Modal.setAppElement("#root");
 function Login({ history }) {
   const [modalIsOpen, setModalIsOpen] = useState(true);
   const dispatch = useAuthDispatch();
-  const { login, errorMessage } = useAuthState()
-  console.log(dispatch);
+  const { login, errorMessage } = useAuthState();
 
   return (
     <Modal isOpen={modalIsOpen} style={modalStyles}>
@@ -44,7 +43,6 @@ function Login({ history }) {
               try{
                 console.log(values)
                 let response = await loginUser(dispatch, values)
-                if (!response.email)
                 return history.push('/')
               } catch (error) {
                 console.log(error)
