@@ -3,8 +3,11 @@ import Button from "@material-ui/core/Button";
 import Cookies from 'js-cookie';
 import {useAuthState, useAuthDispatch} from '../context';
 import {logout} from '../actions';
+import { createHashHistory } from 'history'
 
-function LandingPage({history}) {
+export const history = createHashHistory()
+
+function LandingPage() {
   const dispatch = useAuthDispatch()
   return (
       <div style={{backgroundColor: 'pink'}}>
@@ -25,7 +28,7 @@ function LandingPage({history}) {
                 "Authorization": "Bearer " + Cookies.get(JSON.parse(localStorage.getItem('email')))
               },
             });
-            
+
             if (response.status==422){
               console.log('already logout, please log in');
               history.push('/login');

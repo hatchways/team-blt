@@ -22,7 +22,7 @@ function App() {
               />
             ))}
             <ProtectedRoutes
-              path={'/'} 
+              path={'/'}
               component={LandingPage}
             />
           </Switch>
