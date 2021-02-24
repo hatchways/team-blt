@@ -5,10 +5,10 @@ import {useAuthState, useAuthDispatch} from '../context';
 import {logout} from '../actions';
 import { createBrowserHistory } from 'history';
 
-export const history = createBrowserHistory()
+const history = createBrowserHistory();
 
 function LandingPage() {
-  const dispatch = useAuthDispatch()
+  const dispatch = useAuthDispatch();
   return (
       <div style={{backgroundColor: 'pink'}}>
         <h1>Welcome to the website!</h1>

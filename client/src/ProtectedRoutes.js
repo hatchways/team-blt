@@ -13,7 +13,7 @@ const ProtectedRoutes = ({component: Component, path,}) => {
 				if (!Boolean(currentUser.token)) {
 					return <Redirect to={{ pathname:'/login' }} />;
 				} else {
-          return <Component {...LandingPage} />;
+          return <Component {...props} />;
         }
 			}}
 		/>
