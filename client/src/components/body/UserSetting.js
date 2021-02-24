@@ -16,6 +16,7 @@ import Image from "material-ui-image";
 import S3 from "react-aws-s3";
 import Cookies from "js-cookie";
 
+
 const useStyles = makeStyles((theme) => ({
   dialog: {
     justifyContent: "center",
@@ -57,7 +58,7 @@ function UserSetting({ handleSetting }) {
   const classes = useStyles();
   const [imageFile, setImageFile] = useState({})
   const [fileName, setFileName] = useState("")
-  const [imageUrl, setImageUrl] = useState(""); //Use this with AWS and flask
+  let imageUrl = "" //Use this with AWS and flask
 
   const onDrop = (acceptedFile) => {
     setImageFile(acceptedFile[0])
@@ -76,29 +77,28 @@ function UserSetting({ handleSetting }) {
     const ReactS3Client = new S3(config);
     ReactS3Client.uploadFile(imageFile, fileName)
     .then(data => {
-      console.log(data.location)
-      setImageUrl(data.location)
+      // data.location is the url provided by AWS
+      imageUrl = data.location;
+      // Send post request to backend to update User model
+      const postImage = async () => {
+        const user = Object.keys(Cookies.get());
+        const response = await fetch(`/users/:${user}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${Cookies.get(user)}`
+          },
+          body: JSON.stringify({profile_pic: `${imageUrl}`})
+        });
+        if (response.ok) {
+          console.log('Success')
+        } else {
+          console.log(response)
+        }
+      }
+      postImage();
     })
     .catch(err => console.log(err))
-
-    // Send post request to backend to update User model
-    const user = Object.keys(Cookies.get());
-    const postImage = async () => {
-      const response = await fetch(`/users/:${user}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${Cookies.get(user)}`
-        },
-        body: JSON.stringify({profile_pic: `${imageUrl}`})
-      });
-      if (response.ok) {
-        console.log('Success')
-      } else {
-        console.log(response)
-      }
-    }
-    postImage();
   }
 
   return (
