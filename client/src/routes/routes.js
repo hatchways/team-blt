@@ -1,7 +1,6 @@
 import React from 'react';
-import Login from './pages/SignIn';
-import SignUp from './pages/SignUp';
-import LandingPage from './pages/Landing';
+import Login from '../pages/SignIn';
+import SignUp from '../pages/SignUp';
 
 const routes = [
 	{
