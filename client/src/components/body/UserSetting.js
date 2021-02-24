@@ -6,7 +6,6 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogContentText,
   DialogActions,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -47,6 +46,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     alignItems: "center",
     boxShadow: "0 0 5px #eee",
+    border: "1px solid black"
   },
   dropImage: {
     width: "3rem",
@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function UserSetting({ handleSetting }) {
+function UserSetting({ handleSetting, openSettingDialogue }) {
   const classes = useStyles();
   const [imageFile, setImageFile] = useState({})
   const [fileName, setFileName] = useState("")
@@ -103,7 +103,7 @@ function UserSetting({ handleSetting }) {
 
   return (
     <Dialog
-      open={handleSetting}
+      open={openSettingDialogue}
       onClose={handleSetting}
       className={classes.dialog}
     >
@@ -111,41 +111,39 @@ function UserSetting({ handleSetting }) {
         {"Setting"}
       </DialogTitle>
       <DialogContent>
-        <DialogContentText id="alert-dialog-description">
-          <Box>
-            <Typography variant="h6">Profile Picture</Typography>
-            <Image src={
-              imageUrl ? imageUrl 
-              : 'https://dealsmateprofilepic.s3.us-east-2.amazonaws.com/mr-anonymous.png'
-              } alt="Profile Picture" 
-            />
-          </Box>
-          <Box className={classes.boxSelect}>
-            <Typography variant="h6" gutterBottom>
-              Add a profile picture
-            </Typography>
-            <Dropzone onDrop={onDrop} accept="image/*">
-              {({
-                getRootProps,
-                getInputProps,
-                isDragReject,
-                acceptedFiles,
-              }) => (
-                <Box
-                  className={classes.imageFieldContainer}
-                  {...getRootProps()}
-                >
-                  <CropOriginalIcon className={classes.dropImage} />
-                  <input {...getInputProps()} />
-                  {acceptedFiles.length == 0
-                    ? "Drop an image here or select a file"
-                    : acceptedFiles.map((file) => file.name)}
-                  {isDragReject && "the file type is not accepted"}
-                </Box>
-              )}
-            </Dropzone>
-          </Box>
-        </DialogContentText>
+        <Box>
+          <Typography variant="h6">Profile Picture</Typography>
+          <Image src={
+            imageUrl ? imageUrl 
+            : 'https://dealsmateprofilepic.s3.us-east-2.amazonaws.com/mr-anonymous.png'
+            } alt="Profile Picture" 
+          />
+        </Box>
+        <Box className={classes.boxSelect}>
+          <Typography variant="h6" gutterBottom>
+            Add a profile picture
+          </Typography>
+          <Dropzone onDrop={onDrop} accept="image/*">
+            {({
+              getRootProps,
+              getInputProps,
+              isDragReject,
+              acceptedFiles,
+            }) => (
+              <Box
+                className={classes.imageFieldContainer}
+                {...getRootProps()}
+              >
+                <CropOriginalIcon className={classes.dropImage} />
+                <input {...getInputProps()} />
+                {acceptedFiles.length == 0
+                  ? "Drop an image here or select a file"
+                  : acceptedFiles.map((file) => file.name)}
+                {isDragReject && "the file type is not accepted"}
+              </Box>
+            )}
+          </Dropzone>
+        </Box>
       </DialogContent>
       <DialogActions className={classes.dialogButton}>
         <Button
