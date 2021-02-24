@@ -64,8 +64,7 @@ const AddItem = () => {
   const closeDialogue = ()=> setOpenDialogue(false);
 
   const addButtonClick = async (e) => {
-    openItemDialogue();
-    console.log("Button Clicked, Magic happens here! Itm");     
+    openItemDialogue();   
   };
 
   return (

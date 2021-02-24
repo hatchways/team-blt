@@ -6,7 +6,6 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogContentText,
   DialogActions,
   Input,
   MenuItem,
@@ -78,7 +77,7 @@ const AddItemDialogue = (props) => {
     >
       <DialogTitle id="alert-dialog-add-item">{"Add new Item:"}</DialogTitle>
       <DialogContent>
-        <DialogContentText id="alert-dialog-description">
+        
           <Box className={classes.boxInput}>
             <Typography variant="h6">Paste link to item:</Typography>
             <Input
@@ -108,7 +107,7 @@ const AddItemDialogue = (props) => {
               </Select>
             </FormControl>
           </Box>
-        </DialogContentText>
+        
       </DialogContent>
       <DialogActions className={classes.dialogButton}>
         <Button

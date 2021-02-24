@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
+  Box,
   Card,
   CardActionArea,
   CardContent,
@@ -37,7 +38,7 @@ const AddNewList = () => {
   };
 
   return (
-    <>
+    <Box>
       <Card onClick={addListClick} className={classes.root}>
         <CardActionArea>
           <CardContent className={classes.content}>
@@ -51,7 +52,7 @@ const AddNewList = () => {
         </CardActionArea>
       </Card>
       {<AddListDialogue {...{ openListDialogue, closeListDialogue }} />}
-    </>
+    </Box>
   );
 };
 
