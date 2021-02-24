@@ -1,4 +1,3 @@
-import React, { useState, useReducer } from 'react';
 
 let email = localStorage.getItem('email')
 	? JSON.parse(localStorage.getItem('email'))
