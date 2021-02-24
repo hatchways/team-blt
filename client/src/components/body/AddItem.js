@@ -10,7 +10,6 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import AddItemDialogue from "./AddItemDialogue";
-import Alert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -93,12 +92,12 @@ const AddItem = () => {
               disableUnderline
               inputProps={{ "aria-label": "Without label" }}
             >
-              <MenuItem value="" disabled>
+              <MenuItem defaultValue="Select List" disabled>
                 Select List
               </MenuItem>
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
+              <MenuItem value={"10"}>Ten</MenuItem>
+              <MenuItem value={"20"}>Twenty</MenuItem>
+              <MenuItem value={"30"}>Thirty</MenuItem>
             </Select>
           </FormControl>
         

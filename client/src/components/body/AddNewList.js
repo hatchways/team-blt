@@ -1,15 +1,10 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
-  Grid,
   Card,
   CardActionArea,
-  CardActions,
   CardContent,
-  CardMedia,
-  Button,
   Typography,
-  IconButton,
 } from "@material-ui/core";
 import AddListDialogue from "./AddListDialogue";
 

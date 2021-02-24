@@ -9,10 +9,6 @@ import {
   DialogContentText,
   DialogActions,
   Input,
-  MenuItem,
-  FormControl,
-  InputLabel,
-  Select,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Dropzone from "react-dropzone";
