@@ -1,7 +1,7 @@
 import React from 'react'
 import Button from "@material-ui/core/Button";
 import Cookies from 'js-cookie';
-import {useAuthState, useAuthDispatch} from '../context';
+import {useAuthState, useAuthDispatch} from '../context/context';
 import {logout} from '../actions';
 import { createBrowserHistory } from 'history';
 
