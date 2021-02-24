@@ -3,9 +3,9 @@ import Button from "@material-ui/core/Button";
 import Cookies from 'js-cookie';
 import {useAuthState, useAuthDispatch} from '../context';
 import {logout} from '../actions';
-import { createHashHistory } from 'history'
+import { createBrowserHistory } from 'history';
 
-export const history = createHashHistory()
+export const history = createBrowserHistory()
 
 function LandingPage() {
   const dispatch = useAuthDispatch()
