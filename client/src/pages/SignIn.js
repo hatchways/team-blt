@@ -7,15 +7,20 @@ import Modal from "react-modal";
 import { Link } from "react-router-dom";
 import { formStyles, modalStyles, signInStyles } from "../themes/theme";
 import Cookies from 'js-cookie';
+import {loginUser} from '../actions';
+import {useAuthState, useAuthDispatch} from '../context';
 
 Modal.setAppElement("#root");
 
-function SignIn({ history }) {
+function Login({ history }) {
   const [modalIsOpen, setModalIsOpen] = useState(true);
+  const dispatch = useAuthDispatch();
+  const { login, errorMessage } = useAuthState()
+  console.log(dispatch);
 
   return (
     <Modal isOpen={modalIsOpen} style={modalStyles}>
-      <div className="signIn" style={signInStyles}>
+      <div className="login" style={signInStyles}>
         <Formik
           initialValues={{
             email: "",
@@ -34,22 +39,18 @@ function SignIn({ history }) {
             }
             return errors;
           }}
-          onSubmit={async (values) => {
-            const response = await fetch("/login", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json"
-              },
-              body: JSON.stringify(values)
-            });
-            if (response.ok) {
-              history.push('/')
-              console.log(values.email + " is log in!");
-              const token = Cookies.get(values.email);
-              localStorage.setItem('email', JSON.stringify(values.email));
-              localStorage.setItem('token', JSON.stringify(token));
+          onSubmit={
+            async(values) => {
+              try{
+                console.log(values)
+                let response = await loginUser(dispatch, values)
+                if (!response.email)
+                return history.push('/')
+              } catch (error) {
+                console.log(error)
+              }
             }
-          }}
+          }
         >
           {({ submitForm, isSubmitting }) => (
             <>
@@ -108,4 +109,4 @@ function SignIn({ history }) {
   );
 }
 
-export default SignIn;
+export default Login;
