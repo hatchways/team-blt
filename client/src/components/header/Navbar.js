@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
 import Avatar from "@material-ui/core/Avatar";
 import logo from "../../assets/logo.png";
-import avatar from "../../assets/images/0de4ded0e2792aca81775eb8e2f067ae84a4f5f5.png";
 import UserSetting from "../body/UserSetting";
 import MenuTabs from "./MenuTabs";
 import {Menu, MenuItem} from "@material-ui/core/"
+import { UserModel } from "../../context/UserContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -49,6 +49,7 @@ export default function Navbar() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const isMenuOpen = Boolean(anchorEl);
+  const { imageUrl } = useContext(UserModel);
 
   // Handling user setting modal
   const [openSettingDialogue, setOpenSettingDialogue] = useState(false);
@@ -107,7 +108,14 @@ export default function Navbar() {
             aria-haspopup="true"
             onClick={handleProfileMenuOpen}
           >
-            <Avatar alt="Remy Sharp" src={avatar} className={classes.avatar} />
+            <Avatar 
+              alt="Profile Pic" 
+              src={
+                  imageUrl ? imageUrl 
+                  : 'https://dealsmateprofilepic.s3.us-east-2.amazonaws.com/mr-anonymous.png'
+                } 
+              className={classes.avatar}
+            />
             Profile
           </Button>
         </Toolbar>
