@@ -2,7 +2,7 @@ import React from "react";
 import { Redirect, Route } from "react-router-dom";
 import { useAuthState } from "../context/context";
 
-const ProtectedRoutes = ({ component: Component, path }) => {
+const ProtectedRoute = ({ component: Component, path }) => {
   const currentUser = useAuthState();
   return (
     <Route
@@ -18,4 +18,4 @@ const ProtectedRoutes = ({ component: Component, path }) => {
   );
 };
 
-export default ProtectedRoutes;
+export default ProtectedRoute;

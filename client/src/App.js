@@ -6,6 +6,8 @@ import { AuthProvider } from "./context/context";
 import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
 import ProtectedRoutes from "./routes/ProtectedRoutes";
 import UserDashboard from "./pages/UserDashboard";
+import ProtectedRoute from "./routes/ProtectedRoute"
+import LandingPage from './pages/Landing';
 import Login from "./pages/SignIn";
 import LoginRoute from "./routes/LoginRoute";
 import SignUpRoute from "./routes/SignUpRoute";
@@ -32,6 +34,10 @@ function App() {
                 component={UserDashboard}
               />
             </UserContext>   
+            <ProtectedRoute
+              path={'/'}
+              component={LandingPage}
+            />
           </Switch>
         </BrowserRouter>
       </AuthProvider>
