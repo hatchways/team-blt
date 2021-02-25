@@ -4,12 +4,9 @@ import {
   Grid,
   Card,
   CardActionArea,
-  CardActions,
   CardContent,
   CardMedia,
-  Button,
   Typography,
-  IconButton,
 } from "@material-ui/core";
 import AddNewList from "../../components/body/AddNewList";
 import clothes from "../../assets/images/5dfa173f119c57f532759914d338da28266bb292.png";
@@ -56,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ListCards = (props) => {
+const ListCards = () => {
   const classes = useStyles();
 
   return (
@@ -65,14 +62,14 @@ const ListCards = (props) => {
     <Grid className={classes.cardContainer}>
         
       {defaultLists.map((item, i) => (
-        <Card className={classes.root}>
+        <Card className={classes.root} key={item.name}>
           <CardActionArea>
             <CardMedia
               className={classes.media}
               image={item.img}
               title="Contemplative Reptile"
             />
-            <CardContent gutterBottom className={classes.content}>
+            <CardContent className={classes.content}>
               <Typography gutterBottom>
                 {item.name}
               </Typography>

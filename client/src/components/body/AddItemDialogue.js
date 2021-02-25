@@ -6,12 +6,10 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogContentText,
   DialogActions,
   Input,
   MenuItem,
   FormControl,
-  InputLabel,
   Select,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -79,7 +77,7 @@ const AddItemDialogue = (props) => {
     >
       <DialogTitle id="alert-dialog-add-item">{"Add new Item:"}</DialogTitle>
       <DialogContent>
-        <DialogContentText id="alert-dialog-description">
+        
           <Box className={classes.boxInput}>
             <Typography variant="h6">Paste link to item:</Typography>
             <Input
@@ -100,16 +98,16 @@ const AddItemDialogue = (props) => {
                 disableUnderline
                 inputProps={{ "aria-label": "Without label" }}
               >
-                <MenuItem value="Select" disabled>
+                <MenuItem value={"Select"} disabled>
                   Select
                 </MenuItem>
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
+                <MenuItem value={"10"}>Ten</MenuItem>
+                <MenuItem value={"20"}>Twenty</MenuItem>
+                <MenuItem value={"30"}>Thirty</MenuItem>
               </Select>
             </FormControl>
           </Box>
-        </DialogContentText>
+        
       </DialogContent>
       <DialogActions className={classes.dialogButton}>
         <Button

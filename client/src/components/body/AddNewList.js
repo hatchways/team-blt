@@ -1,15 +1,11 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
-  Grid,
+  Box,
   Card,
   CardActionArea,
-  CardActions,
   CardContent,
-  CardMedia,
-  Button,
   Typography,
-  IconButton,
 } from "@material-ui/core";
 import AddListDialogue from "./AddListDialogue";
 
@@ -31,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AddNewList = (props) => {
+const AddNewList = () => {
   const classes = useStyles();
   const [openListDialogue, setOpenListDialogue] = useState(false);
   const openNewListDialogue = () => setOpenListDialogue(true);
@@ -42,7 +38,7 @@ const AddNewList = (props) => {
   };
 
   return (
-    <>
+    <Box>
       <Card onClick={addListClick} className={classes.root}>
         <CardActionArea>
           <CardContent className={classes.content}>
@@ -56,7 +52,7 @@ const AddNewList = (props) => {
         </CardActionArea>
       </Card>
       {<AddListDialogue {...{ openListDialogue, closeListDialogue }} />}
-    </>
+    </Box>
   );
 };
 

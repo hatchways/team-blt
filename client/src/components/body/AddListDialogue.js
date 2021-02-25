@@ -6,13 +6,8 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogContentText,
   DialogActions,
   Input,
-  MenuItem,
-  FormControl,
-  InputLabel,
-  Select,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Dropzone from "react-dropzone";
@@ -96,9 +91,9 @@ const AddListDialogue = (props) => {
     >
       <DialogTitle id="alert-dialog-add-item">{"Create new list"}</DialogTitle>
       <DialogContent>
-        <DialogContentText id="alert-dialog-description">
+        
           <Box className={classes.boxInput}>
-            <Typography variant="h6">Add a title*</Typography>
+            <Typography variant="h6"  component="h2">Add a title*</Typography>
             <Input
               placeholder="Enter name"
               disableUnderline
@@ -106,7 +101,7 @@ const AddListDialogue = (props) => {
             />
           </Box>
           <Box className={classes.boxSelect}>
-            <Typography variant="h6" gutterBottom>
+            <Typography variant="h6" gutterBottom component="h2">
               Add a cover
             </Typography>
             <Dropzone onDrop={onDrop} accept="image/*">
@@ -130,7 +125,7 @@ const AddListDialogue = (props) => {
               )}
             </Dropzone>
           </Box>
-        </DialogContentText>
+        
       </DialogContent>
       <DialogActions className={classes.dialogButton}>
         <Button

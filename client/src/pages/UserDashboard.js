@@ -9,7 +9,7 @@ import Notifications from "../features/Notifications";
 
 const useStyles = makeStyles((theme) => ({}));
 
-const UserDashboard = (props) => {
+const UserDashboard = () => {
   const classes = useStyles();
 
   return (
