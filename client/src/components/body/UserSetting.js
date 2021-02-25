@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   Box,
   Typography,
@@ -14,6 +14,7 @@ import CropOriginalIcon from "@material-ui/icons/CropOriginal";
 import Image from "material-ui-image";
 import S3 from "react-aws-s3";
 import Cookies from "js-cookie";
+import { UserModel } from '../../context/UserContext'; 
 
 
 const useStyles = makeStyles((theme) => ({
@@ -56,9 +57,9 @@ const useStyles = makeStyles((theme) => ({
 
 function UserSetting({ handleSetting, openSettingDialogue }) {
   const classes = useStyles();
-  const [imageFile, setImageFile] = useState({})
-  const [fileName, setFileName] = useState("")
-  let imageUrl = "" //Use this with AWS and flask
+  const [imageFile, setImageFile] = useState({});
+  const [fileName, setFileName] = useState("");
+  const { imageUrl, setImageUrl } = useContext(UserModel);
 
   const onDrop = (acceptedFile) => {
     setImageFile(acceptedFile[0])
@@ -78,7 +79,9 @@ function UserSetting({ handleSetting, openSettingDialogue }) {
     ReactS3Client.uploadFile(imageFile, fileName)
     .then(data => {
       // data.location is the url provided by AWS
-      imageUrl = data.location;
+      const image = data.location;
+      // Set the imageUrl state with the new url from AWS
+      setImageUrl(image)
       // Send post request to backend to update User model
       const postImage = async () => {
         const user = Object.keys(Cookies.get());
@@ -88,7 +91,7 @@ function UserSetting({ handleSetting, openSettingDialogue }) {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${Cookies.get(user)}`
           },
-          body: JSON.stringify({profile_pic: `${imageUrl}`})
+          body: JSON.stringify({profile_pic: `${image}`})
         });
         if (response.ok) {
           console.log('Success')
