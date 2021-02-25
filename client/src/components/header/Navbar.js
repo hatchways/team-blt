@@ -6,7 +6,10 @@ import Button from "@material-ui/core/Button";
 import Avatar from "@material-ui/core/Avatar";
 import logo from "../../assets/logo.png";
 import avatar from "../../assets/images/0de4ded0e2792aca81775eb8e2f067ae84a4f5f5.png";
-
+import Cookies from 'js-cookie';
+import {logout} from '../../actions';
+import {useAuthState, useAuthDispatch} from '../../context/context';
+import { createBrowserHistory } from 'history';
 import MenuTabs from "./MenuTabs";
 import {Menu, MenuItem} from "@material-ui/core/"
 
@@ -45,11 +48,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const history = createBrowserHistory();
+
 export default function Navbar() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const isMenuOpen = Boolean(anchorEl);
-
+  const dispatch = useAuthDispatch();
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -57,6 +62,27 @@ export default function Navbar() {
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
+
+  const handleLogout = async() => {
+    const response = await fetch("/logout", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + Cookies.get(JSON.parse(localStorage.getItem('email')))
+      },
+    });
+
+    if (response.status==422){
+      console.log('already logout, please log in');
+      history.push('/login');
+    }
+
+    if (response.ok) {
+      console.log('logout successfully');
+      logout(dispatch);
+      history.push('/login');
+    }
+  }
 
   const menuId = "primary-account-menu";
   const renderMenu = (
@@ -69,7 +95,7 @@ export default function Navbar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
+      <MenuItem onClick={handleLogout}>Logout</MenuItem>
       <MenuItem onClick={handleMenuClose}>Go to Profile</MenuItem>
     </Menu>
   );
