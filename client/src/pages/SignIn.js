@@ -7,15 +7,19 @@ import Modal from "react-modal";
 import { Link } from "react-router-dom";
 import { formStyles, modalStyles, signInStyles } from "../themes/theme";
 import Cookies from 'js-cookie';
+import {loginUser} from '../actions';
+import {useAuthState, useAuthDispatch} from '../context/context';
 
 Modal.setAppElement("#root");
 
-function SignIn({ history }) {
+function Login({ history }) {
   const [modalIsOpen, setModalIsOpen] = useState(true);
+  const dispatch = useAuthDispatch();
+  const { login, errorMessage } = useAuthState();
 
   return (
     <Modal isOpen={modalIsOpen} style={modalStyles}>
-      <div className="signIn" style={signInStyles}>
+      <div className="login" style={signInStyles}>
         <Formik
           initialValues={{
             email: "",
@@ -34,21 +38,17 @@ function SignIn({ history }) {
             }
             return errors;
           }}
-          onSubmit={async (values) => {
-            const response = await fetch("/login", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json"
-              },
-              body: JSON.stringify(values)
-            });
-            console.log(values);
-            if (response.ok) {
-              history.push('/')
-              console.log(Cookies.get(values.email));
-              console.log(values.email + " is log in!");
+          onSubmit={
+            async(values) => {
+              try{
+                console.log(values)
+                let response = await loginUser(dispatch, values)
+                return history.push('/')
+              } catch (error) {
+                console.log(error)
+              }
             }
-          }}
+          }
         >
           {({ submitForm, isSubmitting }) => (
             <>
@@ -107,4 +107,4 @@ function SignIn({ history }) {
   );
 }
 
-export default SignIn;
+export default Login;

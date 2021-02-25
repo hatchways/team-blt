@@ -1,36 +1,37 @@
-import React, { useState, useEffect } from "react";
-import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
+import React from "react";
+import { BrowserRouter, Switch } from "react-router-dom";
 import { theme } from "./themes/theme";
 import "./App.css";
-import SignIn from "./pages/SignIn";
-import SignUp from "./pages/SignUp";
-import UserDashboard from "./pages/UserDashboard";
+import { AuthProvider } from "./context/context";
 import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
+import ProtectedRoutes from "./routes/ProtectedRoutes"
+import LandingPage from './pages/Landing';
+import Login from "./pages/SignIn";
+import LoginRoute from "./routes/LoginRoute";
+import SignUpRoute from "./routes/SignUpRoute";
+import SignUp from "./pages/SignUp";
 
 function App() {
-  // this can be used to show all the user information in dataset.
-
-  // useEffect(() => {
-  //   fetch('/users').then(response =>
-  //     response.json().then(data =>
-  //       {console.log(data);}))
-  // }, [])
-  const [signedIn, setSignedIn] = useState(true);
   return (
     <MuiThemeProvider theme={theme}>
-      <BrowserRouter>
-        <Switch>
-          <Route exact path="/">
-            {signedIn ? (
-              <Route exact path="/" component={UserDashboard} />
-            ) : (
-              <Redirect to="/login" />
-            )}
-          </Route>
-          <Route exact path="/login" component={SignIn} />
-          <Route exact path="/signup" component={SignUp} />
-        </Switch>
-      </BrowserRouter>
+      <AuthProvider>
+        <BrowserRouter>
+          <Switch>
+            <LoginRoute 
+              path={'/login' || '/signup'}
+              component={Login}
+            />
+            <SignUpRoute
+              path={'/signup'}
+              component={SignUp}
+            />
+            <ProtectedRoutes
+              path={'/'}
+              component={LandingPage}
+            />
+          </Switch>
+        </BrowserRouter>
+      </AuthProvider>
     </MuiThemeProvider>
   );
 }
