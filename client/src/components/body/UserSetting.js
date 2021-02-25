@@ -116,10 +116,14 @@ function UserSetting({ handleSetting, openSettingDialogue }) {
       <DialogContent>
         <Box>
           <Typography variant="h6">Profile Picture</Typography>
-          <Image src={
-            imageUrl ? imageUrl 
-            : 'https://dealsmateprofilepic.s3.us-east-2.amazonaws.com/mr-anonymous.png'
-            } alt="Profile Picture" 
+          <Image 
+            src={
+              imageUrl ? imageUrl 
+              : 'https://dealsmateprofilepic.s3.us-east-2.amazonaws.com/mr-anonymous.png'
+            } 
+            imageStyle={{
+              objectFit: "cover"
+            }}
           />
         </Box>
         <Box className={classes.boxSelect}>
