@@ -35,7 +35,10 @@ function UserContext({ children }) {
         console.log(user)
         setImageUrl(user.profile_pic)
       }
-      fetchData();
+      // Run only if the user is logged in
+      if (userEmail) {
+        fetchData();
+      }   
     }, []);
     console.log(imageUrl)
 
