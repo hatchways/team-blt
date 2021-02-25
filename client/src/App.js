@@ -1,33 +1,38 @@
-import React, { useState } from "react";
-import { BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
-
+import React from "react";
+import { BrowserRouter, Switch } from "react-router-dom";
 import { theme } from "./themes/theme";
-
 import "./App.css";
-import SignIn from "./pages/SignIn";
+import { AuthProvider } from "./context/context";
+import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
+import ProtectedRoute from "./routes/ProtectedRoute"
+import LandingPage from './pages/Landing';
+import Login from "./pages/SignIn";
+import LoginRoute from "./routes/LoginRoute";
+import SignUpRoute from "./routes/SignUpRoute";
 import SignUp from "./pages/SignUp";
-import LandingPage from "./pages/Landing";
-import ThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
-
 
 function App() {
-  const [signedIn, setSignedIn] = useState(false);
-  
   return (
-    <ThemeProvider theme={theme}>
-      <BrowserRouter>
+    <MuiThemeProvider theme={theme}>
+      <AuthProvider>
+        <BrowserRouter>
           <Switch>
-            <Route exact path='/'>
-              {signedIn 
-                ?  <Route exact path='/' component={LandingPage} /> 
-                : <Redirect to='/sign-in' />
-              }
-            </Route>
-            <Route exact path='/sign-in' component={SignIn} />
-            <Route exact path='/sign-up' component={SignUp} />
+            <LoginRoute
+              path={'/login' || '/signup'}
+              component={Login}
+            />
+            <SignUpRoute
+              path={'/signup'}
+              component={SignUp}
+            />
+            <ProtectedRoute
+              path={'/'}
+              component={LandingPage}
+            />
           </Switch>
-      </BrowserRouter> 
-    </ThemeProvider>
+        </BrowserRouter>
+      </AuthProvider>
+    </MuiThemeProvider>
   );
 }
 
