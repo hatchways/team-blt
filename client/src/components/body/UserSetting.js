@@ -111,7 +111,7 @@ function UserSetting({ handleSetting, openSettingDialogue }) {
       className={classes.dialog}
     >
       <DialogTitle id="alert-dialog-add-item">
-        {"Setting"}
+        {"Settings"}
       </DialogTitle>
       <DialogContent>
         <Box>
