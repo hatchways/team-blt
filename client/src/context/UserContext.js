@@ -1,11 +1,12 @@
 import React, { useState, createContext, useEffect } from 'react';
-import Cookies from 'js-cookie';
+import { useAuthState } from './context';
 
 export const UserModel = createContext();
 
 function UserContext({ children }) {
+    const currentUser = useAuthState();
     const [imageUrl, setImageUrl] = useState('');
-    const userEmail = Object.keys(Cookies.get());
+    const userEmail = currentUser.email;
     const imageContextValues = {
         imageUrl: imageUrl,
         setImageUrl: setImageUrl
@@ -27,12 +28,11 @@ function UserContext({ children }) {
           method: "GET",
           headers: {
             "Content-Type": "aplication/json",
-            Authorization: `Bearer ${Cookies.get(userEmail)}`,
+            Authorization: `Bearer ${currentUser.token}`,
           },
           body: JSON.stringify(),
         });
         const user = await response.json(); 
-        console.log(user)
         setImageUrl(user.profile_pic)
       }
       // Run only if the user is logged in
