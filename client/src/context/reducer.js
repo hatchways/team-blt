@@ -8,10 +8,18 @@ let token = localStorage.getItem('token')
 let login = localStorage.getItem('login')
 	? JSON.parse(localStorage.getItem('login'))
 	: false;
-
+let profile_pic = localStorage.getItem('profile_pic')
+	? JSON.parse(localStorage.getItem('profile_pic'))
+	: false;
+let list_of_products = localStorage.getItem('list_of_products')
+	? JSON.parse(localStorage.getItem('list_of_products'))
+	: false;
+	
 export const initialState = {
 	email: '' || email,
 	token: '' || token,
+	profile_pic: '' || profile_pic,
+	list_of_products: [] || list_of_products,
 	login: false || login,
 	errorMessage: null,
 };
@@ -27,7 +35,7 @@ export const AuthReducer = (initialState, action) => {
 		case 'REQUEST_LOGIN':
 			return {
 				...initialState,
-        login: false,
+        		login: false,
 			};
 		case 'LOGIN_SUCCESS':
 			return {
@@ -41,9 +49,23 @@ export const AuthReducer = (initialState, action) => {
 				...initialState,
 				email: '',
 				token: '',
-        login: false,
+        		login: false,
+			};
+		
+		case 'UPDATE_PROFILE_PIC':
+			return {
+				...initialState,
+				profile_pic: action.payload.profile_pic
 			};
 
+		case 'UPDATE_PRODUCTS_LISTS':
+			const lists = initialState.list_of_products.map(list => {
+				return [...list, action.payload.list_of_products]
+			})
+			return {
+				...initialState,
+				list_of_products: lists
+			}
 		default:
 			throw new Error(`Unhandled action type: ${action.type}`);
 	}
