@@ -16,6 +16,12 @@ export const initialState = {
 	errorMessage: null,
 };
 
+/*
+AuthReducer is a reducer function that takes in the initialState
+object and an action. The initialState object is updated based on 
+the action's case. The types of actions that are passed into this
+function can be found in the action.js file. 
+*/
 export const AuthReducer = (initialState, action) => {
 	switch (action.type) {
 		case 'REQUEST_LOGIN':
