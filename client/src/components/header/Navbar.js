@@ -9,6 +9,7 @@ import UserSetting from "../body/UserSetting";
 import MenuTabs from "./MenuTabs";
 import {Menu, MenuItem} from "@material-ui/core/"
 import { UserModel } from "../../context/UserContext";
+import { useAuthState } from "../../context/context";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -49,7 +50,7 @@ export default function Navbar() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const isMenuOpen = Boolean(anchorEl);
-  const { imageUrl } = useContext(UserModel);
+  const currentUser = useAuthState();
 
   // Handling user setting modal
   const [openSettingDialogue, setOpenSettingDialogue] = useState(false);
@@ -111,7 +112,7 @@ export default function Navbar() {
             <Avatar 
               alt="Profile Pic" 
               src={
-                  imageUrl ? imageUrl 
+                  currentUser.profile_pic ? currentUser.profile_pic 
                   : 'https://dealsmateprofilepic.s3.us-east-2.amazonaws.com/mr-anonymous.png'
                 } 
               className={classes.avatar}
