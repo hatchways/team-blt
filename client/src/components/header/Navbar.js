@@ -5,7 +5,6 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
 import Avatar from "@material-ui/core/Avatar";
 import logo from "../../assets/logo.png";
-import UserSetting from "../body/UserSetting";
 import MenuTabs from "./MenuTabs";
 import {Menu, MenuItem} from "@material-ui/core/"
 import { UserModel } from "../../context/UserContext";
@@ -36,9 +35,9 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: "auto",
   },
   avatar: {
-    marginRight: theme.spacing(1),    
+    marginRight: theme.spacing(1),
   },
-  button: {    
+  button: {
     textTransform: "none",
     color:"inherit",
     marginTop: theme.spacing(6),
@@ -62,7 +61,7 @@ export default function Navbar() {
       handleMenuClose();
     }
   };
-  
+
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -99,8 +98,8 @@ export default function Navbar() {
           <div className={classes.tabContainer}>
             <MenuTabs />
           </div>
-          
-          <Button            
+
+          <Button
             className={classes.button}
             edge="end"
             aria-label="account of current user"
@@ -108,18 +107,17 @@ export default function Navbar() {
             aria-haspopup="true"
             onClick={handleProfileMenuOpen}
           >
-            <Avatar 
-              alt="Profile Pic" 
+            <Avatar
+              alt="Profile Pic"
               src={
-                  imageUrl ? imageUrl 
+                  imageUrl ? imageUrl
                   : 'https://dealsmateprofilepic.s3.us-east-2.amazonaws.com/mr-anonymous.png'
-                } 
+                }
               className={classes.avatar}
             />
             Profile
           </Button>
         </Toolbar>
-        {openSettingDialogue ? <UserSetting {...{ handleSetting, openSettingDialogue }}/> : null}
       </AppBar>
       {renderMenu}
     </div>
