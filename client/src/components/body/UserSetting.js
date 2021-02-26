@@ -13,8 +13,10 @@ import Dropzone from "react-dropzone";
 import CropOriginalIcon from "@material-ui/icons/CropOriginal";
 import Image from "material-ui-image";
 import S3 from "react-aws-s3";
-import Cookies from "js-cookie";
-import { UserModel } from '../../context/UserContext'; 
+import { useAuthState } from '../../context/context'; 
+import { useAuthDispatch } from "../../context/context";
+import { updateProfilePic } from "../../context/actions";
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -59,7 +61,8 @@ function UserSetting({ handleSetting, openSettingDialogue }) {
   const classes = useStyles();
   const [imageFile, setImageFile] = useState({});
   const [fileName, setFileName] = useState("");
-  const { imageUrl, setImageUrl } = useContext(UserModel);
+  const currentUser = useAuthState();
+  const dispatch = useAuthDispatch();
 
   const onDrop = (acceptedFile) => {
     setImageFile(acceptedFile[0])
@@ -80,16 +83,15 @@ function UserSetting({ handleSetting, openSettingDialogue }) {
     .then(data => {
       // data.location is the url provided by AWS
       const image = data.location;
-      // Set the imageUrl state with the new url from AWS
-      setImageUrl(image)
+      // Update the user object's profile_pic value from reducer.js 
+      updateProfilePic(dispatch, image);
       // Send post request to backend to update User model
       const postImage = async () => {
-        const user = Object.keys(Cookies.get());
-        const response = await fetch(`/users/:${user}`, {
+        const response = await fetch(`/users/:${currentUser.email}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${Cookies.get(user)}`
+            "Authorization": `Bearer ${currentUser.token}`
           },
           body: JSON.stringify({profile_pic: `${image}`})
         });
@@ -118,7 +120,7 @@ function UserSetting({ handleSetting, openSettingDialogue }) {
           <Typography variant="h6">Profile Picture</Typography>
           <Image 
             src={
-              imageUrl ? imageUrl 
+              currentUser.profile_pic ? currentUser.profile_pic
               : 'https://dealsmateprofilepic.s3.us-east-2.amazonaws.com/mr-anonymous.png'
             } 
             imageStyle={{
