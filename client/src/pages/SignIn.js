@@ -6,7 +6,6 @@ import { TextField } from "formik-material-ui";
 import Modal from "react-modal";
 import { Link } from "react-router-dom";
 import { formStyles, modalStyles, signInStyles } from "../themes/theme";
-import Cookies from 'js-cookie';
 import {loginUser} from '../actions';
 import {useAuthState, useAuthDispatch} from '../context/context';
 
@@ -41,8 +40,7 @@ function Login({ history }) {
           onSubmit={
             async(values) => {
               try{
-                console.log(values)
-                let response = await loginUser(dispatch, values)
+                await loginUser(dispatch, values)
                 return history.push('/')
               } catch (error) {
                 console.log(error)

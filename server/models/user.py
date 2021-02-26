@@ -7,6 +7,7 @@ class User(db.Document):
     name = db.StringField(required=True, unique=True)
     email = db.EmailField(required=True, unique=True, min_length=6)
     password = db.StringField(required=True, min_length=6)
+    profile_pic = db.StringField(default="")
     list_of_products = db.ListField(db.ReferenceField('List', reverse_delete_rule=db.PULL))
 
     def hash_password(self):
