@@ -22,7 +22,7 @@ export async function loginUser(dispatch, loginPayload) {
       // email fetched from user's email input in the log in form
       const email = loginPayload.email;
       const token = Cookies.get(email);
-      // Fetch the profile picture URL and the user's list of products from the server
+      // Fetch the profile picture URL and the user's list of lists of products from the server
       async function fetchData() {
         const response = await fetch(`/users/${email}`, {
           method: "GET",
