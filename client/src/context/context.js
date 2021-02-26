@@ -20,7 +20,7 @@ export function useAuthState() {
 /* 
 useAuthDispatch is a function that uses the AuthDispatchContext's value, 
 the dispatch function, and saves the dispatch function into a variable
-where it is returend and exported for use in other files for user 
+where it is returned and exported for use in other files for user 
 authentication.
 */
 export function useAuthDispatch() {
@@ -43,6 +43,16 @@ is saved as the user state. All updates to the initialState by AuthReducer
 is saved to user. user is used as the value of the AuthStateContext.
 */
 export const AuthProvider = ({ children }) => {
+	/* 
+	user = {
+		email: "user's email"
+		token: "the authentication token"
+		profile_pic: "profile picture URL"
+		list_of_products: [a list of the user's created lists of products],
+		login: boolean,
+		errorMessage: null
+	}
+	*/
 	const [user, dispatch] = useReducer(AuthReducer, initialState);
 	return (
 		<AuthStateContext.Provider value={user}>
