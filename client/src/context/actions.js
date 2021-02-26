@@ -1,5 +1,12 @@
 import Cookies from 'js-cookie';
 
+// Authentication actions used by the AuthReducer function in reducer.js
+
+/*
+The loginUser function's dispatch parameter takes an object that 
+sets the action type for the AuthReducer function. The loginPayload
+parameter is an object of the user's login credentials. 
+ */
 export async function loginUser(dispatch, loginPayload) {
   const requestOptions = {
     method: 'POST',
@@ -28,6 +35,11 @@ export async function loginUser(dispatch, loginPayload) {
   }
 }
 
+/*
+The logout function's dispatch parameter sets the action type to 'LOGOUT'.
+The user's authentication credentials are then removed from the local
+storage. 
+*/
 export async function logout(dispatch) {
   dispatch({ type: 'LOGOUT' });
   localStorage.removeItem('email');
