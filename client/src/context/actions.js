@@ -69,6 +69,8 @@ export async function logout(dispatch) {
   localStorage.removeItem('email');
   localStorage.removeItem('token');
   localStorage.removeItem('login');
+  localStorage.removeItem('profile_pic');
+  localStorage.removeItem('list_of_products');
 }
 
 /* 
