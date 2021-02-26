@@ -9,17 +9,17 @@ let login = localStorage.getItem('login')
 	: false;
 let profile_pic = localStorage.getItem('profile_pic')
 	? JSON.parse(localStorage.getItem('profile_pic'))
-	: false;
+	: '';
 let list_of_products = localStorage.getItem('list_of_products')
 	? JSON.parse(localStorage.getItem('list_of_products'))
-	: false;
+	: [];
 	
 export const initialState = {
-	email: '' || email,
-	token: '' || token,
-	profile_pic: '' || profile_pic,
-	list_of_products: [] || list_of_products,
-	login: false || login,
+	email: email,
+	token: token,
+	profile_pic: profile_pic,
+	list_of_products: list_of_products,
+	login: login,
 	errorMessage: null,
 };
 
