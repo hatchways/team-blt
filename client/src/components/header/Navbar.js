@@ -1,14 +1,14 @@
-import React, { useContext, useState } from "react";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
 import Avatar from "@material-ui/core/Avatar";
 import logo from "../../assets/logo.png";
-import UserSetting from "../body/UserSetting";
+import avatar from "../../assets/images/0de4ded0e2792aca81775eb8e2f067ae84a4f5f5.png";
+
 import MenuTabs from "./MenuTabs";
 import {Menu, MenuItem} from "@material-ui/core/"
-import { UserModel } from "../../context/UserContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,22 +47,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Navbar() {
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEl, setAnchorEl] = React.useState(null);
   const isMenuOpen = Boolean(anchorEl);
-  const { imageUrl } = useContext(UserModel);
-
-  // Handling user setting modal
-  const [openSettingDialogue, setOpenSettingDialogue] = useState(false);
-  const handleSetting = (event) => {
-    event.preventDefault();
-    if (openSettingDialogue == true) {
-      setOpenSettingDialogue(false);
-    } else {
-      setOpenSettingDialogue(true);
-      handleMenuClose();
-    }
-  };
-  
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -83,9 +69,8 @@ export default function Navbar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Go to Profile</MenuItem>
-      <MenuItem onClick={handleSetting}>Settings</MenuItem>
       <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
+      <MenuItem onClick={handleMenuClose}>Go to Profile</MenuItem>
     </Menu>
   );
 
@@ -108,18 +93,10 @@ export default function Navbar() {
             aria-haspopup="true"
             onClick={handleProfileMenuOpen}
           >
-            <Avatar 
-              alt="Profile Pic" 
-              src={
-                  imageUrl ? imageUrl 
-                  : 'https://dealsmateprofilepic.s3.us-east-2.amazonaws.com/mr-anonymous.png'
-                } 
-              className={classes.avatar}
-            />
+            <Avatar alt="Remy Sharp" src={avatar} className={classes.avatar} />
             Profile
           </Button>
         </Toolbar>
-        {openSettingDialogue ? <UserSetting {...{ handleSetting, openSettingDialogue }}/> : null}
       </AppBar>
       {renderMenu}
     </div>

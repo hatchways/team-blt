@@ -4,13 +4,14 @@ import { theme } from "./themes/theme";
 import "./App.css";
 import { AuthProvider } from "./context/context";
 import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
-import UserDashboard from "./pages/UserDashboard";
 import ProtectedRoute from "./routes/ProtectedRoute"
+import LandingPage from './pages/Landing';
 import Login from "./pages/SignIn";
 import LoginRoute from "./routes/LoginRoute";
 import SignUpRoute from "./routes/SignUpRoute";
 import SignUp from "./pages/SignUp";
-import UserContext from "./context/UserContext";
+import Friends from "./features/Friends";
+import Navbar from "./components/header/Navbar";
 
 function App() {
   return (
@@ -19,19 +20,21 @@ function App() {
         <BrowserRouter>
           <Switch>
             <LoginRoute
-              path={'/login'}
+              path={'/login' || '/signup'}
               component={Login}
             />
             <SignUpRoute
               path={'/signup'}
               component={SignUp}
             />
-            <UserContext>
-              <ProtectedRoute
-                path={'/'}
-                component={UserDashboard}
-              />
-            </UserContext>
+            <ProtectedRoute
+              path={'/'}
+              component={LandingPage}
+            />
+            <ProtectedRoute
+              path={'/friends'}
+              component={SignUp}
+            />
           </Switch>
         </BrowserRouter>
       </AuthProvider>

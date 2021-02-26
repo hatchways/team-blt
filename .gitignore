@@ -32,5 +32,3 @@ server.env
 
 
 server/.env
-client/.env
-client/src/.env
