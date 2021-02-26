@@ -1,10 +1,12 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
+import {
+  Tabs,
+  Tab,
+  Paper
+} from "@material-ui/core";
+import FriendCard from "./FriendCard";
+
 const useStyles = makeStyles((theme) => ({
   container: {
     display: "flex",
@@ -12,7 +14,6 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     marginTop: "3rem",
   },
-
 }));
 
 const Friends = (props) => {
@@ -37,7 +38,7 @@ const Friends = (props) => {
         <Tab label="SUGGESTED"/>
       </Tabs>
       {selectTab === 0 && 'following'}
-      {selectTab === 1 && 'suggested'}
+      {selectTab === 1 && <FriendCard/>}
     </Paper>
   );
 };
