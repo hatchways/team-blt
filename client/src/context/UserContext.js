@@ -1,4 +1,4 @@
-// This code is currently not in use. Delete this code at a future date.
+// This code is currently not in use.
 
 import React, { useState, createContext, useEffect } from 'react';
 import { useAuthState } from './context';
