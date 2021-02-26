@@ -1,4 +1,3 @@
-
 let email = localStorage.getItem('email')
 	? JSON.parse(localStorage.getItem('email'))
 	: '';
@@ -59,12 +58,9 @@ export const AuthReducer = (initialState, action) => {
 			};
 
 		case 'UPDATE_PRODUCTS_LISTS':
-			const lists = initialState.list_of_products.map(list => {
-				return [...list, action.payload.list_of_products]
-			})
 			return {
 				...initialState,
-				list_of_products: lists
+				list_of_products: [...action.payload.list_of_products]
 			}
 		default:
 			throw new Error(`Unhandled action type: ${action.type}`);
