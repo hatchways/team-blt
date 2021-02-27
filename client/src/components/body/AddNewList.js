@@ -15,9 +15,12 @@ const useStyles = makeStyles((theme) => ({
     color: "#DF1B1B",
   },
   root: {
-    maxWidth: 250,
-    flexGrow: "1",
-    height: 325,
+    display: "flex",
+    margin: "auto",
+    width: "250px",
+    height: "350px",
+    marginRight: "1rem",
+    marginTop:"1rem",
   },
   media: {
     height: 250,
@@ -45,7 +48,7 @@ const AddNewList = () => {
             <Typography className={classes.AddIcon} variant="h1">
               +
             </Typography>
-            <Typography gutterBottom variant="caption">
+            <Typography gutterBottom variant="h6" >
               Add New List
             </Typography>
           </CardContent>
