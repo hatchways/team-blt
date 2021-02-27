@@ -23,7 +23,7 @@ export async function loginUser(dispatch, loginPayload) {
       const email = loginPayload.email;
       const token = Cookies.get(email);
       // Fetch the profile picture URL and the user's list of lists of products from the server
-      async function fetchData() {
+      async function fetchUserData() {
         const response = await fetch(`/users/${email}`, {
           method: "GET",
           headers: {
@@ -37,12 +37,30 @@ export async function loginUser(dispatch, loginPayload) {
         // Set the dispatch type to UPDATE_PROFILE_PIC and update the profile_pic value of the intialState object in reducer.js
         dispatch({ type: 'UPDATE_PROFILE_PIC', payload: {'profile_pic': user.profile_pic}});
         localStorage.setItem('profile_pic', JSON.stringify(user.profile_pic));
-        // Set the dispatch typ to UPDATE_PRODUCTS_LISTS and update the list_of_products value of the initial state objecti n reducer.js
-        dispatch({ type: 'UPDATE_PRODUCTS_LISTS', payload: {'list_of_products': user.list_of_products}});
-        localStorage.setItem('list_of_products', JSON.stringify(user.list_of_products));
       };
-      // Call the fetchData() function to fetch the user's data
-      fetchData()
+      /* 
+      Fetch the list of product lists from the /lists endpoint. This is done because the list_of_products
+      attribute of the user model in the server only contains each indiviual list's id, and not the components
+      of the list such as the list title and image url.
+      */
+      async function fetchLists() {
+        const response = await fetch('/lists', {
+          method: "GET",
+          headers: {
+            "Content-Type": "aplication/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(),
+        });
+        const lists = await response.json();
+
+        // Set the dispatch typ to UPDATE_PRODUCTS_LISTS and update the list_of_products value of the initial state objecti n reducer.js
+        dispatch({ type: 'UPDATE_PRODUCTS_LISTS', payload: {'list_of_products': lists}});
+        localStorage.setItem('list_of_products', JSON.stringify(lists));
+      }
+      // Call the fetchUserData() function to fetch the user's data and fetchLists() to fetch the lists data
+      fetchUserData()
+      fetchLists()
 
       // Set the dispatch type to LOGIN_SUCCESS and update the email and token of the initialState object in reducer.js
       dispatch({ type: 'LOGIN_SUCCESS', payload: {'email':email, 'token': token}});
