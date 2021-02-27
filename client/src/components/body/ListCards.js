@@ -9,37 +9,19 @@ import {
   Typography,
 } from "@material-ui/core";
 import AddNewList from "../../components/body/AddNewList";
-import clothes from "../../assets/images/5dfa173f119c57f532759914d338da28266bb292.png";
-import home from "../../assets/images/9ccdc92261774b8464089ca77e97c10d471aabc4.png";
-import tech from "../../assets/images/97aa298d2435a53db75c9e94be65246961a439aa.png";
-
-const defaultLists = [
-  {
-    name: "Home",
-    img: home,
-  },
-  {
-    name: "Technology",
-    img: tech,
-  },
-  {
-    name: "Clothes",
-    img: clothes,
-  },
-];
+import { useAuthState } from "../../context/context";
 
 const useStyles = makeStyles((theme) => ({
   cardContainer: {
     display: "flex",
     flexDirection: "row",
-  //  border: "1px solid green",
     justifyContent: "center",
     alignItems: "center",
     flexWrap: "wrap",
   },
   root: {
-    maxWidth: 200,
-    maxHeight: 340,
+    maxWidth: "200px",
+    maxHeight: "340px",
     flexGrow: "1",
     marginRight: "1rem",
     minWidth: 100,
@@ -55,32 +37,35 @@ const useStyles = makeStyles((theme) => ({
 
 const ListCards = () => {
   const classes = useStyles();
+  const currentUser = useAuthState();
 
   return (
       
       
-    <Grid className={classes.cardContainer}>
-        
-      {defaultLists.map((item, i) => (
-        <Card className={classes.root} key={item.name}>
+    <Grid className={classes.cardContainer}>    
+      {currentUser.list_of_products.map((list) => (
+        <Card className={classes.root} key={list._id.$oid}>
           <CardActionArea>
             <CardMedia
               className={classes.media}
-              image={item.img}
+              image={
+                list.cover_image_url ? list.cover_image_url 
+                : 'https://dealsmateprofilepic.s3.us-east-2.amazonaws.com/default-placeholder.png'
+              }
               title="Contemplative Reptile"
             />
             <CardContent className={classes.content}>
               <Typography gutterBottom>
-                {item.name}
+                {list.list_title}
               </Typography>
               <Typography gutterBottom variant="caption">
-                {Math.floor(1 + Math.random() * 9)} Items
+                {list.products.length} Items
               </Typography>
             </CardContent>
           </CardActionArea>
         </Card>
       ))}
-      <AddNewList/>
+      <AddNewList />
     </Grid>
   );
 };
