@@ -98,6 +98,7 @@ be the new value for the profile_pic attribute of the user object.
 */
 export async function updateProfilePic(dispatch, imageUrl) {
   dispatch({ type: 'UPDATE_PROFILE_PIC', payload: { 'profile_pic': imageUrl }});
+  localStorage.setItem('profile_pic', JSON.stringify(imageUrl))
 };
 
 /* 
