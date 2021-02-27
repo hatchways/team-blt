@@ -20,11 +20,9 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "wrap",
   },
   root: {
-    maxWidth: "200px",
-    maxHeight: "340px",
-    flexGrow: "1",
+    width: "250px",
+    height: "350px",
     marginRight: "1rem",
-    minWidth: 100,
     marginTop:"1rem",
   },
   media: {
@@ -55,7 +53,7 @@ const ListCards = () => {
               title="Contemplative Reptile"
             />
             <CardContent className={classes.content}>
-              <Typography gutterBottom>
+              <Typography gutterBottom variant="h6" >
                 {list.list_title}
               </Typography>
               <Typography gutterBottom variant="caption">
