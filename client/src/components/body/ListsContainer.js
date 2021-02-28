@@ -19,9 +19,9 @@ const ListsContainer = () => {
   return (
     <Grid className={classes.container}>
       <Grid item xs={3} className={classes.listLabel}>
-        <Typography variant="h6">
-          My Shopping Lists:
-        </Typography>
+      <Typography variant="h6">
+        My Shopping Lists:
+      </Typography>
       </Grid>
       <ListCards/>
     </Grid>
