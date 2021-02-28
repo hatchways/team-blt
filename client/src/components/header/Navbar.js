@@ -111,7 +111,7 @@ export default function Navbar() {
             <Avatar
               alt="Profile Pic"
               src={
-                  imageUrl ? imageUrl
+                  currentUser.profile_pic ? currentUser.profile_pic 
                   : 'https://dealsmateprofilepic.s3.us-east-2.amazonaws.com/mr-anonymous.png'
                 }
               className={classes.avatar}
