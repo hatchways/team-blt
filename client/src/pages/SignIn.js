@@ -6,14 +6,15 @@ import { TextField } from "formik-material-ui";
 import Modal from "react-modal";
 import { Link } from "react-router-dom";
 import { formStyles, modalStyles, signInStyles } from "../themes/theme";
-import {loginUser} from '../context/actions';
-import { useAuthDispatch } from '../context/context';
+import {loginUser} from '../actions';
+import {useAuthState, useAuthDispatch} from '../context/context';
 
 Modal.setAppElement("#root");
 
 function Login({ history }) {
   const [modalIsOpen, setModalIsOpen] = useState(true);
   const dispatch = useAuthDispatch();
+  const { login, errorMessage } = useAuthState();
 
   return (
     <Modal isOpen={modalIsOpen} style={modalStyles}>
@@ -38,11 +39,6 @@ function Login({ history }) {
           }}
           onSubmit={
             async(values) => {
-              /*
-              The user's login credentials that were entered in the login form
-              are passed into the loginUser function as the function's loginPayload
-              parameter.
-              */ 
               try{
                 await loginUser(dispatch, values)
                 return history.push('/')

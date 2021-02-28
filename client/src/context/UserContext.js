@@ -1,5 +1,3 @@
-// This code is currently not in use.
-
 import React, { useState, createContext, useEffect } from 'react';
 import { useAuthState } from './context';
 
@@ -35,7 +33,6 @@ function UserContext({ children }) {
           body: JSON.stringify(),
         });
         const user = await response.json(); 
-        //console.log(user)
         setImageUrl(user.profile_pic)
       }
       // Run only if the user is logged in
@@ -43,7 +40,7 @@ function UserContext({ children }) {
         fetchData();
       }   
     }, []);
-    //console.log(imageUrl)
+    console.log(imageUrl)
 
     return (
         <UserModel.Provider value={imageContextValues}>
