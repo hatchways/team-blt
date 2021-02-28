@@ -12,20 +12,29 @@ import {
   Collapse,
   Avatar,
   IconButton,
+  Button,
   Typography
 } from "@material-ui/core";
 
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 345,
+    width: 600,
+    height: 150,
   },
-  media: {
-    height: 0,
-    paddingTop: '56.25%', // 16:9
+  header: {
+    alignItems: "center",
   },
   avatar: {
     backgroundColor: red[500],
+  },
+  button: {
+    borderRadius: "10rem",
+    backgroundColor: "#DF1B1B",
+    color: "white",
+    width: "6rem",
+    height: "3rem",
+    marginTop:"2.5rem",
   },
 }));
 
@@ -33,22 +42,27 @@ export default function FriendCard() {
   const classes = useStyles();
   const [follow, setFollow] = React.useState(false);
 
-  const handleExpandClick = () => {
+  const handleFollowClick = () => {
     setFollow(!follow);
   };
 
   return (
     <Card className={classes.root}>
       <CardHeader
+        className={classes.header}
         avatar={
           <Avatar aria-label="profile image" className={classes.avatar}>
             img
           </Avatar>
         }
         action={
-          <IconButton aria-label="settings">
-            <FavoriteIcon />
-          </IconButton>
+          <Button
+            onClick={handleFollowClick}
+            className={classes.button}
+            variant="contained"
+          >
+            Follow
+          </Button>
         }
         title="User Name"
       />
