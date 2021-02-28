@@ -5,7 +5,7 @@ import {
   Tab,
   Paper
 } from "@material-ui/core";
-import FriendPage from "./FriendPage";
+import FriendCard from "./FriendCard";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -38,7 +38,7 @@ const Friends = (props) => {
         <Tab label="SUGGESTED"/>
       </Tabs>
       {selectTab === 0 && 'following'}
-      {selectTab === 1 && <FriendPage/>}
+      {selectTab === 1 && <FriendCard/>}
     </Paper>
   );
 };
