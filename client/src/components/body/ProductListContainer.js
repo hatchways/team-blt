@@ -8,7 +8,6 @@ import {
   DialogContent,
   DialogActions,
 } from "@material-ui/core";
-import Image from "material-ui-image";
 import { makeStyles } from "@material-ui/core/styles";
 import { useAuthState } from "../../context/context";
 import Product from "./Product";
@@ -16,17 +15,20 @@ import Product from "./Product";
 const useStyles = makeStyles((theme) => ({
   dialog: {
     display: "flex",
-    justifyContent: "center",
+    flexDirection: "column",
     textAlign: "center",
     margin: "auto",
-    width: "500px",   
+    padding: "50px",
+    width: "100%",
+    height: "80vh",   
   },
   subtitle: {
       color: "#9b9a9a"
   },
   button: {
       justifyContent: "center",
-      margin: "auto"
+      width: "200px",
+      margin: "auto",
   }
 }));
 
@@ -40,8 +42,7 @@ function ProductListContainer({
     const classes = useStyles();
     const [listOfProducts, setListOfProducts] = useState([]);
     const currentUser = useAuthState();
-    
-    console.log(listTitle)
+
     useEffect(() => {
         async function fetchListOfProducts() {
             const response = await fetch(`/lists/${listTitle}/products`, {
@@ -62,32 +63,36 @@ function ProductListContainer({
 
     return (
         <Dialog
-        open={openList}
-        onClose={handleList}
-        classes={{ paper: classes.dialog }}
+            open={openList}
+            onClose={handleList}
+            classes={{ paper: classes.dialog }}
         >
-            <DialogTitle disableTypography>
-                <Typography variant="h5">{listTitle}</Typography>
-            </DialogTitle>
+            <Typography variant="h4">{listTitle}</Typography>
+            <Typography 
+                variant="subtitle1" 
+                className={classes.subtitle}
+            >
+                {numberOfProducts} items
+            </Typography>
             <DialogContent>
-                <Typography 
-                    variant="subtitle1" 
-                    className={classes.subtitle}
-                >
-                    {numberOfProducts} items
-                </Typography>
                 {listOfProducts.map((product) => (
-                    <Product key={product._id.$oid} productName={product.product_name}/>
+                    <Product 
+                        key={product._id.$oid} 
+                        productName={product.product_name}
+                        url={product.url}
+                        price={product.price}
+                        image={product.product_image}
+                        listTitle={listTitle}
+                    />
                 ))}
             </DialogContent>
             <DialogActions>
                 <Button 
                     variant="contained" 
-                    size="large" 
                     color="primary"
                     className={classes.button}
                 >
-                Add Item
+                Add New Item
                 </Button>
             </DialogActions>
         </Dialog>
