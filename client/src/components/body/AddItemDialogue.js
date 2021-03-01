@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {
   Box,
   Typography,
@@ -63,8 +63,33 @@ const useStyles = makeStyles((theme) => ({
 const AddItemDialogue = (props) => {
   const classes = useStyles();
   const { openDialogue, closeDialogue } = props;
+  
+
+  //Test code starts  
+    const [inputLink, setInputLink] = useState("");
+    const [item, setItem] = useState({});
+
+
+    const getItem = async (input) => {
+        const response = await fetch("/scrape", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ url: input })
+        });
+        return response.json();
+    };
+  //Test Code ends
+
   const addButtonClick = async (e) => {
-    closeDialogue();
+    //closeDialogue();
+    if (inputLink.length > 0) {
+      //openPopup();
+      const newItem = await getItem(inputLink);
+      setItem(newItem);
+      setInputLink("");      
+  }
+  let message = item.short_URL +"\n" +item.id + "\n" +item.name + "\n"+ item.image + "\n" + item.price;
+  alert(message);  
   };
 
   return (
@@ -84,6 +109,8 @@ const AddItemDialogue = (props) => {
               placeholder="Paste your Link here"
               disableUnderline
               className={classes.pasteLink}
+              value={inputLink}
+              onChange={(e) => setInputLink(e.target.value)}
             />
           </Box>
           <Box className={classes.boxSelect}>
