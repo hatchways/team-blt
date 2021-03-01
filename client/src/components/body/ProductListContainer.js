@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from "react";
 import {
-  Box,
   Typography,
   Button,
   Dialog,
-  DialogTitle,
   DialogContent,
   DialogActions,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { useAuthState } from "../../context/context";
+import { useAuthDispatch, useAuthState } from "../../context/context";
 import Product from "./Product";
+import { updateProductsLists } from "../../context/actions";
 
 const useStyles = makeStyles((theme) => ({
   dialog: {
@@ -42,6 +41,7 @@ function ProductListContainer({
     const classes = useStyles();
     const [listOfProducts, setListOfProducts] = useState([]);
     const currentUser = useAuthState();
+    const dispatch = useAuthDispatch();
 
     useEffect(() => {
         async function fetchListOfProducts() {
@@ -57,7 +57,7 @@ function ProductListContainer({
             setListOfProducts(list);
         }
         fetchListOfProducts();
-    }, [listTitle])
+    }, [currentUser])
 
     console.log(listOfProducts)
 
@@ -83,6 +83,22 @@ function ProductListContainer({
                         price={product.price}
                         image={product.product_image}
                         listTitle={listTitle}
+                        deleteProduct={async () => {
+                            const response = await fetch(`/lists/${listTitle}/products/${product.product_name}`, {
+                                method: "DELETE",
+                                headers: {
+                                    "Content-Type": "aplication/json",
+                                    Authorization: `Bearer ${currentUser.token}`,
+                                },
+                                body: JSON.stringify(),
+                            })
+                            /* 
+                            A new list of product lists is retrieved after the deletion of a product. The new list
+                            is then used to overwrite the existing list of product lists.
+                            */ 
+                            const list = await response.json();
+                            updateProductsLists(dispatch, list)
+                        }}
                     />
                 ))}
             </DialogContent>
