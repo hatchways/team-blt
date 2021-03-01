@@ -1,5 +1,6 @@
 from db import db
 from .user import *
+from .list import *
 
 class Product(db.Document):
     product_name = db.StringField(required=True)
@@ -8,3 +9,4 @@ class Product(db.Document):
     price = db.FloatField(required=True)
     added_by = db.ReferenceField('User')
     in_list = db.ReferenceField('List')
+
