@@ -13,7 +13,6 @@ import { createBrowserHistory } from 'history';
 import MenuTabs from "./MenuTabs";
 import {Menu, MenuItem} from "@material-ui/core/"
 import { UserModel } from "../../context/UserContext";
-import { useAuthState } from "../../context/context";
 
 const useStyles = makeStyles((theme) => ({
   root: {
