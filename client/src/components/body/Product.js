@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
 })
 )
 
-function Product({ productName, url, price, image, listTitle }) {
+function Product({ productName, url, price, image, deleteProduct }) {
     const classes = useStyles()
 
     return (
@@ -63,6 +63,7 @@ function Product({ productName, url, price, image, listTitle }) {
                         variant="outlined" 
                         size="large"
                         className={classes.button}
+                        onClick={deleteProduct}
                     >
                         Remove
                     </Button>
