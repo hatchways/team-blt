@@ -28,7 +28,7 @@ const Friends = (props) => {
     <Paper className={classes.container}>
       <h2>Friends</h2>
       <Tabs
-        value={"FRIENDS"}
+        value={selectTab}
         onChange={handleChange}
         indicatorColor="primary"
         textColor="primary"

@@ -2,6 +2,8 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from 'clsx';
 import { red } from '@material-ui/core/colors';
+import { followFriends, getFriends } from '../context/actions';
+import { useAuthDispatch } from '../context/context';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import {
   Card,
@@ -38,13 +40,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function FriendCard() {
+export default function FriendCard({friendname, image}) {
   const classes = useStyles();
   const [follow, setFollow] = React.useState(false);
+  const email = JSON.parse(localStorage.getItem('email'));
+  const token = JSON.parse(localStorage.getItem('token'));
+  const dispatch = useAuthDispatch();
 
-  const handleFollowClick = () => {
-    setFollow(!follow);
+  const handleFollowClick = async() => {
+
+    await getFriends(dispatch, email, token)
+    await followFriends(dispatch, email, token, friendname)
+
   };
+
+
 
   return (
     <Card className={classes.root}>
@@ -52,7 +62,7 @@ export default function FriendCard() {
         className={classes.header}
         avatar={
           <Avatar aria-label="profile image" className={classes.avatar}>
-            img
+            image
           </Avatar>
         }
         action={
@@ -64,7 +74,7 @@ export default function FriendCard() {
             Follow
           </Button>
         }
-        title="User Name"
+        title={friendname}
       />
     </Card>
   );

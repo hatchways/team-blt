@@ -3,9 +3,9 @@ import Cookies from 'js-cookie';
 // Authentication actions used by the AuthReducer function in reducer.js
 
 /*
-The loginUser function's dispatch parameter takes an object that 
+The loginUser function's dispatch parameter takes an object that
 sets the action type for the AuthReducer function. The loginPayload
-parameter is an object of the user's login credentials. 
+parameter is an object of the user's login credentials.
  */
 export async function loginUser(dispatch, loginPayload) {
   const requestOptions = {
@@ -32,7 +32,7 @@ export async function loginUser(dispatch, loginPayload) {
           },
           body: JSON.stringify(),
         });
-        const user = await response.json(); 
+        const user = await response.json();
 
         // Set the dispatch type to UPDATE_PROFILE_PIC and update the profile_pic value of the intialState object in reducer.js
         dispatch({ type: 'UPDATE_PROFILE_PIC', payload: {'profile_pic': user.profile_pic}});
@@ -62,7 +62,7 @@ export async function loginUser(dispatch, loginPayload) {
 /*
 The logout function's dispatch parameter sets the action type to 'LOGOUT'.
 The user's authentication credentials are then removed from the local
-storage. 
+storage.
 */
 export async function logout(dispatch) {
   dispatch({ type: 'LOGOUT' });
@@ -73,7 +73,59 @@ export async function logout(dispatch) {
   localStorage.removeItem('list_of_products');
 }
 
-/* 
+export async function getFriends(dispatch, email, token) {
+  async function fetchData() {
+    const response = await fetch(`/users/${email}/friends`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "aplication/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(),
+    });
+    const user = await response.json();
+    console.log(user)
+
+    dispatch({ type: 'UPDATE_FRIENDS', payload: {'friends': user.friends}});
+
+  };
+  fetchData();
+
+}
+
+export async function followFriends(dispatch, email, token, friend) {
+  async function fetchData() {
+    const data = {
+      friends: friend
+    }
+
+    console.log(data);
+    const response = await fetch(`/users/${email}/friends`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "aplication/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    });
+    const user = await response.json();
+    console.log(user)
+
+    dispatch({ type: 'UPDATE_FRIENDS', payload: {'friends': user.friends}});
+
+  };
+  fetchData();
+
+
+}
+
+export async function unfollowFriends(dispatch) {
+
+}
+
+
+
+/*
 The updateProfilPic function's dispatch parameter sets the action type to
 'UPDATE_PROFILE_PIC'. The updated image url from UserSetting.js will then
 be the new value for the profile_pic attribute of the user object.
@@ -82,7 +134,7 @@ export async function updateProfilePic(dispatch, imageUrl) {
   dispatch({ type: 'UPDATE_PROFILE_PIC', payload: { 'profile_pic': imageUrl }});
 };
 
-/* 
+/*
 The updateProductsLists function's dispatch parameter sets the action type
 to 'UPDATE_PRODUCTS_LISTS'. When the user adds a new list, the list_of_products
 attribute's list will be updated to include the new list.

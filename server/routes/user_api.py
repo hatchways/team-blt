@@ -28,20 +28,49 @@ class UserApi(Resource):
         user = User.objects.get(email=user_id)
         body=request.get_json()
         user.update(**body)
-        return '', 200
+        return Response(user.to_json(), mimetype="application/json", status=200)
 
     @jwt_required()
     def delete(self, email):
         user_id = get_jwt_identity()
-        if email == user_id:
-            user = User.objects.get(email=user_id)
-            user.delete()
-            return '', 200
+        user = User.objects.get(email=user_id)
+        user.delete()
+        return 'User has been deleted', 200
 
     @jwt_required()
     def get(self, email):
-        user = User.objects.get(email=email).to_json()
-        return Response(user, mimetype="application/json", status=200)
+        user_id = get_jwt_identity()
+        user = User.objects.get(email=user_id)
+        return Response(user.to_json(), mimetype="application/json", status=200)
+
+class FriendApi(Resource):
+    @jwt_required()
+    def put(self, email):
+        user_id = get_jwt_identity()
+        user = User.objects.get(email=user_id)
+        body = request.get_json()
+        friend = body.get('friends')
+        print(friend)
+        if friend not in user.friends:
+            user.friends.append(friend)
+            user.save()
+        return Response(user.to_json(), mimetype="application/json", status=200)
+
+    @jwt_required()
+    def delete(self, email):
+        user_id = get_jwt_identity()
+        user = User.objects.get(email=user_id)
+        body = request.get_json()
+        friend = body.get('friends')
+        user.update(pull__friends=friend)
+        user.save()
+        return Response(user.to_json(), mimetype="application/json", status=200)
+
+    @jwt_required()
+    def get(self, email):
+        user_id = get_jwt_identity()
+        user = User.objects.get(email=user_id)
+        return Response(user.to_json(), mimetype="application/json", status=200)
 
 
 class SignupApi(Resource):

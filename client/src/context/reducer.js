@@ -13,21 +13,25 @@ let profile_pic = localStorage.getItem('profile_pic')
 let list_of_products = localStorage.getItem('list_of_products')
 	? JSON.parse(localStorage.getItem('list_of_products'))
 	: [];
-	
+let friends = localStorage.getItem('friends')
+	? JSON.parse(localStorage.getItem('friends'))
+	: [];
+
 export const initialState = {
 	email: email,
 	token: token,
 	profile_pic: profile_pic,
 	list_of_products: list_of_products,
 	login: login,
+	friends: friends,
 	errorMessage: null,
 };
 
 /*
 AuthReducer is a reducer function that takes in the initialState
-object and an action. The initialState object is updated based on 
+object and an action. The initialState object is updated based on
 the action's case. The types of actions that are passed into this
-function can be found in the action.js file. 
+function can be found in the action.js file.
 */
 export const AuthReducer = (initialState, action) => {
 	switch (action.type) {
@@ -48,9 +52,15 @@ export const AuthReducer = (initialState, action) => {
 				...initialState,
 				email: '',
 				token: '',
-        		login: false,
+        login: false,
 			};
-		
+		case 'UPDATE_FRIENDS':
+			return {
+				...initialState,
+				friends: action.payload.friends,
+				login: true,
+			}
+
 		case 'UPDATE_PROFILE_PIC':
 			return {
 				...initialState,

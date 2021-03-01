@@ -17,9 +17,9 @@ const FriendPage = (props) => {
 
   return (
     <Paper className={classes.container}>
-      <FriendCard/>
-      <FriendCard/>
-      <FriendCard/>
+      <FriendCard friendname = {"user1@user.com"} image = {"img"}/>
+      <FriendCard friendname = {"user2@user.com"} image = {"img"}/>
+      <FriendCard friendname = {"user3@user.com"} image = {"img"}/>
     </Paper>
   );
 };
