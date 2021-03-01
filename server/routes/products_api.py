@@ -23,14 +23,27 @@ class ProductsListApi(Resource):
             user = User.objects.get(email=user_id)
             # Retrieve one of the user's list based on the list title.
             if list_title:
-                list_of_products = List.objects.get(list_title=list_title, added_by=user).to_json()
+                list_of_products = List.objects.get(
+                    list_title=list_title, added_by=user).to_json()
             # Retrieve all of the lists the user created
             else:
                 list_of_products = List.objects(added_by=user).to_json()
             return Response(list_of_products, mimetype="application/json", status=200)
         except:
             return 'Unable to find the list.'
-    
+
+    # Updating a list of products' name and/or cover image
+    @jwt_required()
+    def put(self, list_title):
+        user_id = get_jwt_identity()
+        user = User.objects.get(email=user_id)
+        # Retrieve the list the user is trying to edit
+        list_of_products = List.objects.get(
+            list_title=list_title, added_by=user)
+        body = request.get_json()
+        list_of_products.update(**body)
+        return "List has been updated.", 200
+
     # Create a new list of products
     @jwt_required()
     def post(self):
@@ -50,13 +63,22 @@ class ProductsListApi(Resource):
     # Delete a list of products
     @jwt_required()
     def delete(self, list_title):
-        user_id = get_jwt_identity()
-        user = User.objects.get(email=user_id)
-        list_of_products = List.objects(list_title=list_title, added_by=user)
-        list_of_products.delete()
-        return 'Your list has been deleted.', 200
+        try:
+            user_id = get_jwt_identity()
+            user = User.objects.get(email=user_id)
+            list_of_products = List.objects.get(list_title=list_title, added_by=user)
+            # Delete the products within the list
+            product = Product.objects(added_by=user, in_list=list_of_products)
+            product.delete()
+            # Delete the list
+            list_of_products.delete()
+            return 'Your list has been deleted.', 200
+        except:
+            return 'Unable to find your list.'
 
 # Individual products
+
+
 class ProductApi(Resource):
     # Add a product in an existing list of products
     @jwt_required()
@@ -66,7 +88,7 @@ class ProductApi(Resource):
             body = request.get_json()
             user = User.objects.get(email=user_id)
             user_list = List.objects.get(list_title=list_title, added_by=user)
-            product = Product(**body, added_by=user)
+            product = Product(**body, added_by=user, in_list=user_list)
             product.save()
             product_name = product.product_name
             user_list.update(push__products=product)
@@ -81,8 +103,10 @@ class ProductApi(Resource):
         try:
             user_id = get_jwt_identity()
             user = User.objects.get(email=user_id)
-            list_of_products = List.objects.get(list_title=list_title, added_by=user).to_json()
-            product = Product.objects.get(product_name=product_name, added_by=user)
+            list_of_products = List.objects.get(
+                list_title=list_title, added_by=user).to_json()
+            product = Product.objects.get(
+                product_name=product_name, added_by=user)
             body = request.get_json()
             product.update(**body)
             return 'Product has been updated.', 200
@@ -91,11 +115,12 @@ class ProductApi(Resource):
 
     # Delete a product from its list
     @jwt_required()
-    def delete(self,list_title, product_name):
+    def delete(self, list_title, product_name):
         try:
             user_id = get_jwt_identity()
             user = User.objects.get(email=user_id)
-            list_of_products = List.objects.get(list_title=list_title, added_by=user).to_json()
+            list_of_products = List.objects.get(
+                list_title=list_title, added_by=user).to_json()
             product = Product.objects(product_name=product_name, added_by=user)
             product.delete()
             return 'Product has been deleted.', 200
@@ -108,14 +133,15 @@ class ProductApi(Resource):
         try:
             user_id = get_jwt_identity()
             user = User.objects.get(email=user_id)
-            list_of_products = List.objects.get(list_title=list_title, added_by=user).to_json()
+            list_of_products = List.objects.get(
+                list_title=list_title, added_by=user)
             # Retrieve one of the user's product based on the product name.
             if product_name:
-                product = Product.objects.get(product_name=product_name, added_by=user).to_json()
+                product = Product.objects.get(
+                    product_name=product_name, added_by=user, in_list=list_of_products).to_json()
             # Retrieve all of the products in the user's specified list.
-            else: 
-                product = Product.objects(added_by=user).to_json()
+            else:
+                product = Product.objects(added_by=user, in_list=list_of_products).to_json()
             return Response(product, mimetype="application/json", status=200)
         except:
-            return 'Unable to find your product.'
-        
+            return 'Unable to find your product(s).'
