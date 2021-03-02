@@ -4,7 +4,6 @@ import Image from "material-ui-image";
 
 const useStyles = makeStyles(theme => ({
     container: {
-        marginTop: "20px",
         marginBottom: "20px",
         padding: "10px"
     },
