@@ -31,6 +31,7 @@ const ListCards = () => {
           listTitle={list.list_title}
           cover_image_url={list.cover_image_url}
           numberOfProducts={list.products.length}
+          privateList={list.private}
         />
       ))}
       <AddNewList />
