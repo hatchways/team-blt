@@ -49,6 +49,10 @@ function ProductListContainer({
     const currentUser = useAuthState();
     const dispatch = useAuthDispatch();
 
+    /*
+    The list of of products is fetched from the server on first render of the product list container
+    and when the currentUser object is updated and changed.
+    */
     useEffect(() => {
         async function fetchListOfProducts() {
             const response = await fetch(`/lists/${listTitle}/products`, {
