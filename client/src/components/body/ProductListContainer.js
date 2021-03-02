@@ -1,32 +1,39 @@
 import React, { useState, useEffect } from "react";
 import {
-  Box,
   Typography,
   Button,
   Dialog,
-  DialogTitle,
   DialogContent,
   DialogActions,
 } from "@material-ui/core";
-import Image from "material-ui-image";
 import { makeStyles } from "@material-ui/core/styles";
-import { useAuthState } from "../../context/context";
+import { useAuthDispatch, useAuthState } from "../../context/context";
 import Product from "./Product";
+import { updateProductsLists } from "../../context/actions";
+import "../../themes/scrollbar.css";
 
 const useStyles = makeStyles((theme) => ({
   dialog: {
     display: "flex",
-    justifyContent: "center",
+    flexDirection: "column",
     textAlign: "center",
     margin: "auto",
-    width: "500px",   
+    padding: "50px",
+    width: "100%",
+    height: "70vh",   
   },
   subtitle: {
       color: "#9b9a9a"
   },
+  productList: {
+    paddingTop: "1",
+    marginTop: "1rem"
+  },
   button: {
       justifyContent: "center",
-      margin: "auto"
+      width: "200px",
+      margin: "auto",
+      marginTop: "50px",
   }
 }));
 
@@ -40,8 +47,12 @@ function ProductListContainer({
     const classes = useStyles();
     const [listOfProducts, setListOfProducts] = useState([]);
     const currentUser = useAuthState();
-    
-    console.log(listTitle)
+    const dispatch = useAuthDispatch();
+
+    /*
+    The list of of products is fetched from the server on first render of the product list container
+    and when the currentUser object is updated and changed.
+    */
     useEffect(() => {
         async function fetchListOfProducts() {
             const response = await fetch(`/lists/${listTitle}/products`, {
@@ -56,38 +67,56 @@ function ProductListContainer({
             setListOfProducts(list);
         }
         fetchListOfProducts();
-    }, [listTitle])
-
-    console.log(listOfProducts)
+    }, [currentUser])
 
     return (
         <Dialog
-        open={openList}
-        onClose={handleList}
-        classes={{ paper: classes.dialog }}
+            open={openList}
+            onClose={handleList}
+            classes={{ paper: classes.dialog }}
         >
-            <DialogTitle disableTypography>
-                <Typography variant="h5">{listTitle}</Typography>
-            </DialogTitle>
-            <DialogContent>
-                <Typography 
-                    variant="subtitle1" 
-                    className={classes.subtitle}
-                >
-                    {numberOfProducts} items
-                </Typography>
+            <Typography variant="h4">{listTitle}</Typography>
+            <Typography 
+                variant="subtitle1" 
+                className={classes.subtitle}
+            >
+                {numberOfProducts} items
+            </Typography>
+            <DialogContent className="product" classes={{root: classes.productList}}>
                 {listOfProducts.map((product) => (
-                    <Product key={product._id.$oid} productName={product.product_name}/>
+                    <Product 
+                        key={product._id.$oid} 
+                        productName={product.product_name}
+                        url={product.url}
+                        price={product.price}
+                        image={product.product_image}
+                        listTitle={listTitle}
+                        deleteProduct={async () => {
+                            const response = await fetch(`/lists/${listTitle}/products/${product.product_name}`, {
+                                method: "DELETE",
+                                headers: {
+                                    "Content-Type": "aplication/json",
+                                    Authorization: `Bearer ${currentUser.token}`,
+                                },
+                                body: JSON.stringify(),
+                            })
+                            /* 
+                            A new list of product lists is retrieved after the deletion of a product. The new list
+                            is then used to overwrite the existing list of product lists.
+                            */ 
+                            const list = await response.json();
+                            updateProductsLists(dispatch, list)
+                        }}
+                    />
                 ))}
             </DialogContent>
             <DialogActions>
                 <Button 
                     variant="contained" 
-                    size="large" 
                     color="primary"
                     className={classes.button}
                 >
-                Add Item
+                Add New Item
                 </Button>
             </DialogActions>
         </Dialog>

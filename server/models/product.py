@@ -10,3 +10,4 @@ class Product(db.Document):
     added_by = db.ReferenceField('User')
     in_list = db.ReferenceField('List')
 
+Product.register_delete_rule(List, "products", db.PULL)
