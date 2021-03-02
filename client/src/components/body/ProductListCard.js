@@ -25,16 +25,16 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-function ProductListCard({ listTitle, cover_image_url, numberOfProducts }) {
+function ProductListCard({ listTitle, cover_image_url, numberOfProducts, privateList }) {
     const classes = useStyles();
     // Handling product list modal
     const [openList, setOpenList] = useState(false)
     const handleList = (event) => {
         event.preventDefault();
         if (openList) {
-        setOpenList(false);
+          setOpenList(false);
         } else {
-        setOpenList(true);
+          setOpenList(true);
         }
     };
 
@@ -65,6 +65,7 @@ function ProductListCard({ listTitle, cover_image_url, numberOfProducts }) {
                 numberOfProducts={numberOfProducts} 
                 handleList={handleList}
                 openList={openList}
+                privateList={privateList}
             /> : null}
         </>
     )
