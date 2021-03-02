@@ -20,15 +20,20 @@ const useStyles = makeStyles((theme) => ({
     margin: "auto",
     padding: "50px",
     width: "100%",
-    height: "80vh",   
+    height: "70vh",   
   },
   subtitle: {
       color: "#9b9a9a"
+  },
+  productList: {
+    paddingTop: "1",
+    marginTop: "1rem"
   },
   button: {
       justifyContent: "center",
       width: "200px",
       margin: "auto",
+      marginTop: "50px",
   }
 }));
 
@@ -60,8 +65,6 @@ function ProductListContainer({
         fetchListOfProducts();
     }, [currentUser])
 
-    console.log(listOfProducts)
-
     return (
         <Dialog
             open={openList}
@@ -75,7 +78,7 @@ function ProductListContainer({
             >
                 {numberOfProducts} items
             </Typography>
-            <DialogContent className="product">
+            <DialogContent className="product" classes={{root: classes.productList}}>
                 {listOfProducts.map((product) => (
                     <Product 
                         key={product._id.$oid} 
