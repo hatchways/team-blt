@@ -10,7 +10,7 @@ const UserDashboard = () => {
   return (
     <div>
       <Navbar />
-      <Route path="/shopping" exact component={ShoppingLists} />
+      <ShoppingLists />
       <Route path="/friends" component={Friends} />
       <Route path="/notifications" component={Notifications} />
     </div>
