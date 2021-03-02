@@ -2,7 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from 'clsx';
 import { red } from '@material-ui/core/colors';
-import { followFriends, getFriends } from '../context/actions';
+import { followFriends, getFriends, unfollowFriends } from '../context/actions';
 import { useAuthDispatch } from '../context/context';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import {
@@ -43,15 +43,12 @@ const useStyles = makeStyles((theme) => ({
 export default function FriendCard({friendname, image}) {
   const classes = useStyles();
   const [follow, setFollow] = React.useState(false);
-  const email = JSON.parse(localStorage.getItem('email'));
   const token = JSON.parse(localStorage.getItem('token'));
   const dispatch = useAuthDispatch();
 
-  const handleFollowClick = async() => {
-
-    await getFriends(dispatch, email, token)
-    await followFriends(dispatch, email, token, friendname)
-
+  const handleFollowClick = (e) => {
+    setFollow(e);
+    followFriends(dispatch, token, friendname);
   };
 
 
@@ -67,6 +64,7 @@ export default function FriendCard({friendname, image}) {
         }
         action={
           <Button
+            value={follow}
             onClick={handleFollowClick}
             className={classes.button}
             variant="contained"

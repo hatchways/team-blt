@@ -45,29 +45,29 @@ class UserApi(Resource):
 
 class FriendApi(Resource):
     @jwt_required()
-    def put(self, email):
+    def put(self):
         user_id = get_jwt_identity()
         user = User.objects.get(email=user_id)
-        body = request.get_json()
+        body = request.get_json(force=True)
         friend = body.get('friends')
-        print(friend)
+
         if friend not in user.friends:
             user.friends.append(friend)
             user.save()
         return Response(user.to_json(), mimetype="application/json", status=200)
 
     @jwt_required()
-    def delete(self, email):
+    def delete(self):
         user_id = get_jwt_identity()
         user = User.objects.get(email=user_id)
-        body = request.get_json()
+        body = request.get_json(force=True)
         friend = body.get('friends')
         user.update(pull__friends=friend)
         user.save()
         return Response(user.to_json(), mimetype="application/json", status=200)
 
     @jwt_required()
-    def get(self, email):
+    def get(self):
         user_id = get_jwt_identity()
         user = User.objects.get(email=user_id)
         return Response(user.to_json(), mimetype="application/json", status=200)
