@@ -12,16 +12,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const FriendPage = (props) => {
+const friends = JSON.parse(localStorage.getItem('friends'));
+
+const Following = (props) => {
   const classes = useStyles();
 
   return (
     <Paper className={classes.container}>
-      <FriendCard friendname = {"user1@user.com"} image = {"img"}/>
-      <FriendCard friendname = {"user2@user.com"} image = {"img"}/>
-      <FriendCard friendname = {"user3@user.com"} image = {"img"}/>
+      {friends.map((friend) =>
+        <FriendCard key={friend} friendname = {friend} image = {"img"} followstate = {1}/>
+      )}
     </Paper>
   );
 };
 
-export default FriendPage;
+export default Following;

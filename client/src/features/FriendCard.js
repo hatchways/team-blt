@@ -40,20 +40,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function FriendCard({friendname, image}) {
+export default function FriendCard({friendname, image, followstate}) {
   const classes = useStyles();
-  const [follow, setFollow] = React.useState(0);
+  const [follow, setFollow] = React.useState(followstate);
   const token = JSON.parse(localStorage.getItem('token'));
   const dispatch = useAuthDispatch();
 
   const handleFollowClick = () => {
+    setFollow(1);
     followFriends(dispatch, token, friendname);
-    console.log(follow);
   };
 
   const handleUnfollowClick = () => {
+    setFollow(0);
     unfollowFriends(dispatch, token, friendname);
-    console.log(follow);
   };
 
   function FollowButton(props) {

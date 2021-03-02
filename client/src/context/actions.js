@@ -71,6 +71,7 @@ export async function logout(dispatch) {
   localStorage.removeItem('login');
   localStorage.removeItem('profile_pic');
   localStorage.removeItem('list_of_products');
+  localStorage.removeItem('friends');
 }
 
 export async function getFriends(dispatch, token) {
@@ -87,6 +88,7 @@ export async function getFriends(dispatch, token) {
     console.log(user)
 
     dispatch({ type: 'UPDATE_FRIENDS', payload: {'friends': user.friends}});
+    localStorage.setItem('friends', JSON.stringify(user.friends));
 
   };
   fetchData();
@@ -111,6 +113,7 @@ export async function followFriends(dispatch, token, friend) {
     console.log(user);
 
     dispatch({ type: 'UPDATE_FRIENDS', payload: {'friends': user.friends}});
+    localStorage.setItem('friends', JSON.stringify(user.friends));
 
   };
   fetchData();
@@ -136,6 +139,7 @@ export async function unfollowFriends(dispatch, token, friend) {
     console.log(user);
 
     dispatch({ type: 'UPDATE_FRIENDS', payload: {'friends': user.friends}});
+    localStorage.setItem('friends', JSON.stringify(user.friends));
 
   };
   fetchData();
