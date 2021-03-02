@@ -39,8 +39,8 @@ class UserApi(Resource):
             return '', 200
 
     @jwt_required()
-    def get(self, email):
-        user = User.objects.get(email=email).to_json()
+    def get(self, id):
+        user = User.objects.get(id=id).to_json()
         return Response(user, mimetype="application/json", status=200)
 
 
