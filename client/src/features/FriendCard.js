@@ -42,16 +42,43 @@ const useStyles = makeStyles((theme) => ({
 
 export default function FriendCard({friendname, image}) {
   const classes = useStyles();
-  const [follow, setFollow] = React.useState(false);
+  const [follow, setFollow] = React.useState(0);
   const token = JSON.parse(localStorage.getItem('token'));
   const dispatch = useAuthDispatch();
 
-  const handleFollowClick = (e) => {
-    setFollow(e);
+  const handleFollowClick = () => {
     followFriends(dispatch, token, friendname);
+    console.log(follow);
   };
 
+  const handleUnfollowClick = () => {
+    unfollowFriends(dispatch, token, friendname);
+    console.log(follow);
+  };
 
+  function FollowButton(props) {
+    return (
+      <Button
+        onClick={props.onClick}
+        className={classes.button}
+        variant="contained"
+      >
+        Follow
+      </Button>
+    );
+  }
+
+  function UnfollowButton(props) {
+    return (
+      <Button
+        onClick={props.onClick}
+        className={classes.button}
+        variant="contained"
+      >
+        Unfollow
+      </Button>
+    );
+  }
 
   return (
     <Card className={classes.root}>
@@ -63,14 +90,9 @@ export default function FriendCard({friendname, image}) {
           </Avatar>
         }
         action={
-          <Button
-            value={follow}
-            onClick={handleFollowClick}
-            className={classes.button}
-            variant="contained"
-          >
-            Follow
-          </Button>
+          follow ?
+          <UnfollowButton onClick = {handleUnfollowClick}/> :
+          <FollowButton onClick = {handleFollowClick}/>
         }
         title={friendname}
       />
