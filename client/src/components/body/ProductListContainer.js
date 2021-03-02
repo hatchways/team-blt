@@ -10,6 +10,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useAuthDispatch, useAuthState } from "../../context/context";
 import Product from "./Product";
 import { updateProductsLists } from "../../context/actions";
+import "../../themes/scrollbar.css";
 
 const useStyles = makeStyles((theme) => ({
   dialog: {
@@ -74,7 +75,7 @@ function ProductListContainer({
             >
                 {numberOfProducts} items
             </Typography>
-            <DialogContent>
+            <DialogContent className="product">
                 {listOfProducts.map((product) => (
                     <Product 
                         key={product._id.$oid} 
