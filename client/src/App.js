@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Switch } from "react-router-dom";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { theme } from "./themes/theme";
 import "./App.css";
 import { AuthProvider } from "./context/context";
@@ -10,6 +10,7 @@ import Login from "./pages/SignIn";
 import LoginRoute from "./routes/LoginRoute";
 import SignUpRoute from "./routes/SignUpRoute";
 import SignUp from "./pages/SignUp";
+import FriendDashboard from "./components/body/friends/FriendDashboard";
 
 function App() {
   return (
@@ -25,10 +26,10 @@ function App() {
               path={'/signup'}
               component={SignUp}
             />
-            <ProtectedRoute
-              path={'/'}
-              component={UserDashboard}
-            />
+            <ProtectedRoute>
+              <Route exact path={'/'} component={UserDashboard} />
+              <Route exact path={'/users/friend'} component={FriendDashboard} />
+            </ProtectedRoute>
           </Switch>
         </BrowserRouter>
       </AuthProvider>
