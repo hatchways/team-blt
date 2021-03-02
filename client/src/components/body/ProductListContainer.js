@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     textAlign: "center",
     margin: "auto",
-    padding: "50px",
+    padding: "50px 50px 0 50px",
     width: "100%",
     height: "70vh",   
   },
@@ -29,11 +29,17 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: "1",
     marginTop: "1rem"
   },
-  button: {
-      justifyContent: "center",
+  actionContainer: {
+    display: "flex",
+    flexDirection: "column",
+  },
+  addButton: {
       width: "200px",
       margin: "auto",
       marginTop: "50px",
+  },
+  toggleButton: {
+    marginTop: "20px"
   }
 }));
 
@@ -42,6 +48,7 @@ function ProductListContainer({
     numberOfProducts, 
     openList, 
     handleList,  
+    privateList
 }) 
 {
     const classes = useStyles();
@@ -68,6 +75,20 @@ function ProductListContainer({
         }
         fetchListOfProducts();
     }, [currentUser])
+    
+    // This function toggles the list's privacy setting.
+    async function togglePrivate() {
+        const response = await fetch(`/lists/${listTitle}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${currentUser.token}`
+            },
+            body: JSON.stringify({ private: privateList ? false : true })
+        })
+        const list = await response.json();
+        updateProductsLists(dispatch, list)
+    }
 
     return (
         <Dialog
@@ -110,13 +131,26 @@ function ProductListContainer({
                     />
                 ))}
             </DialogContent>
-            <DialogActions>
+            <DialogActions className={classes.actionContainer}>
                 <Button 
                     variant="contained" 
                     color="primary"
-                    className={classes.button}
+                    className={classes.addButton}
                 >
                 Add New Item
+                </Button>
+                <Button
+                    variant="outlined"
+                    size="small"
+                    className={classes.toggleButton}
+                    style={privateList ? {
+                        backgroundColor: "#9b9a9a"
+                    } : {
+                        backgroundColor: "#FFFFFF"
+                    }}
+                    onClick={togglePrivate}
+                >
+                    {privateList ? "Private" : "Public"}
                 </Button>
             </DialogActions>
         </Dialog>
