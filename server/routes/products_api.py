@@ -32,7 +32,7 @@ class ProductsListApi(Resource):
         except:
             return 'Unable to find the list.'
 
-    # Updating a list of products' name and/or cover image
+    # Updating a list of products' private/public toggle.
     @jwt_required()
     def put(self, list_title):
         user_id = get_jwt_identity()
@@ -42,7 +42,8 @@ class ProductsListApi(Resource):
             list_title=list_title, added_by=user)
         body = request.get_json()
         list_of_products.update(**body)
-        return "List has been updated.", 200
+        new_list_of_products = List.objects(added_by=user).to_json()
+        return Response(new_list_of_products, mimetype="application/json", status=200)
 
     # Create a new list of products
     @jwt_required()
@@ -77,7 +78,6 @@ class ProductsListApi(Resource):
             return 'Unable to find your list.'
 
 # Individual products
-
 
 class ProductApi(Resource):
     # Add a product in an existing list of products
