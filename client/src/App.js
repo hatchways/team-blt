@@ -28,7 +28,7 @@ function App() {
             />
             <ProtectedRoute>
               <Route exact path={'/'} component={UserDashboard} />
-              <Route exact path={'/users/friend'} component={FriendDashboard} />
+              <Route exact path={'/users/:id'} component={FriendDashboard} />
             </ProtectedRoute>
           </Switch>
         </BrowserRouter>
