@@ -2,7 +2,7 @@ import { Button, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
 import React from 'react';
 import Image from "material-ui-image";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
     container: {
         marginBottom: "20px",
         padding: "10px"
@@ -53,7 +53,7 @@ function Product({ productName, url, price, image, otherUser, deleteProduct }) {
                             color: "#9b9a9a",
                         }}
                     >
-                        {url}
+                        <a href={"//"+url} target="_blank">{url}</a>
                     </Typography>
                     <Typography variant="subtitle2">${price}</Typography>
                 </Grid>
