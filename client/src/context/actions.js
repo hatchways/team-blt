@@ -1,4 +1,3 @@
-import { ListItem } from '@material-ui/core';
 import Cookies from 'js-cookie';
 
 // Authentication actions used by the AuthReducer function in reducer.js
@@ -25,7 +24,7 @@ export async function loginUser(dispatch, loginPayload) {
       const token = Cookies.get(email);
       // Fetch the profile picture URL and the user's list of lists of products from the server
       async function fetchUserData() {
-        const response = await fetch(`/users/${email}`, {
+        const response = await fetch(`/user`, {
           method: "GET",
           headers: {
             "Content-Type": "aplication/json",
