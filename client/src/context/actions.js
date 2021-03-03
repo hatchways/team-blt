@@ -72,6 +72,9 @@ export async function logout(dispatch) {
   localStorage.removeItem('profile_pic');
   localStorage.removeItem('list_of_products');
   localStorage.removeItem('friends');
+  localStorage.removeItem('randomUsers');
+  localStorage.removeItem('friendDetails');
+
 }
 
 export async function getFriends(dispatch, token) {
@@ -184,7 +187,8 @@ export async function getFriendDetails(myfriends) {
       body: JSON.stringify(input),
     });
     const friendDetails = await response.json();
-    
+    console.log(friendDetails);
+
     localStorage.setItem("friendDetails", JSON.stringify(friendDetails))
 
   };

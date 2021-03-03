@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import { red } from '@material-ui/core/colors';
 import { followFriends, getFriends, unfollowFriends } from '../context/actions';
 import { useAuthDispatch } from '../context/context';
+import { Redirect} from "react-router-dom";
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import {
   Card,
@@ -46,6 +47,10 @@ export default function FriendCard({friendemail, friendname, image, followstate}
   const token = JSON.parse(localStorage.getItem('token'));
   const dispatch = useAuthDispatch();
 
+  const handleProfileClick = () => {
+    return <Redirect to={{ pathname: "/shopping" }} />;
+  };
+
   const handleFollowClick = () => {
     setFollow(1);
     followFriends(dispatch, token, friendemail);
@@ -55,6 +60,7 @@ export default function FriendCard({friendemail, friendname, image, followstate}
     setFollow(0);
     unfollowFriends(dispatch, token, friendemail);
   };
+
 
   function FollowButton(props) {
     return (
@@ -85,16 +91,18 @@ export default function FriendCard({friendemail, friendname, image, followstate}
       <CardHeader
         className={classes.header}
         avatar={
-          <Avatar aria-label="profile image" className={classes.avatar}>
-            {image}
+          <Avatar aria-label="profile image" image = {image} onClick = {handleProfileClick} className={classes.avatar}>
+
           </Avatar>
         }
         action={
           follow ?
-          <UnfollowButton onClick = {handleUnfollowClick}/> :
-          <FollowButton onClick = {handleFollowClick}/>
+            <UnfollowButton onClick = {handleUnfollowClick}/> :
+            <FollowButton onClick = {handleFollowClick}/>
         }
-        title={friendname}
+        title={
+          friendname
+        }
       />
     </Card>
   );

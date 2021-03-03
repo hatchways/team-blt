@@ -52,6 +52,7 @@ class FriendApi(Resource):
         if friend not in user.friends:
             user.friends.append(friend)
             user.save()
+            user.reload()
         return Response(user.to_json(), mimetype="application/json", status=200)
 
     @jwt_required()
