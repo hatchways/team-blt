@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function FriendCard({friendname, image, followstate}) {
+export default function FriendCard({friendemail, friendname, image, followstate}) {
   const classes = useStyles();
   const [follow, setFollow] = React.useState(followstate);
   const token = JSON.parse(localStorage.getItem('token'));
@@ -48,12 +48,12 @@ export default function FriendCard({friendname, image, followstate}) {
 
   const handleFollowClick = () => {
     setFollow(1);
-    followFriends(dispatch, token, friendname);
+    followFriends(dispatch, token, friendemail);
   };
 
   const handleUnfollowClick = () => {
     setFollow(0);
-    unfollowFriends(dispatch, token, friendname);
+    unfollowFriends(dispatch, token, friendemail);
   };
 
   function FollowButton(props) {
@@ -86,7 +86,7 @@ export default function FriendCard({friendname, image, followstate}) {
         className={classes.header}
         avatar={
           <Avatar aria-label="profile image" className={classes.avatar}>
-            image
+            {image}
           </Avatar>
         }
         action={

@@ -146,6 +146,52 @@ export async function unfollowFriends(dispatch, token, friend) {
 
 }
 
+export async function getRandomUsers(myfriends) {
+  async function fetchData() {
+    const input = {
+      getFriends : false,
+      friends : myfriends
+    }
+
+    const response = await fetch(`/users`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "aplication/json",
+      },
+      body: JSON.stringify(input),
+    });
+    const randomUsers = await response.json();
+
+    localStorage.setItem("randomUsers", JSON.stringify(randomUsers))
+
+  };
+  fetchData();
+
+}
+
+export async function getFriendDetails(myfriends) {
+  async function fetchData() {
+    const input = {
+      getFriends : true,
+      friends : myfriends
+    }
+
+    const response = await fetch(`/users`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "aplication/json",
+      },
+      body: JSON.stringify(input),
+    });
+    const friendDetails = await response.json();
+    
+    localStorage.setItem("friendDetails", JSON.stringify(friendDetails))
+
+  };
+  fetchData();
+
+}
+
 
 
 /*

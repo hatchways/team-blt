@@ -4,6 +4,7 @@ import {
   Paper
 } from "@material-ui/core";
 import FriendCard from "./FriendCard";
+import {getRandomUsers} from "../context/actions"
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -12,14 +13,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
 const Suggested = (props) => {
   const classes = useStyles();
 
+  const myfriends = JSON.parse(localStorage.getItem('friends'));
+  getRandomUsers(myfriends);
+  const randomUsers = JSON.parse(localStorage.getItem('randomUsers'));
+
   return (
     <Paper className={classes.container}>
-      <FriendCard friendname = {"s1@user.com"} image = {"img"}/>
-      <FriendCard friendname = {"s2@user.com"} image = {"img"}/>
-      <FriendCard friendname = {"s3@user.com"} image = {"img"}/>
+      {randomUsers.map((randomUser) =>
+        <FriendCard key={randomUser.email} friendemail = {randomUser.email} friendname = {randomUser.name} image = {randomUser.profile_pic} followstate = {0}/>
+      )}
     </Paper>
   );
 };

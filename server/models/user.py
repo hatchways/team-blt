@@ -15,7 +15,7 @@ class User(db.Document):
         self.password = generate_password_hash(self.password).decode('utf8')
 
     def check_password(self, password):
-        return check_password_hash(self.password, password)
+        return check_password_hash(self.password, password)    
 
 # This line creates anoter delete rule where if a user is deleted,
 # then the products listed by the user is also deleted.

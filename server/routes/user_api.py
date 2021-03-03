@@ -2,28 +2,27 @@ from flask import request, Response, make_response, jsonify
 from flask_restful import Resource, Api
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity, unset_jwt_cookies, set_access_cookies
 from models.user import User
+import json
 import datetime
 
 
 class UsersApi(Resource):
-    def get(self):
-        users = User.objects().to_json()
-        return Response(users, mimetype="application/json", status=200)
+    def put(self):
+        size = len(User.objects)
+        body = request.get_json(force=True)
+        getFriends = body.get('getFriends')
+        friends = body.get('friends')
 
-    def post(self):
-        body = request.get_json()
-        name = body.get('name')
-        email = body.get('email')
-        password = body.get('password')
-        user = User(name=name, email=email, password=password)
-        user.hash_password()
-        user.save()
-        return {'name': str(name)}, 201
+        if getFriends:
+            userInfo = User.objects(email__in=friends).only('email', 'name', 'profile_pic')
+        else:
+            userInfo = User.objects(email__nin=friends).only('email', 'name', 'profile_pic')
 
+        return Response(userInfo.to_json(), mimetype="application/json", status=200)
 
 class UserApi(Resource):
     @jwt_required()
-    def put(self, email):
+    def put(self):
         user_id = get_jwt_identity()
         user = User.objects.get(email=user_id)
         body=request.get_json()
@@ -31,16 +30,15 @@ class UserApi(Resource):
         return Response(user.to_json(), mimetype="application/json", status=200)
 
     @jwt_required()
-    def delete(self, email):
+    def delete(self):
         user_id = get_jwt_identity()
         user = User.objects.get(email=user_id)
         user.delete()
         return 'User has been deleted', 200
 
-    @jwt_required()
-    def get(self, email):
-        user_id = get_jwt_identity()
-        user = User.objects.get(email=user_id)
+    def get(self):
+        email = request.get_json(force=True).get('email')
+        user = User.objects.only('email', 'name', 'profile_pic').get(email=email)
         return Response(user.to_json(), mimetype="application/json", status=200)
 
 class FriendApi(Resource):
