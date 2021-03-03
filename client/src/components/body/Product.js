@@ -21,7 +21,12 @@ const useStyles = makeStyles(() => ({
     button: {
         fontSize: "0.75rem",
         margin: "auto",
-    }
+    },
+    link: {
+        color: "#9b9a9a",
+        textDecoration: "none",
+        "&:hover": { color: "#E84545"}
+        }
 })
 )
 
@@ -49,11 +54,12 @@ function Product({ productName, url, price, image, otherUser, deleteProduct }) {
                     </Typography>
                     <Typography 
                         variant="subtitle2" 
-                        style={{
-                            color: "#9b9a9a",
-                        }}
                     >
-                        <a href={"//"+url} target="_blank">{url}</a>
+                        <a 
+                            href={"//"+url} 
+                            target="_blank"
+                            className={classes.link}
+                        >{url}</a>
                     </Typography>
                     <Typography variant="subtitle2">${price}</Typography>
                 </Grid>
