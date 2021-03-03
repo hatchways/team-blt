@@ -7,7 +7,8 @@ import Avatar from "@material-ui/core/Avatar";
 import logo from "../../assets/logo.png";
 import UserSetting from "../body/UserSetting";
 import MenuTabs from "./MenuTabs";
-import {Link, Menu, MenuItem} from "@material-ui/core/"
+import { Link } from "react-router-dom";
+import { Menu, MenuItem} from "@material-ui/core/"
 import { useAuthState } from "../../context/context";
 
 const useStyles = makeStyles((theme) => ({
@@ -94,7 +95,7 @@ export default function Navbar() {
       <AppBar position="static">
         <Toolbar className={classes.appBar}>
           <div className={classes.title}>
-            <Link href="/"><img src={logo} className={classes.logo} alt="Deals Mate"></img></Link>
+            <Link to="/" ><img src={logo} className={classes.logo} alt="Deals Mate"></img></Link>
           </div>
           <div className={classes.tabContainer}>
             <MenuTabs />
