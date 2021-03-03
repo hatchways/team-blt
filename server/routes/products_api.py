@@ -147,3 +147,36 @@ class ProductApi(Resource):
             return Response(product, mimetype="application/json", status=200)
         except:
             return 'Unable to find your product(s).'
+
+# Looking at other user's lists
+class OtherUserProductsListApi(Resource):
+    # Read the public list of products
+    @jwt_required()
+    def get(self, id, list_title=None):
+        try:
+            user = User.objects.get(id=id)
+            # Retrieve one of the user's list based on the list title.
+            if list_title:
+                list_of_products = List.objects.get(
+                    list_title=list_title, added_by=user, private=False).to_json()
+            # Retrieve all of the lists the user created
+            else:
+                list_of_products = List.objects(added_by=user, private=False).to_json()
+            return Response(list_of_products, mimetype="application/json", status=200)
+        except:
+            return 'Unable to find the list.'
+
+# Looking at other user's products
+class OtherUserProductApi(Resource):
+    # Read a product
+    @jwt_required()
+    def get(self, id, list_title):
+        try:
+            user = User.objects.get(id=id)
+            list_of_products = List.objects.get(
+                list_title=list_title, added_by=user)
+            # Retrieve all of the products in the user's specified list.
+            product = Product.objects(added_by=user, in_list=list_of_products).to_json()
+            return Response(product, mimetype="application/json", status=200)
+        except:
+            return 'Unable to find the product(s).'
