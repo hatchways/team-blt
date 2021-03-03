@@ -13,13 +13,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const myfriends = JSON.parse(localStorage.getItem('friends'));
+getRandomUsers(myfriends);
+const randomUsers = JSON.parse(localStorage.getItem('randomUsers'));
 
 const Suggested = (props) => {
   const classes = useStyles();
-
-  const myfriends = JSON.parse(localStorage.getItem('friends'));
-  getRandomUsers(myfriends);
-  const randomUsers = JSON.parse(localStorage.getItem('randomUsers'));
 
   return (
     <Paper className={classes.container}>
