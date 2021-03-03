@@ -9,7 +9,8 @@ import UserSetting from "../body/UserSetting";
 import MenuTabs from "./MenuTabs";
 import { Link } from "react-router-dom";
 import { Menu, MenuItem} from "@material-ui/core/"
-import { useAuthState } from "../../context/context";
+import {useAuthState, useAuthDispatch} from '../../context/context';
+import {logout} from '../../context/actions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -51,6 +52,7 @@ export default function Navbar() {
   const [anchorEl, setAnchorEl] = useState(null);
   const isMenuOpen = Boolean(anchorEl);
   const currentUser = useAuthState();
+  const dispatch = useAuthDispatch();
 
   // Handling user setting modal
   const [openSettingDialogue, setOpenSettingDialogue] = useState(false);
@@ -86,7 +88,24 @@ export default function Navbar() {
     >
       <MenuItem onClick={handleMenuClose}>Go to Profile</MenuItem>
       <MenuItem onClick={handleSetting}>Settings</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
+      <MenuItem onClick={async() => {
+            const response = await fetch("/logout", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${currentUser.token}`
+              },
+            });
+
+            if (response.status==422){
+              console.log('already logout, please log in');
+            }
+
+            if (response.ok) {
+              console.log('logout successfully');
+              logout(dispatch);
+            }
+          }}>Logout</MenuItem>
     </Menu>
   );
 
