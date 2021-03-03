@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
 })
 )
 
-function Product({ productName, url, price, image, deleteProduct }) {
+function Product({ productName, url, price, image, otherUser, deleteProduct }) {
     const classes = useStyles()
 
     return (
@@ -58,14 +58,16 @@ function Product({ productName, url, price, image, deleteProduct }) {
                     <Typography variant="subtitle2">${price}</Typography>
                 </Grid>
                 <Grid item xs={4} className={classes.buttonContainer}>
-                    <Button 
-                        variant="outlined" 
-                        size="large"
-                        className={classes.button}
-                        onClick={deleteProduct}
-                    >
-                        Remove
-                    </Button>
+                    {otherUser ? null 
+                        : <Button 
+                            variant="outlined" 
+                            size="large"
+                            className={classes.button}
+                            onClick={deleteProduct}
+                        >
+                            Remove
+                        </Button>
+                    }
                 </Grid>
             </Grid>
         </Paper>

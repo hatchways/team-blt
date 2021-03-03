@@ -27,7 +27,8 @@ const useStyles = makeStyles((theme) => ({
   },
   productList: {
     paddingTop: "1",
-    marginTop: "1rem"
+    marginTop: "1rem",
+    maxHeight: "45vh"
   },
   actionContainer: {
     display: "flex",
@@ -48,7 +49,8 @@ function ProductListContainer({
     numberOfProducts, 
     openList, 
     handleList,  
-    privateList
+    privateList,
+    otherUser
 }) 
 {
     const classes = useStyles();
@@ -56,25 +58,41 @@ function ProductListContainer({
     const currentUser = useAuthState();
     const dispatch = useAuthDispatch();
 
+    // Fetching current user's list of products
+    async function fetchListOfProducts() {
+        const response = await fetch(`/lists/${listTitle}/products`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "aplication/json",
+                Authorization: `Bearer ${currentUser.token}`,
+            },
+            body: JSON.stringify(),
+        })
+        const list = await response.json();
+        setListOfProducts(list);
+    }
+
+    // Fetching other user's list of products
+    async function otherUserListOfProducts() {
+        const response = await fetch(`/users/${otherUser.id}/lists/${listTitle}/products`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "aplication/json",
+                Authorization: `Bearer ${currentUser.token}`,
+            },
+            body: JSON.stringify(),
+        })
+        const list = await response.json();
+        setListOfProducts(list);
+    }
     /*
     The list of of products is fetched from the server on first render of the product list container
     and when the currentUser object is updated and changed.
     */
     useEffect(() => {
-        async function fetchListOfProducts() {
-            const response = await fetch(`/lists/${listTitle}/products`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "aplication/json",
-                    Authorization: `Bearer ${currentUser.token}`,
-                },
-                body: JSON.stringify(),
-            })
-            const list = await response.json();
-            setListOfProducts(list);
-        }
-        fetchListOfProducts();
-    }, [currentUser])
+        otherUser ? otherUserListOfProducts() : fetchListOfProducts()
+    }, [currentUser, otherUser])
+    console.log(listOfProducts)
     
     // This function toggles the list's privacy setting.
     async function togglePrivate() {
@@ -112,6 +130,7 @@ function ProductListContainer({
                         price={product.price}
                         image={product.product_image}
                         listTitle={listTitle}
+                        otherUser={otherUser}
                         deleteProduct={async () => {
                             const response = await fetch(`/lists/${listTitle}/products/${product.product_name}`, {
                                 method: "DELETE",
@@ -132,26 +151,30 @@ function ProductListContainer({
                 ))}
             </DialogContent>
             <DialogActions className={classes.actionContainer}>
-                <Button 
-                    variant="contained" 
-                    color="primary"
-                    className={classes.addButton}
-                >
-                Add New Item
-                </Button>
-                <Button
-                    variant="outlined"
-                    size="small"
-                    className={classes.toggleButton}
-                    style={privateList ? {
-                        backgroundColor: "#9b9a9a"
-                    } : {
-                        backgroundColor: "#FFFFFF"
-                    }}
-                    onClick={togglePrivate}
-                >
-                    {privateList ? "Private" : "Public"}
-                </Button>
+                {otherUser ? null 
+                    : <Button 
+                        variant="contained" 
+                        color="primary"
+                        className={classes.addButton}
+                    >
+                        Add New Item
+                    </Button>
+                }
+                {otherUser ? null
+                    : <Button
+                        variant="outlined"
+                        size="small"
+                        className={classes.toggleButton}
+                        style={privateList ? {
+                            backgroundColor: "#9b9a9a"
+                        } : {
+                            backgroundColor: "#FFFFFF"
+                        }}
+                        onClick={togglePrivate}
+                    >
+                        {privateList ? "Private" : "Public"}
+                    </Button>
+                }
             </DialogActions>
         </Dialog>
     );
