@@ -1,10 +1,10 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Paper
 } from "@material-ui/core";
 import FriendCard from "./FriendCard";
-import {getRandomUsers} from "../context/actions"
+import {useAuthState} from "../context/context"
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -16,9 +16,31 @@ const useStyles = makeStyles((theme) => ({
 
 
 const Suggested = (props) => {
-  const myfriends = JSON.parse(localStorage.getItem('friends'));
-  getRandomUsers(myfriends);
-  const randomUsers = JSON.parse(localStorage.getItem('randomUsers'));
+  const currentUser = useAuthState();
+  const [randomUsers, setRandomUsers] = useState([]);
+  useEffect(
+    () => {
+      const details = getRandomUsers(currentUser.friends)
+
+    },[currentUser]);
+    const getRandomUsers = async (myfriends) => {
+      const input = {
+        getFriends : false,
+        friends : myfriends
+      }
+
+      const response = await fetch(`/users`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "aplication/json",
+        },
+        body: JSON.stringify(input),
+      });
+
+      const result = await response.json();
+      setRandomUsers(result);
+
+    };
   const classes = useStyles();
 
   return (
