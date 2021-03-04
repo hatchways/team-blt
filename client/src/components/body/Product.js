@@ -56,10 +56,10 @@ function Product({ productName, url, price, image, otherUser, deleteProduct }) {
                         variant="subtitle2" 
                     >
                         <a 
-                            href={"//"+url} 
+                            href={url.includes("https://") ? url : '//'+url} 
                             target="_blank"
                             className={classes.link}
-                        >{url}</a>
+                        >{url.substr(0, 30)}</a>
                     </Typography>
                     <Typography variant="subtitle2">${price}</Typography>
                 </Grid>
