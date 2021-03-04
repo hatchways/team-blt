@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState} from "react";
 import {
   Box,
   Typography,
@@ -12,6 +12,9 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import Dropzone from "react-dropzone";
 import CropOriginalIcon from "@material-ui/icons/CropOriginal";
+import { useAuthState, useAuthDispatch } from "../../context/context";
+import S3 from "react-aws-s3";
+import { createProductLists} from "../../context/actions";
 
 const useStyles = makeStyles((theme) => ({
   dialog: {
@@ -25,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
   boxSelect: {
     display: "flex",
-    flexDirection:"column",
+    flexDirection: "column",
     alignItems: "center",
     paddingTop: theme.spacing(3),
   },
@@ -54,31 +57,55 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AddListDialogue = (props) => {
+function AddListDialogue (props) {
   const classes = useStyles();
   const { openListDialogue, closeListDialogue } = props;
-  const [imageUrl, setimageUrl] = useState("");
+  const [title, setTitle] = useState("");
+  const [imageFile, setImageFile] = useState({});
+  const [fileName, setFileName] = useState("");
+  const currentUser = useAuthState();
+  const dispatch = useAuthDispatch();
 
-  const addCloseListClick = async (e) => {
+  const addList = async (title, imageUrl) => {    
+    createProductLists(dispatch, currentUser.token, title, imageUrl);
+  };
+
+  const amazonImageUpload = async () => {    
+    const config = {
+      bucketName: `${process.env.REACT_APP_BUCKET_NAME}`,
+      region: `${process.env.REACT_APP_REGION}`,
+      accessKeyId: `${process.env.REACT_APP_ACCESS_ID}`,
+      secretAccessKey: `${process.env.REACT_APP_ACCESS_KEY}`,
+    };
+    const ReactS3Client = new S3(config);
+    ReactS3Client.uploadFile(imageFile, fileName)
+      .then((data) => {
+        const image = data.location;
+        addList(title, image);      
+      })
+      .catch((err) => console.log(err));   
+  }
+
+  const onSubmit = async (event) => {
+    if (title !== "") {
+      if(fileName!== ""){
+        // When Image is uploaded
+        amazonImageUpload();
+      }
+      else{
+        //No image Provided
+        addList(title);
+      }
+      //Setting title and image file name to default
+      setTitle("");
+      setFileName("");      
+    }
     closeListDialogue();
   };
 
-  const onDrop = (acceptedFiles) => {
-    acceptedFiles.forEach((file) => {
-      const reader = new FileReader();
-      reader.addEventListener(
-        "load",
-        function () {
-          // convert image file to base64 string
-          let src = reader.result;
-          setimageUrl(src);
-        },
-        false
-      );
-      if (file) {
-        reader.readAsDataURL(file);
-      }
-    });
+  const onDrop = (acceptedFile) => {
+    setImageFile(acceptedFile[0]);
+    setFileName(acceptedFile[0].name);
   };
 
   return (
@@ -91,45 +118,38 @@ const AddListDialogue = (props) => {
     >
       <DialogTitle id="alert-dialog-add-item">{"Create new list"}</DialogTitle>
       <DialogContent>
-        
-          <Box className={classes.boxInput}>
-            <Typography variant="h6"  component="h2">Add a title*</Typography>
-            <Input
-              placeholder="Enter name"
-              disableUnderline
-              className={classes.inputName}
-            />
-          </Box>
-          <Box className={classes.boxSelect}>
-            <Typography variant="h6" gutterBottom component="h2">
-              Add a cover
-            </Typography>
-            <Dropzone onDrop={onDrop} accept="image/*">
-              {({
-                getRootProps,
-                getInputProps,
-                isDragReject,
-                acceptedFiles,
-              }) => (
-                <Box
-                  className={classes.imageFieldContainer}
-                  {...getRootProps()}
-                >
-                  <CropOriginalIcon className={classes.dropImage} />
-                  <input {...getInputProps()} />
-                  {acceptedFiles.length == 0
-                    ? "Drop an image here or select a file"
-                    : acceptedFiles.map((file) => <p>{file.name}</p>)}
-                  {isDragReject && "the file type is not accepted"}
-                </Box>
-              )}
-            </Dropzone>
-          </Box>
-        
+        <Box className={classes.boxInput}>
+          <Typography variant="h6" component="h2">
+            Add a title*
+          </Typography>
+          <Input
+            placeholder="Enter name"
+            disableUnderline
+            onChange={(e) => setTitle(e.target.value)}
+            className={classes.inputName}
+          />
+        </Box>
+        <Box className={classes.boxSelect}>
+          <Typography variant="h6" gutterBottom component="h2">
+            Add a cover
+          </Typography>
+          <Dropzone onDrop={onDrop} accept="image/*">
+            {({ getRootProps, getInputProps, isDragReject, acceptedFiles }) => (
+              <Box className={classes.imageFieldContainer} {...getRootProps()}>
+                <CropOriginalIcon className={classes.dropImage} />
+                <input {...getInputProps()} />
+                {acceptedFiles.length === 0
+                  ? "Drop an image here or select a file"
+                  : acceptedFiles.map((file) => <p key={file.name}>{file.name}</p>)}
+                {isDragReject && "the file type is not accepted"}
+              </Box>
+            )}
+          </Dropzone>
+        </Box>
       </DialogContent>
       <DialogActions className={classes.dialogButton}>
         <Button
-          onClick={addCloseListClick}
+          onClick={onSubmit}
           className={classes.addButton}
           variant="contained"
         >
@@ -139,5 +159,4 @@ const AddListDialogue = (props) => {
     </Dialog>
   );
 };
-
 export default AddListDialogue;

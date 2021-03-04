@@ -111,3 +111,37 @@ export async function updateProductsLists(dispatch, newList) {
     localStorage.setItem('list_of_products', JSON.stringify(newList));
 }
 
+
+export async function createProductLists(dispatch, token, title, imageUrl){  
+    const response = await fetch(`/create-list`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        list_title: title,
+        cover_image_url: `${imageUrl}`,
+      }),
+    });
+    if (response.ok) {
+      console.log("Success");
+    } else {
+      console.log(response);
+    }
+    
+    const res = await fetch('/lists', {
+      method: "GET",
+      headers: {
+        "Content-Type": "aplication/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(),
+    });
+    const lists = await res.json();
+
+    // Set the dispatch typ to UPDATE_PRODUCTS_LISTS and update the list_of_products value of the initial state objecti n reducer.js
+    dispatch({ type: 'UPDATE_PRODUCTS_LISTS', payload: {'list_of_products': lists}});
+    localStorage.setItem('list_of_products', JSON.stringify(lists));
+}
+
