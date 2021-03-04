@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     margin: "auto",
     padding: "50px 50px 0 50px",
     width: "100%",
-    height: "70vh",   
+    height: "75vh",   
   },
   subtitle: {
       color: "#9b9a9a"
@@ -33,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
   actionContainer: {
     display: "flex",
     flexDirection: "column",
+    padding: "0"
   },
   addButton: {
       width: "200px",
