@@ -112,7 +112,7 @@ export async function updateProductsLists(dispatch, newList) {
 }
 
 
-export async function createProductLists(dispatch, token, title, imageUrl){  
+export async function createProductLists(dispatch, token, title, privacy, imageUrl){  
     const response = await fetch(`/create-list`, {
       method: "POST",
       headers: {
@@ -122,6 +122,7 @@ export async function createProductLists(dispatch, token, title, imageUrl){
       body: JSON.stringify({
         list_title: title,
         cover_image_url: `${imageUrl}`,
+        private: privacy
       }),
     });
     if (response.ok) {
