@@ -14,7 +14,8 @@ const useStyles = makeStyles((theme) => ({
       width: "250px",
       height: "350px",
       marginRight: "1rem",
-      marginTop:"1rem",
+      marginTop: "1rem",
+      
     },
     media: {
       height: 250,

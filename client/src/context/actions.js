@@ -1,3 +1,4 @@
+import { ListItem } from '@material-ui/core';
 import Cookies from 'js-cookie';
 
 // Authentication actions used by the AuthReducer function in reducer.js
@@ -107,8 +108,10 @@ to 'UPDATE_PRODUCTS_LISTS'. When the user adds a new list, the list_of_products
 attribute's list will be updated to include the new list.
 */
 export async function updateProductsLists(dispatch, newList) {
-  dispatch({ type: 'UPDATE_PRODUCTS_LISTS', payload: newList})
+    dispatch({ type: 'UPDATE_PRODUCTS_LISTS', payload: {'list_of_products': newList}});
+    localStorage.setItem('list_of_products', JSON.stringify(newList));
 }
+
 
 export async function createProductLists(dispatch, token, title, imageUrl){  
     const response = await fetch(`/create-list`, {
@@ -142,3 +145,4 @@ export async function createProductLists(dispatch, token, title, imageUrl){
     dispatch({ type: 'UPDATE_PRODUCTS_LISTS', payload: {'list_of_products': lists}});
     localStorage.setItem('list_of_products', JSON.stringify(lists));
 }
+

@@ -120,10 +120,12 @@ class ProductApi(Resource):
             user_id = get_jwt_identity()
             user = User.objects.get(email=user_id)
             list_of_products = List.objects.get(
-                list_title=list_title, added_by=user).to_json()
-            product = Product.objects(product_name=product_name, added_by=user)
+                list_title=list_title, added_by=user)
+            product = Product.objects.get(product_name=product_name, added_by=user, in_list=list_of_products)
             product.delete()
-            return 'Product has been deleted.', 200
+            new_list_of_products = List.objects(added_by=user).to_json()
+            # Returning a new list of product lists for the client to update
+            return Response(new_list_of_products, mimetype="application/json", status=200)
         except:
             return 'Unable to delete your product from the list.'
 
