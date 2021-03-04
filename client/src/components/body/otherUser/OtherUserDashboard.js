@@ -1,4 +1,5 @@
 import React, { useEffect, useContext } from 'react'
+import { Redirect } from 'react-router-dom';
 import { useAuthState } from '../../../context/context';
 import { OtherUserProvider } from '../../../context/OtherUserContext';
 import Navbar from '../../header/Navbar'
@@ -10,7 +11,6 @@ function OtherUserDashboard(props) {
     const otherUserId = props.match.params.id;
     const {otherUser, dispatch} = useContext(OtherUserProvider)
     const currentUser = useAuthState();
-    console.log(otherUser)
     
     // Fetching the other user's data
     async function fetchOtherUser() {
@@ -57,7 +57,14 @@ function OtherUserDashboard(props) {
         fetchOtherUserLists();
     }, [otherUserId])
 
-    
+    /* 
+    If the current user visits their own page via the endpoint, /users/<their own id>, 
+    redirect the user back to their personal dashboard.
+    */
+    if (currentUser.email == otherUser.email) {
+        return <Redirect exact to='/' />
+    }
+
 
     return (
         <>
