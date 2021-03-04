@@ -45,6 +45,10 @@ const useStyles = makeStyles((theme) => ({
     color:"inherit",
     marginTop: theme.spacing(6),
   },
+  link: {
+    textDecoration: "none",
+    color: "inherit"
+  }
 }));
 
 export default function Navbar() {
@@ -86,7 +90,7 @@ export default function Navbar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Go to Profile</MenuItem>
+      <Link to='/' className={classes.link}><MenuItem onClick={handleMenuClose}>Go to Profile</MenuItem></Link>
       <MenuItem onClick={handleSetting}>Settings</MenuItem>
       <MenuItem onClick={async() => {
             const response = await fetch("/logout", {
