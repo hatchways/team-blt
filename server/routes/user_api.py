@@ -23,7 +23,7 @@ class UsersApi(Resource):
 
 class UserApi(Resource):
     @jwt_required()
-    def put(self, email):
+    def put(self):
         user_id = get_jwt_identity()
         user = User.objects.get(email=user_id)
         body=request.get_json()
@@ -31,16 +31,16 @@ class UserApi(Resource):
         return '', 200
 
     @jwt_required()
-    def delete(self, email):
+    def delete(self):
         user_id = get_jwt_identity()
-        if email == user_id:
-            user = User.objects.get(email=user_id)
-            user.delete()
-            return '', 200
+        user = User.objects.get(email=user_id)
+        user.delete()
+        return '', 200
 
     @jwt_required()
-    def get(self, email):
-        user = User.objects.get(email=email).to_json()
+    def get(self):
+        user_id = get_jwt_identity()
+        user = User.objects.get(email=user_id).to_json()
         return Response(user, mimetype="application/json", status=200)
 
 
@@ -82,3 +82,10 @@ class LogoutApi(Resource):
         response = jsonify({"msg": "logout successful"})
         response.delete_cookie(user_id)
         return response
+
+class OtherUserApi(Resource):
+    @jwt_required()
+    def get(self, id):
+        if id:
+            user = User.objects.get(id=id).to_json()
+        return Response(user, mimetype="application/json", status=200)

@@ -19,21 +19,32 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const ListCards = () => {
+const ListCards = ({ otherUser }) => {
   const classes = useStyles();
   const currentUser = useAuthState();
 
   return ( 
     <Grid className={classes.cardContainer}>    
-      {currentUser.list_of_products.map((list) => (
+      {otherUser ? 
+      otherUser.list_of_products.filter(list => list.private != true).map(list => (
         <ProductListCard
           key={list._id.$oid}
           listTitle={list.list_title}
           cover_image_url={list.cover_image_url}
           numberOfProducts={list.products.length}
+          otherUser={otherUser}
+        />
+      ))
+      : currentUser.list_of_products.map((list) => (
+        <ProductListCard
+          key={list._id.$oid}
+          listTitle={list.list_title}
+          cover_image_url={list.cover_image_url}
+          numberOfProducts={list.products.length}
+          privateList={list.private}
         />
       ))}
-      <AddNewList />
+      {otherUser ? null : <AddNewList />}
     </Grid>
   );
 };
