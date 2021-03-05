@@ -24,11 +24,10 @@ const useStyles = makeStyles((theme) => ({
 
 const ListCards = () => {
   const classes = useStyles();
-  const currentUser = useAuthState();
 
 
-  return (
-    <Grid className={classes.cardContainer}>
+  return ( 
+    <Grid className={classes.cardContainer}>    
       {currentUser.list_of_products.map((list) => (
         <ProductListCard
           key={list._id.$oid}
