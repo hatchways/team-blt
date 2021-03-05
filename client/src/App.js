@@ -12,6 +12,8 @@ import SignUpRoute from "./routes/SignUpRoute";
 import SignUp from "./pages/SignUp";
 import OtherUserDashboard from "./components/body/otherUser/OtherUserDashboard";
 import OtherUserContext from "./context/OtherUserContext";
+import Friends from "./features/Friends";
+import Notifications from "./features/Notifications";
 
 function App() {
   return (
@@ -20,7 +22,7 @@ function App() {
         <OtherUserContext>
           <BrowserRouter>
             <Switch>
-              <LoginRoute
+              <LoginRoute 
                 path={'/login'}
                 component={Login}
               />
@@ -30,8 +32,9 @@ function App() {
               />
               <ProtectedRoute>
                 <Route exact path={'/'} component={UserDashboard} />
-
-                <Route exact path={'/users/:id'} component={OtherUserDashboard} />
+                <Route exact path={'/friends'} component={Friends} />
+                <Route exact path={'/notifications'} component={Notifications} />
+                <Route exact path={'/users/:id'} component={OtherUserDashboard} />    
               </ProtectedRoute>
             </Switch>
           </BrowserRouter>

@@ -5,29 +5,24 @@ import {
 } from "@material-ui/core";
 import FriendCard from "./FriendCard";
 import {useAuthState} from "../context/context"
-
 const useStyles = makeStyles((theme) => ({
   container: {
     display: "flex",
     flexDirection: "column",
   },
 }));
-
 const Following = (props) => {
-
   const currentUser = useAuthState();
   const [friendDetails, setFriendDetails] = useState([]);
   useEffect(
     () => {
       getFriendDetails(currentUser.friends)
-
     },[currentUser]);
     const getFriendDetails = async (myfriends) => {
       const input = {
         getFriends : true,
         friends : myfriends
       }
-
       const response = await fetch(`/users`, {
         method: "PUT",
         headers: {
@@ -35,13 +30,11 @@ const Following = (props) => {
         },
         body: JSON.stringify(input),
       });
-
       const result = await response.json();
+      console.log(result)
       setFriendDetails(result);
-
     };
   const classes = useStyles();
-
   return (
     <Paper className={classes.container}>
       {friendDetails.map((friendDetail) =>
@@ -50,5 +43,4 @@ const Following = (props) => {
     </Paper>
   );
 };
-
 export default Following;

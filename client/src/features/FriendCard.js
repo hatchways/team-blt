@@ -1,12 +1,12 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import clsx from 'clsx';
-import { red } from '@material-ui/core/colors';
-import { followFriends, getFriends, unfollowFriends } from '../context/actions';
-import { useAuthDispatch } from '../context/context';
+import clsx from "clsx";
+import { red } from "@material-ui/core/colors";
+import { followFriends, getFriends, unfollowFriends } from "../context/actions";
+import { useAuthDispatch } from "../context/context";
 import { Redirect} from "react-router-dom";
-import { createBrowserHistory } from 'history';
-import FavoriteIcon from '@material-ui/icons/Favorite';
+import { createBrowserHistory } from "history";
+import FavoriteIcon from "@material-ui/icons/Favorite";
 import {
   Card,
   CardHeader,
@@ -19,17 +19,13 @@ import {
   Button,
   Typography
 } from "@material-ui/core";
-
-
 const useStyles = makeStyles((theme) => ({
   root: {
     width: 550,
     height: 100,
-
   },
   header: {
     alignItems: "center",
-
   },
   title: {
     fontSize: 18,
@@ -45,29 +41,23 @@ const useStyles = makeStyles((theme) => ({
     margin:"1rem",
   },
 }));
-
 export default function FriendCard({friendemail, friendname, image, followstate}) {
   const classes = useStyles();
   const [follow, setFollow] = React.useState(followstate);
-  const token = JSON.parse(localStorage.getItem('token'));
+  const token = JSON.parse(localStorage.getItem("token"));
   const dispatch = useAuthDispatch();
   const history = createBrowserHistory();
-
-
   const handleProfileClick = () => {
-    history.push('/shopping')
+    history.push("/shopping")
   };
-
   const handleFollowClick = () => {
     setFollow(1);
     followFriends(dispatch, token, friendemail);
   };
-
   const handleUnfollowClick = () => {
     setFollow(0);
     unfollowFriends(dispatch, token, friendemail);
   };
-
   function FollowButton(props) {
     return (
       <Button
@@ -79,7 +69,6 @@ export default function FriendCard({friendemail, friendname, image, followstate}
       </Button>
     );
   }
-
   function UnfollowButton(props) {
     return (
       <Button
@@ -91,7 +80,6 @@ export default function FriendCard({friendemail, friendname, image, followstate}
       </Button>
     );
   }
-
   return (
     <Card className={classes.root}>
       <CardHeader

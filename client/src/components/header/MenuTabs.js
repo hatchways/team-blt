@@ -27,7 +27,7 @@ export default function SimpleTabs() {
       
         <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
           <Tab className={classes.Tab} label="Shopping Lists" component={Link}
-                    to="/shopping"/>
+                    to="/"/>
           <Tab className={classes.Tab} label="Friends" component={Link}
                     to="/friends"/>
           <Tab className={classes.Tab} label="Notifications" component={Link}

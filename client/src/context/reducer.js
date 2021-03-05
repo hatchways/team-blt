@@ -16,7 +16,7 @@ let list_of_products = localStorage.getItem('list_of_products')
 let friends = localStorage.getItem('friends')
 	? JSON.parse(localStorage.getItem('friends'))
 	: [];
-
+	
 export const initialState = {
 	email: email,
 	token: token,
@@ -29,16 +29,16 @@ export const initialState = {
 
 /*
 AuthReducer is a reducer function that takes in the initialState
-object and an action. The initialState object is updated based on
+object and an action. The initialState object is updated based on 
 the action's case. The types of actions that are passed into this
-function can be found in the action.js file.
+function can be found in the action.js file. 
 */
 export const AuthReducer = (initialState, action) => {
 	switch (action.type) {
 		case 'REQUEST_LOGIN':
 			return {
 				...initialState,
-        login: false,
+        		login: false,
 			};
 		case 'LOGIN_SUCCESS':
 			return {
@@ -52,14 +52,14 @@ export const AuthReducer = (initialState, action) => {
 				...initialState,
 				email: '',
 				token: '',
-        login: false,
+        		login: false,
 			};
 		case 'UPDATE_FRIENDS':
 			return {
 				...initialState,
-				friends: action.payload.friends,
+				friends: action.payload.friends
 			}
-
+		
 		case 'UPDATE_PROFILE_PIC':
 			return {
 				...initialState,
@@ -69,8 +69,9 @@ export const AuthReducer = (initialState, action) => {
 		case 'UPDATE_PRODUCTS_LISTS':
 			return {
 				...initialState,
-				list_of_products: [...action.payload.list_of_products]
+				list_of_products: action.payload.list_of_products
 			}
+			
 		default:
 			throw new Error(`Unhandled action type: ${action.type}`);
 	}

@@ -7,7 +7,7 @@ import {
 } from "@material-ui/core";
 import Following from "./FollowingFriends";
 import Suggested from "./SuggestedFriends";
-
+import Navbar from "../components/header/Navbar";
 const useStyles = makeStyles((theme) => ({
   container: {
     display: "flex",
@@ -18,16 +18,15 @@ const useStyles = makeStyles((theme) => ({
     width: 550,
   },
 }));
-
 const Friends = (props) => {
   const classes = useStyles();
   const [selectTab, setSelectTab] = React.useState(0);
-
   const handleChange = (e, newValue) => {
     setSelectTab(newValue);
   }
-
   return (
+      <>
+      <Navbar />
     <Paper className={classes.container}>
       <h2>Friends</h2>
       <Tabs
@@ -45,7 +44,7 @@ const Friends = (props) => {
       {selectTab === 0 && <Following/>}
       {selectTab === 1 && <Suggested/>}
     </Paper>
+    </>
   );
 };
-
 export default Friends;

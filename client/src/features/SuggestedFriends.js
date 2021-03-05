@@ -13,8 +13,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
-
 const Suggested = (props) => {
   const currentUser = useAuthState();
   const [randomUsers, setRandomUsers] = useState([]);
