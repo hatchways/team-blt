@@ -36,10 +36,11 @@ class UserApi(Resource):
         user.delete()
         return 'User has been deleted', 200
 
+    @jwt_required()
     def get(self):
-        email = request.get_json(force=True).get('email')
-        user = User.objects.only('email', 'name', 'profile_pic').get(email=email)
-        return Response(user.to_json(), mimetype="application/json", status=200)
+        user_id = get_jwt_identity()
+        user = User.objects.get(email=user_id).to_json()
+        return Response(user, mimetype="application/json", status=200)
 
 class FriendApi(Resource):
     @jwt_required()
