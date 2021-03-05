@@ -5,6 +5,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
 import Avatar from "@material-ui/core/Avatar";
 import logo from "../../assets/logo.png";
+import UserSetting from "../body/UserSetting";
 import MenuTabs from "./MenuTabs";
 import { Link } from "react-router-dom";
 import { Menu, MenuItem } from "@material-ui/core/"
