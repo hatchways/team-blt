@@ -28,7 +28,7 @@ server.env
 
 # VSCode
 .vscode
-
+.vs
 
 
 server/.env

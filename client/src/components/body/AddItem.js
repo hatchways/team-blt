@@ -10,6 +10,7 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import AddItemDialogue from "./AddItemDialogue";
+import { useAuthState } from "../../context/context";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -60,12 +61,25 @@ const useStyles = makeStyles((theme) => ({
 const AddItem = () => {
   const classes = useStyles();
   const [openDialogue, setOpenDialogue] = useState(false);
+  const currentUser = useAuthState();
   const openItemDialogue = ()=> setOpenDialogue(true);
   const closeDialogue = ()=> setOpenDialogue(false);
+  const [selectedListIndex, setSelectedListIndex] = useState("");
+  let list_title = "";
+  const [inputLink, setInputLink] = useState("");
 
-  const addButtonClick = async (e) => {
+  const addButtonClick = async (e) => {    
     openItemDialogue();   
   };
+
+  
+
+  const onChangeList = (e) => {
+    const newIndex = parseInt(e.target.value);
+    setSelectedListIndex(newIndex);    
+};
+
+
 
   return (
     <Grid className={classes.container}>
@@ -79,6 +93,8 @@ const AddItem = () => {
             placeholder="Paste your Link here"
             disableUnderline
             className={classes.pasteLink}
+            value={inputLink}
+            onChange={(e) => setInputLink(e.target.value)}
           />
      
 
@@ -87,6 +103,8 @@ const AddItem = () => {
             <InputLabel className={classes.border}>Select List</InputLabel>
             <Select
               className={classes.listDropdown}
+              value={selectedListIndex}
+              onChange={onChangeList}
               displayEmpty
               disableUnderline
               inputProps={{ "aria-label": "Without label" }}
@@ -94,9 +112,12 @@ const AddItem = () => {
               <MenuItem defaultValue="Select List" disabled>
                 Select List
               </MenuItem>
-              <MenuItem value={"10"}>Ten</MenuItem>
-              <MenuItem value={"20"}>Twenty</MenuItem>
-              <MenuItem value={"30"}>Thirty</MenuItem>
+              {currentUser.list_of_products.map((list, i) => (
+                <MenuItem
+                  key={i}                  
+                  value={i}
+                >{list.list_title}</MenuItem>
+              ))}
             </Select>
           </FormControl>
         
@@ -112,7 +133,7 @@ const AddItem = () => {
         
 
         {
-           <AddItemDialogue {...{openDialogue, closeDialogue}}/>
+           <AddItemDialogue {...{inputLink, openDialogue, closeDialogue, selectedListIndex}}/>
         }
       </Grid>
     </Grid>

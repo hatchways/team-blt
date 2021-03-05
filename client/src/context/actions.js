@@ -109,3 +109,38 @@ attribute's list will be updated to include the new list.
 export async function updateProductsLists(dispatch, newList) {
   dispatch({ type: 'UPDATE_PRODUCTS_LISTS', payload: newList})
 }
+
+export async function addProducts(dispatch, token, list_title, name, short_URL, image, price){
+  const response = await fetch(`/lists/${list_title}/add-product`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      product_name: name,
+      url: short_URL,
+      product_image: image,
+      price: price,
+    }),
+  });
+  if (response.ok) {
+    console.log("Success");
+  } else {
+    console.log(response);
+  }
+
+  const res = await fetch('/lists', {
+    method: "GET",
+    headers: {
+      "Content-Type": "aplication/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(),
+  });
+  const lists = await res.json();
+
+  // Set the dispatch typ to UPDATE_PRODUCTS_LISTS and update the list_of_products value of the initial state objecti n reducer.js
+  dispatch({ type: 'UPDATE_PRODUCTS_LISTS', payload: {'list_of_products': lists}});
+  localStorage.setItem('list_of_products', JSON.stringify(lists));
+}
