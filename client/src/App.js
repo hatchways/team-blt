@@ -10,27 +10,32 @@ import Login from "./pages/SignIn";
 import LoginRoute from "./routes/LoginRoute";
 import SignUpRoute from "./routes/SignUpRoute";
 import SignUp from "./pages/SignUp";
+import OtherUserDashboard from "./components/body/otherUser/OtherUserDashboard";
+import OtherUserContext from "./context/OtherUserContext";
 
 function App() {
   return (
     <MuiThemeProvider theme={theme}>
       <AuthProvider>
-        <BrowserRouter>
-          <Switch>
-            <LoginRoute
-              path={'/login'}
-              component={Login}
-            />
-            <SignUpRoute
-              path={'/signup'}
-              component={SignUp}
-            />
-            <ProtectedRoute
-              path={'/'}
-              component={UserDashboard}
-            />
-          </Switch>
-        </BrowserRouter>
+        <OtherUserContext>
+          <BrowserRouter>
+            <Switch>
+              <LoginRoute
+                path={'/login'}
+                component={Login}
+              />
+              <SignUpRoute
+                path={'/signup'}
+                component={SignUp}
+              />
+              <ProtectedRoute>
+                <Route exact path={'/'} component={UserDashboard} />
+
+                <Route exact path={'/users/:id'} component={OtherUserDashboard} />
+              </ProtectedRoute>
+            </Switch>
+          </BrowserRouter>
+        </OtherUserContext>
       </AuthProvider>
     </MuiThemeProvider>
   );

@@ -23,8 +23,8 @@ export async function loginUser(dispatch, loginPayload) {
       const email = loginPayload.email;
       const token = Cookies.get(email);
       // Fetch the profile picture URL and the user's list of lists of products from the server
-      async function fetchData() {
-        const response = await fetch(`/users/`, {
+      async function fetchUserData() {
+        const response = await fetch(`/user`, {
           method: "GET",
           headers: {
             "Content-Type": "aplication/json",
