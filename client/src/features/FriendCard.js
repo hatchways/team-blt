@@ -23,14 +23,12 @@ import {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: 600,
-    height: 120,
+    width: 550,
+    height: 100,
 
   },
   header: {
     alignItems: "center",
-
-
 
   },
   title: {
