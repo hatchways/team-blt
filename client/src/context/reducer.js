@@ -13,6 +13,9 @@ let profile_pic = localStorage.getItem('profile_pic')
 let list_of_products = localStorage.getItem('list_of_products')
 	? JSON.parse(localStorage.getItem('list_of_products'))
 	: [];
+let friends = localStorage.getItem('friends')
+	? JSON.parse(localStorage.getItem('friends'))
+	: [];
 	
 export const initialState = {
 	email: email,
@@ -20,6 +23,7 @@ export const initialState = {
 	profile_pic: profile_pic,
 	list_of_products: list_of_products,
 	login: login,
+	friends: friends,
 	errorMessage: null,
 };
 
@@ -50,6 +54,11 @@ export const AuthReducer = (initialState, action) => {
 				token: '',
         		login: false,
 			};
+		case 'UPDATE_FRIENDS':
+			return {
+				...initialState,
+				friends: action.payload.friends
+			}
 		
 		case 'UPDATE_PROFILE_PIC':
 			return {

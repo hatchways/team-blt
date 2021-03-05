@@ -8,10 +8,10 @@ from models.list import List
 '''
 get_jwt_identity() returns the identity of the JWT that is accessing the endpoint.
 In this case, get_jwt_identity() will return the user's email. In order to check
-if the current use has access to specific enpoints such as the created lists and 
+if the current use has access to specific enpoints such as the created lists and
 products, the user's email will be compared to the returned result of get_jwt_identity().
 Once the user object is retrieved, it is then referenced by the List and/or Product
-model's "added_by" attribute. 
+model's "added_by" attribute.
 '''
 # List of products
 class ProductsListApi(Resource):
@@ -23,8 +23,7 @@ class ProductsListApi(Resource):
             user = User.objects.get(email=user_id)
             # Retrieve one of the user's list based on the list title.
             if list_title:
-                list_of_products = List.objects.get(
-                    list_title=list_title, added_by=user).to_json()
+                list_of_products = List.objects.get(list_title=list_title, added_by=user).to_json()
             # Retrieve all of the lists the user created
             else:
                 list_of_products = List.objects(added_by=user).to_json()
@@ -79,7 +78,6 @@ class ProductsListApi(Resource):
             return 'Unable to find your list.'
 
 # Individual products
-
 class ProductApi(Resource):
     # Add a product in an existing list of products
     @jwt_required()
@@ -89,7 +87,7 @@ class ProductApi(Resource):
             body = request.get_json()
             user = User.objects.get(email=user_id)
             user_list = List.objects.get(list_title=list_title, added_by=user)
-            product = Product(**body, added_by=user, in_list=user_list)
+            product = Product(**body, added_by=user)
             product.save()
             product_name = product.product_name
             user_list.update(push__products=product)
@@ -104,10 +102,8 @@ class ProductApi(Resource):
         try:
             user_id = get_jwt_identity()
             user = User.objects.get(email=user_id)
-            list_of_products = List.objects.get(
-                list_title=list_title, added_by=user).to_json()
-            product = Product.objects.get(
-                product_name=product_name, added_by=user)
+            list_of_products = List.objects.get(list_title=list_title, added_by=user).to_json()
+            product = Product.objects.get(product_name=product_name, added_by=user)
             body = request.get_json()
             product.update(**body)
             return 'Product has been updated.', 200
@@ -116,17 +112,14 @@ class ProductApi(Resource):
 
     # Delete a product from its list
     @jwt_required()
-    def delete(self, list_title, product_name):
+    def delete(self,list_title, product_name):
         try:
             user_id = get_jwt_identity()
             user = User.objects.get(email=user_id)
-            list_of_products = List.objects.get(
-                list_title=list_title, added_by=user)
-            product = Product.objects.get(product_name=product_name, added_by=user, in_list=list_of_products)
+            list_of_products = List.objects.get(list_title=list_title, added_by=user).to_json()
+            product = Product.objects(product_name=product_name, added_by=user)
             product.delete()
-            new_list_of_products = List.objects(added_by=user).to_json()
-            # Returning a new list of product lists for the client to update
-            return Response(new_list_of_products, mimetype="application/json", status=200)
+            return 'Product has been deleted.', 200
         except:
             return 'Unable to delete your product from the list.'
 
@@ -136,15 +129,13 @@ class ProductApi(Resource):
         try:
             user_id = get_jwt_identity()
             user = User.objects.get(email=user_id)
-            list_of_products = List.objects.get(
-                list_title=list_title, added_by=user)
+            list_of_products = List.objects.get(list_title=list_title, added_by=user).to_json()
             # Retrieve one of the user's product based on the product name.
             if product_name:
-                product = Product.objects.get(
-                    product_name=product_name, added_by=user, in_list=list_of_products).to_json()
+                product = Product.objects.get(product_name=product_name, added_by=user).to_json()
             # Retrieve all of the products in the user's specified list.
             else:
-                product = Product.objects(added_by=user, in_list=list_of_products).to_json()
+                product = Product.objects(added_by=user).to_json()
             return Response(product, mimetype="application/json", status=200)
         except:
             return 'Unable to find your product(s).'

@@ -1,5 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import Navbar from "../components/header/Navbar";
 
 const useStyles = makeStyles((theme) => ({
     
@@ -9,9 +10,10 @@ const Notifications = (props) => {
     const classes = useStyles();
 
     return (
-        <div>
-            Notifications Default
-        </div>
+        <>
+            <Navbar />
+            <h5>Notifications Default</h5>
+        </>
     );
 };
 

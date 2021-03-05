@@ -9,8 +9,8 @@ const useStyles = makeStyles(() => ({
     flexDirection: "column",
     padding: "5rem",
   },
-  listLabel:{
-    margin:"2rem 0",
+  listLabel: {
+    margin: "2rem 0",
   },
 }));
 
