@@ -11,6 +11,7 @@ import { useAuthDispatch, useAuthState } from "../../context/context";
 import Product from "./Product";
 import { updateProductsLists } from "../../context/actions";
 import "../../themes/scrollbar.css";
+import DeleteDialogue from "./DeleteDialogue";
 
 const useStyles = makeStyles((theme) => ({
   dialog: {
@@ -33,7 +34,6 @@ const useStyles = makeStyles((theme) => ({
   actionContainer: {
     display: "flex",
     flexDirection: "column",
-    padding: "0"
   },
   addButton: {
       width: "200px",
@@ -41,7 +41,12 @@ const useStyles = makeStyles((theme) => ({
       marginTop: "50px",
   },
   toggleButton: {
-    marginTop: "20px"
+    marginTop: "15px",
+    marginBottom: "15px"
+  },
+  deleteButton: {
+    marginBottom: "20px",
+    backgroundColor: "secondary",
   }
 }));
 
@@ -58,6 +63,16 @@ function ProductListContainer({
     const [listOfProducts, setListOfProducts] = useState([]);
     const currentUser = useAuthState();
     const dispatch = useAuthDispatch();
+    const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+
+    // Handling the delete dialog when the user clicks the delete button
+    const handleDeleteDialog = () => {
+        if (openDeleteDialog == true) {
+            setOpenDeleteDialog(false);
+        } else {
+            setOpenDeleteDialog(true);
+        }
+      };
 
     // Fetching current user's list of products
     async function fetchListOfProducts() {
@@ -94,6 +109,12 @@ function ProductListContainer({
         otherUser ? otherUserListOfProducts() : fetchListOfProducts()
     }, [currentUser, otherUser])
     console.log(listOfProducts)
+
+    useEffect(() => {
+        return () => {
+            console.log("Cleaned up")
+        }
+    }, [])
     
     // This function toggles the list's privacy setting.
     async function togglePrivate() {
@@ -176,7 +197,24 @@ function ProductListContainer({
                         {privateList ? "Private" : "Public"}
                     </Button>
                 }
+                {otherUser ? null
+                    : <Button
+                        variant="contained"
+                        size="small"
+                        className={classes.deleteButton}
+                        onClick={handleDeleteDialog}
+                    >
+                        Delete
+                    </Button>
+                }
             </DialogActions>
+            {openDeleteDialog ? 
+                <DeleteDialogue 
+                    openDeleteDialog={openDeleteDialog}
+                    handleDeleteDialog={handleDeleteDialog}
+                    listTitle={listTitle}
+                />
+            : null}
         </Dialog>
     );
 }
