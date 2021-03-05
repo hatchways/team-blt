@@ -5,7 +5,6 @@ import { red } from '@material-ui/core/colors';
 import { followFriends, getFriends, unfollowFriends } from '../context/actions';
 import { useAuthDispatch } from '../context/context';
 import { Redirect} from "react-router-dom";
-import { createBrowserHistory } from 'history';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import {
   Card,
@@ -47,11 +46,9 @@ export default function FriendCard({friendemail, friendname, image, followstate}
   const [follow, setFollow] = React.useState(followstate);
   const token = JSON.parse(localStorage.getItem('token'));
   const dispatch = useAuthDispatch();
-  const history = createBrowserHistory();
-
 
   const handleProfileClick = () => {
-    history.push('/shopping')
+    return <Redirect to={{ pathname: "/shopping" }} />;
   };
 
   const handleFollowClick = () => {
@@ -63,6 +60,7 @@ export default function FriendCard({friendemail, friendname, image, followstate}
     setFollow(0);
     unfollowFriends(dispatch, token, friendemail);
   };
+
 
   function FollowButton(props) {
     return (
@@ -93,7 +91,8 @@ export default function FriendCard({friendemail, friendname, image, followstate}
       <CardHeader
         className={classes.header}
         avatar={
-          <Avatar aria-label="profile image" src = {image} onClick = {handleProfileClick} className={classes.avatar}>
+          <Avatar aria-label="profile image" image = {image} onClick = {handleProfileClick} className={classes.avatar}>
+
           </Avatar>
         }
         action={

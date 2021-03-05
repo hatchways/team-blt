@@ -38,7 +38,7 @@ export const AuthReducer = (initialState, action) => {
 		case 'REQUEST_LOGIN':
 			return {
 				...initialState,
-        login: false,
+        		login: false,
 			};
 		case 'LOGIN_SUCCESS':
 			return {
@@ -58,6 +58,7 @@ export const AuthReducer = (initialState, action) => {
 			return {
 				...initialState,
 				friends: action.payload.friends,
+				login: true,
 			}
 
 		case 'UPDATE_PROFILE_PIC':

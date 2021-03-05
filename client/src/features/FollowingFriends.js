@@ -13,13 +13,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
+
+
+
 const Following = (props) => {
 
+
+
+
   const currentUser = useAuthState();
+  console.log(currentUser);
   const [friendDetails, setFriendDetails] = useState([]);
   useEffect(
     () => {
       const details = getFriendDetails(currentUser.friends)
+      console.log(details);
 
     },[currentUser]);
     const getFriendDetails = async (myfriends) => {
@@ -36,11 +45,17 @@ const Following = (props) => {
         body: JSON.stringify(input),
       });
 
+
       const result = await response.json();
       setFriendDetails(result);
 
+
     };
   const classes = useStyles();
+  console.log(friendDetails);
+
+
+
 
   return (
     <Paper className={classes.container}>
