@@ -143,6 +143,7 @@ export default function Navbar() {
             Profile
           </Button>
         </Toolbar>
+        {openSettingDialogue ? <UserSetting {...{ handleSetting, openSettingDialogue }}/> : null}
       </AppBar>
       {renderMenu}
     </div>
