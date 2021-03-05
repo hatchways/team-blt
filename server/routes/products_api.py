@@ -73,7 +73,8 @@ class ProductsListApi(Resource):
             product.delete()
             # Delete the list
             list_of_products.delete()
-            return 'Your list has been deleted.', 200
+            new_list_of_products = List.objects(added_by=user).to_json()
+            return Response(new_list_of_products, mimetype="application/json", status=200)
         except:
             return 'Unable to find your list.'
 
