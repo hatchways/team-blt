@@ -14,9 +14,6 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
   },
-  tabs:{
-    width: 550,
-  }
 }));
 
 const Friends = (props) => {
@@ -30,12 +27,11 @@ const Friends = (props) => {
   return (
     <Paper className={classes.container}>
       <h2>Friends</h2>
-      <Tabs className={classes.tabs}
+      <Tabs
         value={selectTab}
         onChange={handleChange}
         indicatorColor="primary"
         textColor="primary"
-        variant="fullWidth"
         centered
       >
         <Tab label="FOLLOWING"/>
