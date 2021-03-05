@@ -35,10 +35,18 @@ const Following = (props) => {
       setFriendDetails(result);
     };
   const classes = useStyles();
+
   return (
     <Paper className={classes.container}>
       {friendDetails.map((friendDetail) =>
-        <FriendCard key={friendDetail.email} friendemail = {friendDetail.email} friendname = {friendDetail.name} image = {friendDetail.profile_pic} followstate = {1}/>
+        <FriendCard 
+            key={friendDetail._id.$oid} 
+            friendId={friendDetail._id.$oid}
+            friendemail={friendDetail.email}
+            friendname={friendDetail.name} 
+            image={friendDetail.profile_pic} 
+            followstate={1}
+        />
       )}
     </Paper>
   );

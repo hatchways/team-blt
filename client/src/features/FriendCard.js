@@ -4,7 +4,7 @@ import clsx from "clsx";
 import { red } from "@material-ui/core/colors";
 import { followFriends, getFriends, unfollowFriends } from "../context/actions";
 import { useAuthDispatch } from "../context/context";
-import { Redirect} from "react-router-dom";
+import { Link, Redirect} from "react-router-dom";
 import { createBrowserHistory } from "history";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import {
@@ -19,6 +19,7 @@ import {
   Button,
   Typography
 } from "@material-ui/core";
+import OtherUserDashboard from "../components/body/otherUser/OtherUserDashboard";
 const useStyles = makeStyles((theme) => ({
   root: {
     width: 550,
@@ -41,14 +42,14 @@ const useStyles = makeStyles((theme) => ({
     margin:"1rem",
   },
 }));
-export default function FriendCard({friendemail, friendname, image, followstate}) {
+export default function FriendCard({friendId, friendemail, friendname, image, followstate}) {
   const classes = useStyles();
   const [follow, setFollow] = React.useState(followstate);
   const token = JSON.parse(localStorage.getItem("token"));
   const dispatch = useAuthDispatch();
   const history = createBrowserHistory();
   const handleProfileClick = () => {
-    history.push("/shopping")
+    return <Redirect to={`/users/${friendId}`} component={OtherUserDashboard} />
   };
   const handleFollowClick = () => {
     setFollow(1);
@@ -85,13 +86,14 @@ export default function FriendCard({friendemail, friendname, image, followstate}
       <CardHeader
         className={classes.header}
         avatar={
-          <Avatar
+          <Link to={`/users/${friendId}`}>
+            <Avatar
             aria-label="profile image"
             src = {image}
             onClick = {handleProfileClick}
             className={classes.avatar}
-          >
-          </Avatar>
+          />
+        </Link>
         }
         action={
           follow ?
