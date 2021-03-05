@@ -13,7 +13,7 @@ import {
   Select,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { addProducts } from "../../context/actions";
+import { addProducts, updateProductsLists } from "../../context/actions";
 import { useAuthState, useAuthDispatch } from "../../context/context";
 
 const useStyles = makeStyles((theme) => ({
@@ -82,19 +82,6 @@ const AddItemDialogue = (props) => {
       
       const list_title = currentUser.list_of_products[selectedListIndex].list_title;
       addProducts(dispatch, currentUser.token, list_title, item.name, item.short_URL, item.image, item.price);
-
-
-
-  // const res = await fetch(`/lists/`, {
-  //   method: "GET",
-  //   headers: {
-  //     "Content-Type": "aplication/json",
-  //     Authorization: `Bearer ${currentUser.token}`,
-  //   },
-  //   body: JSON.stringify(),
-  // });
-  // const list = await res.json();
-  // console.log(list);
   };
 
 

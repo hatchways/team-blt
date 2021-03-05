@@ -232,10 +232,7 @@ export async function addProducts(dispatch, token, list_title, short_URL, name, 
       price: price,
     }),
   });
-  const message = await response.json()
-  console.log(message);
-
-  const res = await fetch('/lists/Clothing', {
+  const res = await fetch(`/lists`, {
     method: "GET",
     headers: {
       "Content-Type": "aplication/json",
@@ -243,9 +240,10 @@ export async function addProducts(dispatch, token, list_title, short_URL, name, 
     },
     body: JSON.stringify(),
   });
-  const lists = await res.json();
+  const list = await res.json();
+  console.log(list);
 
   // Set the dispatch typ to UPDATE_PRODUCTS_LISTS and update the list_of_products value of the initial state objecti n reducer.js
-  dispatch({ type: 'UPDATE_PRODUCTS_LISTS', payload: {'list_of_products': lists}});
-  localStorage.setItem('list_of_products', JSON.stringify(lists));
+  dispatch({ type: 'UPDATE_PRODUCTS_LISTS', payload: {'list_of_products': list}});
+  localStorage.setItem('list_of_products', JSON.stringify(list));
 }
