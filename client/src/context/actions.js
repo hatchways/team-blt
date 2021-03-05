@@ -23,8 +23,8 @@ export async function loginUser(dispatch, loginPayload) {
       const email = loginPayload.email;
       const token = Cookies.get(email);
       // Fetch the profile picture URL and the user's list of lists of products from the server
-      async function fetchData() {
-        const response = await fetch(`/users/`, {
+      async function fetchUserData() {
+        const response = await fetch(`/user`, {
           method: "GET",
           headers: {
             "Content-Type": "aplication/json",
@@ -35,23 +35,23 @@ export async function loginUser(dispatch, loginPayload) {
         const user = await response.json();
 
         // Set the dispatch type to UPDATE_PROFILE_PIC and update the profile_pic value of the intialState object in reducer.js
-        dispatch({ type: 'UPDATE_PROFILE_PIC', payload: {'profile_pic': user.profile_pic}});
+        dispatch({ type: 'UPDATE_PROFILE_PIC', payload: { 'profile_pic': user.profile_pic } });
         localStorage.setItem('profile_pic', JSON.stringify(user.profile_pic));
         // Set the dispatch typ to UPDATE_PRODUCTS_LISTS and update the list_of_products value of the initial state objecti n reducer.js
-        dispatch({ type: 'UPDATE_PRODUCTS_LISTS', payload: {'list_of_products': user.list_of_products}});
+        dispatch({ type: 'UPDATE_PRODUCTS_LISTS', payload: { 'list_of_products': user.list_of_products } });
         localStorage.setItem('list_of_products', JSON.stringify(user.list_of_products));
       };
       // Call the fetchData() function to fetch the user's data
       fetchData()
 
       // Set the dispatch type to LOGIN_SUCCESS and update the email and token of the initialState object in reducer.js
-      dispatch({ type: 'LOGIN_SUCCESS', payload: {'email':email, 'token': token}});
+      dispatch({ type: 'LOGIN_SUCCESS', payload: { 'email': email, 'token': token } });
       localStorage.setItem('email', JSON.stringify(email));
       localStorage.setItem('token', JSON.stringify(token));
       localStorage.setItem('login', true);
 
       console.log(email + ' is login!')
-      return {'email':email, 'token': token}
+      return { 'email': email, 'token': token }
     }
     return;
   } catch (error) {
@@ -88,7 +88,7 @@ export async function getFriends(dispatch, token) {
     const user = await response.json();
     console.log(user)
 
-    dispatch({ type: 'UPDATE_FRIENDS', payload: {'friends': user.friends}});
+    dispatch({ type: 'UPDATE_FRIENDS', payload: { 'friends': user.friends } });
     localStorage.setItem('friends', JSON.stringify(user.friends));
 
   };
@@ -113,7 +113,7 @@ export async function followFriends(dispatch, token, friend) {
     const user = await response.json();
     console.log(user);
 
-    dispatch({ type: 'UPDATE_FRIENDS', payload: {'friends': user.friends}});
+    dispatch({ type: 'UPDATE_FRIENDS', payload: { 'friends': user.friends } });
     localStorage.setItem('friends', JSON.stringify(user.friends));
 
   };
@@ -139,7 +139,7 @@ export async function unfollowFriends(dispatch, token, friend) {
     const user = await response.json();
     console.log(user);
 
-    dispatch({ type: 'UPDATE_FRIENDS', payload: {'friends': user.friends}});
+    dispatch({ type: 'UPDATE_FRIENDS', payload: { 'friends': user.friends } });
     localStorage.setItem('friends', JSON.stringify(user.friends));
 
   };
@@ -154,7 +154,7 @@ The updateProfilPic function's dispatch parameter sets the action type to
 be the new value for the profile_pic attribute of the user object.
 */
 export async function updateProfilePic(dispatch, imageUrl) {
-  dispatch({ type: 'UPDATE_PROFILE_PIC', payload: { 'profile_pic': imageUrl }});
+  dispatch({ type: 'UPDATE_PROFILE_PIC', payload: { 'profile_pic': imageUrl } });
 };
 
 /*
@@ -163,5 +163,41 @@ to 'UPDATE_PRODUCTS_LISTS'. When the user adds a new list, the list_of_products
 attribute's list will be updated to include the new list.
 */
 export async function updateProductsLists(dispatch, newList) {
-  dispatch({ type: 'UPDATE_PRODUCTS_LISTS', payload: newList})
+  dispatch({ type: 'UPDATE_PRODUCTS_LISTS', payload: newList })
 }
+
+
+export async function createProductLists(dispatch, token, title, privacy, imageUrl) {
+  const response = await fetch(`/create-list`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      list_title: title,
+      cover_image_url: `${imageUrl}`,
+      private: privacy
+    }),
+  });
+  if (response.ok) {
+    console.log("Success");
+  } else {
+    console.log(response);
+  }
+
+  const res = await fetch('/lists', {
+    method: "GET",
+    headers: {
+      "Content-Type": "aplication/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(),
+  });
+  const lists = await res.json();
+
+  // Set the dispatch typ to UPDATE_PRODUCTS_LISTS and update the list_of_products value of the initial state objecti n reducer.js
+  dispatch({ type: 'UPDATE_PRODUCTS_LISTS', payload: { 'list_of_products': lists } });
+  localStorage.setItem('list_of_products', JSON.stringify(lists));
+}
+
