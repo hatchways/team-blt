@@ -42,7 +42,7 @@ export async function loginUser(dispatch, loginPayload) {
         localStorage.setItem('list_of_products', JSON.stringify(user.list_of_products));
       };
       // Call the fetchData() function to fetch the user's data
-      fetchData()
+      fetchUserData()
 
       // Set the dispatch type to LOGIN_SUCCESS and update the email and token of the initialState object in reducer.js
       dispatch({ type: 'LOGIN_SUCCESS', payload: {'email':email, 'token': token}});
@@ -164,4 +164,38 @@ attribute's list will be updated to include the new list.
 */
 export async function updateProductsLists(dispatch, newList) {
   dispatch({ type: 'UPDATE_PRODUCTS_LISTS', payload: newList})
+}
+
+export async function createProductLists(dispatch, token, title, privacy, imageUrl){
+    const response = await fetch(`/create-list`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        list_title: title,
+        cover_image_url: `${imageUrl}`,
+        private: privacy
+      }),
+    });
+    if (response.ok) {
+      console.log("Success");
+    } else {
+      console.log(response);
+    }
+
+    const res = await fetch('/lists', {
+      method: "GET",
+      headers: {
+        "Content-Type": "aplication/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(),
+    });
+    const lists = await res.json();
+
+    // Set the dispatch typ to UPDATE_PRODUCTS_LISTS and update the list_of_products value of the initial state objecti n reducer.js
+    dispatch({ type: 'UPDATE_PRODUCTS_LISTS', payload: {'list_of_products': lists}});
+    localStorage.setItem('list_of_products', JSON.stringify(lists));
 }
