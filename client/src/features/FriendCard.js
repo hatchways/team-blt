@@ -57,9 +57,12 @@ export default function FriendCard({friendemail, friendname, image, followstate}
   const handleFollowClick = () => {
     setFollow(1);
     followFriends(dispatch, token, friendemail);
+    console.log(follow);
+
   };
 
   const handleUnfollowClick = () => {
+    console.log(follow);
     setFollow(0);
     unfollowFriends(dispatch, token, friendemail);
   };

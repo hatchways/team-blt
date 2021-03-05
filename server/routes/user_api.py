@@ -50,6 +50,7 @@ class FriendApi(Resource):
         friend = body.get('friends')
         user.friends.append(friend)
         user.save()
+        user.reload()
         return Response(user.to_json(), mimetype="application/json", status=200)
 
     @jwt_required()
@@ -60,6 +61,7 @@ class FriendApi(Resource):
         friend = body.get('friends')
         user.update(pull__friends=friend)
         user.save()
+        user.reload()
         return Response(user.to_json(), mimetype="application/json", status=200)
 
     @jwt_required()
