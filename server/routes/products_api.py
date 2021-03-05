@@ -8,10 +8,10 @@ from models.list import List
 '''
 get_jwt_identity() returns the identity of the JWT that is accessing the endpoint.
 In this case, get_jwt_identity() will return the user's email. In order to check
-if the current use has access to specific enpoints such as the created lists and 
+if the current use has access to specific enpoints such as the created lists and
 products, the user's email will be compared to the returned result of get_jwt_identity().
 Once the user object is retrieved, it is then referenced by the List and/or Product
-model's "added_by" attribute. 
+model's "added_by" attribute.
 '''
 # List of products
 class ProductsListApi(Resource):
@@ -78,7 +78,6 @@ class ProductsListApi(Resource):
             return 'Unable to find your list.'
 
 # Individual products
-
 class ProductApi(Resource):
     # Add a product in an existing list of products
     @jwt_required()
@@ -135,7 +134,7 @@ class ProductApi(Resource):
             if product_name:
                 product = Product.objects.get(product_name=product_name, added_by=user).to_json()
             # Retrieve all of the products in the user's specified list.
-            else: 
+            else:
                 product = Product.objects(added_by=user).to_json()
             return Response(product, mimetype="application/json", status=200)
         except:

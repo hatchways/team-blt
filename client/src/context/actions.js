@@ -42,7 +42,7 @@ export async function loginUser(dispatch, loginPayload) {
         localStorage.setItem('list_of_products', JSON.stringify(user.list_of_products));
       };
       // Call the fetchData() function to fetch the user's data
-      fetchData()
+      fetchUserData()
 
       // Set the dispatch type to LOGIN_SUCCESS and update the email and token of the initialState object in reducer.js
       dispatch({ type: 'LOGIN_SUCCESS', payload: { 'email': email, 'token': token } });
@@ -185,7 +185,6 @@ export async function createProductLists(dispatch, token, title, privacy, imageU
   } else {
     console.log(response);
   }
-
   const res = await fetch('/lists', {
     method: "GET",
     headers: {
@@ -200,4 +199,3 @@ export async function createProductLists(dispatch, token, title, privacy, imageU
   dispatch({ type: 'UPDATE_PRODUCTS_LISTS', payload: { 'list_of_products': lists } });
   localStorage.setItem('list_of_products', JSON.stringify(lists));
 }
-

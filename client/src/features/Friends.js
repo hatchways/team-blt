@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
   },
   tabs:{
     width: 550,
-  }
+  },
 }));
 
 const Friends = (props) => {
@@ -30,13 +30,14 @@ const Friends = (props) => {
   return (
     <Paper className={classes.container}>
       <h2>Friends</h2>
-      <Tabs className={classes.tabs}
+      <Tabs
+        className={classes.tabs}
         value={selectTab}
         onChange={handleChange}
         indicatorColor="primary"
         textColor="primary"
-        variant="fullWidth"
         centered
+        variant="fullWidth"
       >
         <Tab label="FOLLOWING"/>
         <Tab label="SUGGESTED"/>
