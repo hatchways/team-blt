@@ -1,7 +1,7 @@
 from flask import Flask
 from db import initialize_db
 from flask_restful import Api
-from routes.user_api import UsersApi, UserApi, SignupApi, LoginApi, LogoutApi, OtherUserApi
+from routes.user_api import UsersApi, UserApi, SignupApi, LoginApi, LogoutApi, OtherUserApi, FriendApi
 from routes.products_api import ProductApi, ProductsListApi, OtherUserProductsListApi, OtherUserProductApi
 from flask_jwt_extended import JWTManager
 import os
@@ -17,6 +17,7 @@ jwt = JWTManager(app)
 def initialize_routes(api):
     api.add_resource(UsersApi, '/users')
     api.add_resource(UserApi, '/user')
+    api.add_resource(FriendApi, '/friends')
     api.add_resource(SignupApi, '/signup')
     api.add_resource(LoginApi, '/login')
     api.add_resource(LogoutApi, '/logout')

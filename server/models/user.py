@@ -9,6 +9,7 @@ class User(db.Document):
     password = db.StringField(required=True, min_length=6)
     profile_pic = db.StringField(default="")
     list_of_products = db.ListField(db.ReferenceField('List', reverse_delete_rule=db.PULL))
+    friends = db.ListField(db.EmailField(required=True, unique=True, min_length=6))
 
     def hash_password(self):
         self.password = generate_password_hash(self.password).decode('utf8')

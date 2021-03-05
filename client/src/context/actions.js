@@ -91,6 +91,78 @@ export async function logout(dispatch) {
   localStorage.removeItem('list_of_products');
 }
 
+export async function getFriends(dispatch, token) {
+  async function fetchData() {
+    const response = await fetch(`/friends`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "aplication/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(),
+    });
+    const user = await response.json();
+    console.log(user)
+
+    dispatch({ type: 'UPDATE_FRIENDS', payload: {'friends': user.friends}});
+    localStorage.setItem('friends', JSON.stringify(user.friends));
+
+  };
+  fetchData();
+
+}
+
+export async function followFriends(dispatch, token, friend) {
+  async function fetchData() {
+    const data = {
+      friends: friend
+    }
+
+    const response = await fetch(`/friends`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "aplication/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    });
+    const user = await response.json();
+    console.log(user);
+
+    dispatch({ type: 'UPDATE_FRIENDS', payload: {'friends': user.friends}});
+    localStorage.setItem('friends', JSON.stringify(user.friends));
+
+  };
+  fetchData();
+
+
+}
+
+export async function unfollowFriends(dispatch, token, friend) {
+  async function fetchData() {
+    const data = {
+      friends: friend
+    }
+
+    const response = await fetch(`/friends`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "aplication/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    });
+    const user = await response.json();
+    console.log(user);
+
+    dispatch({ type: 'UPDATE_FRIENDS', payload: {'friends': user.friends}});
+    localStorage.setItem('friends', JSON.stringify(user.friends));
+
+  };
+  fetchData();
+
+}
+
 /* 
 The updateProfilPic function's dispatch parameter sets the action type to
 'UPDATE_PROFILE_PIC'. The updated image url from UserSetting.js will then
