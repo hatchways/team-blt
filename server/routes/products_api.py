@@ -63,11 +63,19 @@ class ProductsListApi(Resource):
     # Delete a list of products
     @jwt_required()
     def delete(self, list_title):
-        user_id = get_jwt_identity()
-        user = User.objects.get(email=user_id)
-        list_of_products = List.objects(list_title=list_title, added_by=user)
-        list_of_products.delete()
-        return 'Your list has been deleted.', 200
+        try:
+            user_id = get_jwt_identity()
+            user = User.objects.get(email=user_id)
+            list_of_products = List.objects.get(list_title=list_title, added_by=user)
+            # Delete the products within the list
+            product = Product.objects(added_by=user, in_list=list_of_products)
+            product.delete()
+            # Delete the list
+            list_of_products.delete()
+            new_list_of_products = List.objects(added_by=user).to_json()
+            return Response(new_list_of_products, mimetype="application/json", status=200)
+        except:
+            return 'Unable to find your list.'
 
 # Individual products
 class ProductApi(Resource):
