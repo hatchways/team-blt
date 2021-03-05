@@ -69,9 +69,8 @@ export const AuthReducer = (initialState, action) => {
 		case 'UPDATE_PRODUCTS_LISTS':
 			return {
 				...initialState,
-				list_of_products: action.payload.list_of_products
+				list_of_products: [...action.payload.list_of_products]
 			}
-			
 		default:
 			throw new Error(`Unhandled action type: ${action.type}`);
 	}

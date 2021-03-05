@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -7,6 +7,7 @@ import Avatar from "@material-ui/core/Avatar";
 import logo from "../../assets/logo.png";
 import MenuTabs from "./MenuTabs";
 import {Menu, MenuItem} from "@material-ui/core/"
+import { UserModel } from "../../context/UserContext";
 import { useAuthState } from "../../context/context";
 
 const useStyles = makeStyles((theme) => ({
