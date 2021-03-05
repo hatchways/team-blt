@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {
   Box,
   Typography,
@@ -13,6 +13,8 @@ import {
   Select,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { addProducts } from "../../context/actions";
+import { useAuthState, useAuthDispatch } from "../../context/context";
 
 const useStyles = makeStyles((theme) => ({
   dialog: {
@@ -62,12 +64,51 @@ const useStyles = makeStyles((theme) => ({
 
 const AddItemDialogue = (props) => {
   const classes = useStyles();
-  const { openDialogue, closeDialogue } = props;
+  const currentUser = useAuthState();
+  const dispatch = useAuthDispatch();
+  const {inputLink, openDialogue, closeDialogue, selectedListIndex } = props; 
+
+  //Test code starts  
+   // const [inputLink, setInputLink] = useState("");    
+    const [item, setItem] = useState({});    
+
+    const getItem = async (input) => {
+        const response = await fetch("/scrape", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ url: input })
+        });
+        return response.json();
+    };
+  //Test Code ends
+
   const addButtonClick = async (e) => {
-    closeDialogue();
+    
+    //closeDialogue();
+    if (inputLink.length > 0) {
+      //openPopup();
+      const newItem = await getItem(inputLink);
+      setItem(newItem);     
+  }
+  let message = await item.short_URL +"\n" +item.id + "\n" +item.name + "\n"+ item.image + "\n" + item.price;
+  alert(message);
+  const list_title = currentUser.list_of_products[selectedListIndex].list_title;
+  addProducts(dispatch, currentUser.token, list_title, item.name, item.short_URL, item.image, item.price);
+
+  // const res = await fetch(`/lists/`, {
+  //   method: "GET",
+  //   headers: {
+  //     "Content-Type": "aplication/json",
+  //     Authorization: `Bearer ${currentUser.token}`,
+  //   },
+  //   body: JSON.stringify(),
+  // });
+  // const list = await res.json();
+  // console.log(list);
   };
 
-  return (
+
+  return (    
     <Dialog
       open={openDialogue}
       onClose={closeDialogue}
@@ -77,13 +118,13 @@ const AddItemDialogue = (props) => {
     >
       <DialogTitle id="alert-dialog-add-item">{"Add new Item:"}</DialogTitle>
       <DialogContent>
-        
           <Box className={classes.boxInput}>
             <Typography variant="h6">Paste link to item:</Typography>
             <Input
               placeholder="Paste your Link here"
               disableUnderline
               className={classes.pasteLink}
+              value={inputLink}
             />
           </Box>
           <Box className={classes.boxSelect}>
@@ -92,18 +133,21 @@ const AddItemDialogue = (props) => {
             </Typography>
             <FormControl className={classes.formControl}>
               <Select
-                value={"Select"}
+                value={selectedListIndex}
                 className={classes.listDropdown}
                 displayEmpty
                 disableUnderline
                 inputProps={{ "aria-label": "Without label" }}
               >
-                <MenuItem value={"Select"} disabled>
+                <MenuItem value={'Select'} disabled>
                   Select
                 </MenuItem>
-                <MenuItem value={"10"}>Ten</MenuItem>
-                <MenuItem value={"20"}>Twenty</MenuItem>
-                <MenuItem value={"30"}>Thirty</MenuItem>
+                {currentUser.list_of_products.map((list, i) => (
+                <MenuItem
+                  key={i}                  
+                  value={i}
+                >{list.list_title}</MenuItem>
+              ))}
               </Select>
             </FormControl>
           </Box>

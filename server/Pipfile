@@ -7,6 +7,14 @@ verify_ssl = true
 
 [packages]
 flask = "*"
+flask-mongoengine = "*"
+flask-restful = "*"
+flask-jwt-extended = "*"
+flask-bcrypt = "*"
+flask-requests = "*"
+requests = "*"
+bs4 = "*"
+lxml = "*"
 
 [requires]
 python_version = "3.8"
