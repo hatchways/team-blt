@@ -87,7 +87,7 @@ function UserSetting({ handleSetting, openSettingDialogue }) {
       updateProfilePic(dispatch, image);
       // Send post request to backend to update User model
       const postImage = async () => {
-        const response = await fetch(`/user`, {
+        const response = await fetch(`/users/:${currentUser.email}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",

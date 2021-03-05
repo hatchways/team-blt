@@ -8,10 +8,10 @@ from models.list import List
 '''
 get_jwt_identity() returns the identity of the JWT that is accessing the endpoint.
 In this case, get_jwt_identity() will return the user's email. In order to check
-if the current use has access to specific enpoints such as the created lists and
+if the current use has access to specific enpoints such as the created lists and 
 products, the user's email will be compared to the returned result of get_jwt_identity().
 Once the user object is retrieved, it is then referenced by the List and/or Product
-model's "added_by" attribute.
+model's "added_by" attribute. 
 '''
 # List of products
 class ProductsListApi(Resource):
@@ -30,20 +30,7 @@ class ProductsListApi(Resource):
             return Response(list_of_products, mimetype="application/json", status=200)
         except:
             return 'Unable to find the list.'
-
-    # Updating a list of products' private/public toggle.
-    @jwt_required()
-    def put(self, list_title):
-        user_id = get_jwt_identity()
-        user = User.objects.get(email=user_id)
-        # Retrieve the list the user is trying to edit
-        list_of_products = List.objects.get(
-            list_title=list_title, added_by=user)
-        body = request.get_json()
-        list_of_products.update(**body)
-        new_list_of_products = List.objects(added_by=user).to_json()
-        return Response(new_list_of_products, mimetype="application/json", status=200)
-
+    
     # Create a new list of products
     @jwt_required()
     def post(self):
@@ -126,41 +113,9 @@ class ProductApi(Resource):
             if product_name:
                 product = Product.objects.get(product_name=product_name, added_by=user).to_json()
             # Retrieve all of the products in the user's specified list.
-            else:
+            else: 
                 product = Product.objects(added_by=user).to_json()
             return Response(product, mimetype="application/json", status=200)
         except:
-            return 'Unable to find your product(s).'
-
-# Looking at other user's lists
-class OtherUserProductsListApi(Resource):
-    # Read the public list of products
-    @jwt_required()
-    def get(self, id, list_title=None):
-        try:
-            user = User.objects.get(id=id)
-            # Retrieve one of the user's list based on the list title.
-            if list_title:
-                list_of_products = List.objects.get(
-                    list_title=list_title, added_by=user, private=False).to_json()
-            # Retrieve all of the lists the user created
-            else:
-                list_of_products = List.objects(added_by=user, private=False).to_json()
-            return Response(list_of_products, mimetype="application/json", status=200)
-        except:
-            return 'Unable to find the list.'
-
-# Looking at other user's products
-class OtherUserProductApi(Resource):
-    # Read a product
-    @jwt_required()
-    def get(self, id, list_title):
-        try:
-            user = User.objects.get(id=id)
-            list_of_products = List.objects.get(
-                list_title=list_title, added_by=user)
-            # Retrieve all of the products in the user's specified list.
-            product = Product.objects(added_by=user, in_list=list_of_products).to_json()
-            return Response(product, mimetype="application/json", status=200)
-        except:
-            return 'Unable to find the product(s).'
+            return 'Unable to find your product.'
+        

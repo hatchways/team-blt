@@ -2,11 +2,19 @@ import React from "react";
 import { Redirect, Route } from "react-router-dom";
 import { useAuthState } from "../context/context";
 
-const ProtectedRoute = ({ children }) => {
+const ProtectedRoute = ({ component: Component, path }) => {
   const currentUser = useAuthState();
-  
   return (
-    currentUser.token ? children : <Redirect to={{ pathname: "/login" }} />
+    <Route
+      path={path}
+      render={(props) => {
+        if (!Boolean(currentUser.token)) {
+          return <Redirect to={{ pathname: "/login" }} />;
+        } else {
+          return <Component {...props} />;
+        }
+      }}
+    />
   );
 };
 

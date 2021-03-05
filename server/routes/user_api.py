@@ -109,10 +109,3 @@ class LogoutApi(Resource):
         response = jsonify({"msg": "logout successful"})
         response.delete_cookie(user_id)
         return response
-
-class OtherUserApi(Resource):
-    @jwt_required()
-    def get(self, id):
-        if id:
-            user = User.objects.get(id=id).to_json()
-        return Response(user, mimetype="application/json", status=200)

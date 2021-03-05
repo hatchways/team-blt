@@ -1,9 +1,9 @@
 import React from "react";
-import { Grid, Typography } from "@material-ui/core";
+import { Grid, Box, Typography, IconButton } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import ListCards from "../../components/body/ListCards";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   container: {
     display: "flex",
     flexDirection: "column",
@@ -14,17 +14,16 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const ListsContainer = ({ otherUser }) => {
+const ListsContainer = () => {
   const classes = useStyles();
-
   return (
     <Grid className={classes.container}>
       <Grid item xs={3} className={classes.listLabel}>
-        <Typography variant="h6">
-          {otherUser ? "Shopping Lists:" : "My Shopping Lists:"}
-        </Typography>
+      <Typography variant="h6">
+        My Shopping Lists:
+      </Typography>
       </Grid>
-      <ListCards otherUser={otherUser} />
+      <ListCards/>
     </Grid>
   );
 };
