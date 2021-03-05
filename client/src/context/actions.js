@@ -218,7 +218,7 @@ export async function createProductLists(dispatch, token, title, privacy, imageU
     localStorage.setItem('list_of_products', JSON.stringify(lists));
 }
 
-export async function addProducts(dispatch, token, list_title, name, short_URL, image, price){
+export async function addProducts(dispatch, token, list_title, short_URL, name, image, price){
   const response = await fetch(`/lists/${list_title}/add-product`, {
     method: "POST",
     headers: {
@@ -232,11 +232,8 @@ export async function addProducts(dispatch, token, list_title, name, short_URL, 
       price: price,
     }),
   });
-  if (response.ok) {
-    console.log("Success");
-  } else {
-    console.log(response);
-  }
+  const message = await response.json()
+  console.log(message);
 
   const res = await fetch('/lists/Clothing', {
     method: "GET",

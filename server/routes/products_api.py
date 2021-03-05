@@ -82,19 +82,18 @@ class ProductApi(Resource):
     # Add a product in an existing list of products
     @jwt_required()
     def post(self, list_title):
-        try:
-            user_id = get_jwt_identity()
-            body = request.get_json()
-            user = User.objects.get(email=user_id)
-            user_list = List.objects.get(list_title=list_title, added_by=user)
-            product = Product(**body, added_by=user)
-            product.save()
-            product_name = product.product_name
-            user_list.update(push__products=product)
-            user_list.save()
-            return {'name': str(product_name)}, 201
-        except:
-            return 'Unable to add product to your list.'
+        user_id = get_jwt_identity()
+        body = request.get_json()
+        print(body)
+        user = User.objects.get(email=user_id)
+        user_list = List.objects.get(list_title=list_title, added_by=user)
+        product = Product(product_name=body['product_name'], url=body['url'], product_image=body['product_image'], price=float(body['price']), added_by=user)
+        product.save()
+        product_name = product.product_name
+        user_list.update(push__products=product)
+        user_list.save()
+        return {'name': str(product_name)}, 201
+
 
     # Edit a product
     @jwt_required()

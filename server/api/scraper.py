@@ -41,11 +41,11 @@ def get_price(soup):
  
     try:
         price = soup.find("span", attrs={'id':['priceblock_saleprice', 'priceblock_ourprice', 'priceblock_dealprice', 'priceblock_saleprice', 'price', 'buyNewSection']}).string.strip()
- 
+
     except AttributeError:
         price = ""  
  
-    return price
+    return price[5:]
 
 # Function to extract Product image url
 def get_image(soup):
@@ -71,9 +71,8 @@ class ScrapeAmazon:
     def __init__(self, URL):
     
         # Headers for request
-        HEADERS = ({'User-Agent':
-                    'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36',
-                    'Accept-Language': 'en-US, en;q=0.5'})
+        HEADERS = ({"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36",
+            "Pragma": "no-cache"})
     
         # The webpage URL
         #URL = "https://www.amazon.in/gp/product/B085J1X78K/?th=1"
