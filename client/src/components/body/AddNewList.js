@@ -46,7 +46,7 @@ const AddNewList = () => {
             <Typography className={classes.AddIcon} variant="h1">
               +
             </Typography>
-            <Typography gutterBottom variant="caption">
+            <Typography gutterBottom variant="h6">
               Add New List
             </Typography>
           </CardContent>
