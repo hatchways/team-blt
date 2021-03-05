@@ -25,11 +25,13 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: 600,
     height: 120,
+
   },
   header: {
     alignItems: "center",
-    display: 'flex',
-    margin: '1rem'
+
+
+
   },
   title: {
     fontSize: 18,
@@ -38,12 +40,11 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: red[500],
   },
   button: {
-    borderRadius: "10rem",
     backgroundColor: "#DF1B1B",
     color: "white",
     width: "6rem",
     height: "3rem",
-    marginTop:"2.5rem",
+    margin:"1rem",
   },
 }));
 
