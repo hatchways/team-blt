@@ -53,34 +53,31 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ListCards = () => {
+const ListCards = ({ otherUser }) => {
   const classes = useStyles();
 
   return (
-      
-      
     <Grid className={classes.cardContainer}>
-        
-      {defaultLists.map((item, i) => (
-        <Card className={classes.root} key={item.name}>
-          <CardActionArea>
-            <CardMedia
-              className={classes.media}
-              image={item.img}
-              title="Contemplative Reptile"
-            />
-            <CardContent className={classes.content}>
-              <Typography gutterBottom>
-                {item.name}
-              </Typography>
-              <Typography gutterBottom variant="caption">
-                {Math.floor(1 + Math.random() * 9)} Items
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-        </Card>
+      {otherUser ?
+      otherUser.list_of_products.filter(list => list.private != true).map(list => (
+        <ProductListCard
+          key={list._id.$oid}
+          listTitle={list.list_title}
+          cover_image_url={list.cover_image_url}
+          numberOfProducts={list.products.length}
+          otherUser={otherUser}
+        />
+      ))
+      : currentUser.list_of_products.map((list) => (
+        <ProductListCard
+          key={list._id.$oid}
+          listTitle={list.list_title}
+          cover_image_url={list.cover_image_url}
+          numberOfProducts={list.products.length}
+          privateList={list.private}
+        />
       ))}
-      <AddNewList/>
+      {otherUser ? null : <AddNewList />}
     </Grid>
   );
 };
