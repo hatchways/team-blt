@@ -232,6 +232,7 @@ export async function addProducts(dispatch, token, list_title, short_URL, name, 
       price: price,
     }),
   });
+  
   const res = await fetch(`/lists`, {
     method: "GET",
     headers: {
