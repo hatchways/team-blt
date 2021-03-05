@@ -48,11 +48,8 @@ class FriendApi(Resource):
         user = User.objects.get(email=user_id)
         body = request.get_json(force=True)
         friend = body.get('friends')
-
-        if friend not in user.friends:
-            user.friends.append(friend)
-            user.save()
-            user.reload()
+        user.friends.append(friend)
+        user.save()
         return Response(user.to_json(), mimetype="application/json", status=200)
 
     @jwt_required()
@@ -63,7 +60,6 @@ class FriendApi(Resource):
         friend = body.get('friends')
         user.update(pull__friends=friend)
         user.save()
-        user.reload()
         return Response(user.to_json(), mimetype="application/json", status=200)
 
     @jwt_required()
