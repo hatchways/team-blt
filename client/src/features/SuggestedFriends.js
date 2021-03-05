@@ -20,7 +20,7 @@ const Suggested = (props) => {
   const [randomUsers, setRandomUsers] = useState([]);
   useEffect(
     () => {
-      const details = getRandomUsers(currentUser.friends)
+      getRandomUsers(currentUser.friends)
 
     },[currentUser]);
     const getRandomUsers = async (myfriends) => {
@@ -45,7 +45,7 @@ const Suggested = (props) => {
 
   return (
     <Paper className={classes.container}>
-      {randomUsers.map((randomUser) =>
+      {randomUsers.filter(randomUser => currentUser.email != randomUser.email).map((randomUser) =>
         <FriendCard key={randomUser.email} friendemail = {randomUser.email} friendname = {randomUser.name} image = {randomUser.profile_pic} followstate = {0}/>
       )}
     </Paper>

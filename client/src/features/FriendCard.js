@@ -24,10 +24,15 @@ import {
 const useStyles = makeStyles((theme) => ({
   root: {
     width: 600,
-    height: 150,
+    height: 120,
   },
   header: {
     alignItems: "center",
+    display: 'flex',
+    margin: '1rem'
+  },
+  title: {
+    fontSize: 18,
   },
   avatar: {
     backgroundColor: red[500],
@@ -57,12 +62,9 @@ export default function FriendCard({friendemail, friendname, image, followstate}
   const handleFollowClick = () => {
     setFollow(1);
     followFriends(dispatch, token, friendemail);
-    console.log(follow);
-
   };
 
   const handleUnfollowClick = () => {
-    console.log(follow);
     setFollow(0);
     unfollowFriends(dispatch, token, friendemail);
   };
@@ -96,7 +98,12 @@ export default function FriendCard({friendemail, friendname, image, followstate}
       <CardHeader
         className={classes.header}
         avatar={
-          <Avatar aria-label="profile image" src = {image} onClick = {handleProfileClick} className={classes.avatar}>
+          <Avatar
+            aria-label="profile image"
+            src = {image}
+            onClick = {handleProfileClick}
+            className={classes.avatar}
+          >
           </Avatar>
         }
         action={
@@ -105,7 +112,9 @@ export default function FriendCard({friendemail, friendname, image, followstate}
             <FollowButton onClick = {handleFollowClick}/>
         }
         title={
-          friendname
+          <Typography variant="h6" component="h2" className={classes.title}>
+            {friendname}
+          </Typography>
         }
       />
     </Card>

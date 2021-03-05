@@ -19,7 +19,7 @@ const Following = (props) => {
   const [friendDetails, setFriendDetails] = useState([]);
   useEffect(
     () => {
-      const details = getFriendDetails(currentUser.friends)
+      getFriendDetails(currentUser.friends)
 
     },[currentUser]);
     const getFriendDetails = async (myfriends) => {
