@@ -89,6 +89,7 @@ export async function logout(dispatch) {
   localStorage.removeItem('login');
   localStorage.removeItem('profile_pic');
   localStorage.removeItem('list_of_products');
+  localStorage.removeItem('friends');
 }
 
 export async function getFriends(dispatch, token) {
