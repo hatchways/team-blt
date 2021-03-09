@@ -2,7 +2,6 @@ import React, { useEffect, useContext } from 'react'
 import { Redirect } from 'react-router-dom';
 import { useAuthState } from '../../../context/context';
 import { OtherUserProvider } from '../../../context/OtherUserContext';
-import Navbar from '../../header/Navbar'
 import ListsContainer from '../ListsContainer';
 import OtherUserProfile from './OtherUserProfile';
 
@@ -67,7 +66,6 @@ function OtherUserDashboard(props) {
 
     return (
         <>
-            <Navbar />
             <OtherUserProfile
                 image={otherUser.profile_pic}
                 name={otherUser.name}
