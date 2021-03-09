@@ -1,25 +1,19 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import clsx from "clsx";
 import { red } from "@material-ui/core/colors";
 import { followFriends, getFriends, unfollowFriends } from "../context/actions";
 import { useAuthDispatch } from "../context/context";
 import { Link, Redirect} from "react-router-dom";
 import { createBrowserHistory } from "history";
-import FavoriteIcon from "@material-ui/icons/Favorite";
 import {
   Card,
   CardHeader,
-  CardMedia,
-  CardContent,
-  CardActions,
-  Collapse,
   Avatar,
-  IconButton,
   Button,
   Typography
 } from "@material-ui/core";
 import OtherUserDashboard from "../components/body/otherUser/OtherUserDashboard";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     width: 550,
@@ -42,12 +36,14 @@ const useStyles = makeStyles((theme) => ({
     margin:"1rem",
   },
 }));
+
 export default function FriendCard({friendId, friendemail, friendname, image, followstate}) {
   const classes = useStyles();
   const [follow, setFollow] = React.useState(followstate);
   const token = JSON.parse(localStorage.getItem("token"));
   const dispatch = useAuthDispatch();
-  const history = createBrowserHistory();
+
+  // Redirect user to the other user's profile picture.
   const handleProfileClick = () => {
     return <Redirect to={`/users/${friendId}`} component={OtherUserDashboard} />
   };
