@@ -32,11 +32,13 @@ const Following = () => {
       setFriendDetails(user.friends)
     }
     getFriends();
-  }, []);
-
+  }, [currentUser]);
+  
   return (
     <Paper className={classes.container}>
-      {friendDetails.map(friendDetail => JSON.parse(friendDetail)).map(friendDetail =>
+      {friendDetails
+        .map(friendDetail => JSON.parse(friendDetail))
+        .map(friendDetail =>
         <FriendCard 
             key={friendDetail._id.$oid} 
             friendId={friendDetail._id.$oid}
