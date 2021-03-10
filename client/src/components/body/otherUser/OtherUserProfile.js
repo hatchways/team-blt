@@ -30,7 +30,6 @@ function OtherUserProfile({ image, name, email }) {
     we must parse the JSON strings before comaring if the other user's email
     is present within the list of friends.
     */
-    
 
     // Handling following and unfollowing of the other user in their page
     const handleFollowClick = () => {
