@@ -22,12 +22,12 @@ export async function loginUser(dispatch, loginPayload) {
       // email fetched from user's email input in the log in form
       const email = loginPayload.email;
       const token = Cookies.get(email);
-      // Fetch the profile picture URL and the user's list of lists of products from the server
+      // Fetch the profile picture URL and the user's list of friends from the server
       async function fetchUserData() {
         const response = await fetch(`/user`, {
           method: "GET",
           headers: {
-            "Content-Type": "aplication/json",
+            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(),
@@ -37,6 +37,10 @@ export async function loginUser(dispatch, loginPayload) {
         // Set the dispatch type to UPDATE_PROFILE_PIC and update the profile_pic value of the intialState object in reducer.js
         dispatch({ type: 'UPDATE_PROFILE_PIC', payload: {'profile_pic': user.profile_pic}});
         localStorage.setItem('profile_pic', JSON.stringify(user.profile_pic));
+
+        // Set the dispatch type to UPDATE_FRIENDS and update the friends value to the list of friends
+        dispatch({ type: 'UPDATE_FRIENDS', payload: {'friends': user.friends}});
+        localStorage.setItem('friends', JSON.stringify(user.friends));
       };
       /* 
       Fetch the list of product lists from the /lists endpoint. This is done because the list_of_products
@@ -47,7 +51,7 @@ export async function loginUser(dispatch, loginPayload) {
         const response = await fetch('/lists', {
           method: "GET",
           headers: {
-            "Content-Type": "aplication/json",
+            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify(),
@@ -92,27 +96,6 @@ export async function logout(dispatch) {
   localStorage.removeItem('friends');
 }
 
-export async function getFriends(dispatch, token) {
-  async function fetchData() {
-    const response = await fetch(`/friends`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "aplication/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(),
-    });
-    const user = await response.json();
-    console.log(user)
-
-    dispatch({ type: 'UPDATE_FRIENDS', payload: {'friends': user.friends}});
-    localStorage.setItem('friends', JSON.stringify(user.friends));
-
-  };
-  fetchData();
-
-}
-
 export async function followFriends(dispatch, token, friend) {
   async function fetchData() {
     const data = {
@@ -122,7 +105,7 @@ export async function followFriends(dispatch, token, friend) {
     const response = await fetch(`/friends`, {
       method: "PUT",
       headers: {
-        "Content-Type": "aplication/json",
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(data),
@@ -135,8 +118,6 @@ export async function followFriends(dispatch, token, friend) {
 
   };
   fetchData();
-
-
 }
 
 export async function unfollowFriends(dispatch, token, friend) {
@@ -148,7 +129,7 @@ export async function unfollowFriends(dispatch, token, friend) {
     const response = await fetch(`/friends`, {
       method: "DELETE",
       headers: {
-        "Content-Type": "aplication/json",
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(data),
@@ -158,10 +139,8 @@ export async function unfollowFriends(dispatch, token, friend) {
 
     dispatch({ type: 'UPDATE_FRIENDS', payload: {'friends': user.friends}});
     localStorage.setItem('friends', JSON.stringify(user.friends));
-
   };
   fetchData();
-
 }
 
 /* 
@@ -207,7 +186,7 @@ export async function createProductLists(dispatch, token, title, privacy, imageU
     const res = await fetch('/lists', {
       method: "GET",
       headers: {
-        "Content-Type": "aplication/json",
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(),
