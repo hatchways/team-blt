@@ -4,7 +4,6 @@ from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identi
 from models.user import User
 import datetime
 
-
 class UsersApi(Resource):
     def get(self):
         users = User.objects().to_json()
@@ -62,8 +61,8 @@ class FriendApi(Resource):
         user_id = get_jwt_identity()
         user = User.objects.get(email=user_id)
         body = request.get_json(force=True)
-        friend = body.get('friends')
-        user.friends.append(friend)
+        friend = User.objects.get(email=body.get('friends')).to_json()
+        user.update(push__friends=friend)
         user.save()
         user.reload()
         return Response(user.to_json(), mimetype="application/json", status=200)
@@ -73,7 +72,7 @@ class FriendApi(Resource):
         user_id = get_jwt_identity()
         user = User.objects.get(email=user_id)
         body = request.get_json(force=True)
-        friend = body.get('friends')
+        friend = User.objects.get(email=body.get('friends')).to_json()
         user.update(pull__friends=friend)
         user.save()
         user.reload()
@@ -82,8 +81,8 @@ class FriendApi(Resource):
     @jwt_required()
     def get(self):
         user_id = get_jwt_identity()
-        user = User.objects.get(email=user_id)
-        return Response(user.to_json(), mimetype="application/json", status=200)
+        user = User.objects.get(email=user_id).to_json()
+        return Response(user, mimetype="application/json", status=200)
 
 class SignupApi(Resource):
     def post(self):
