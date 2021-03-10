@@ -111,7 +111,6 @@ export async function followFriends(dispatch, token, friend) {
       body: JSON.stringify(data),
     });
     const user = await response.json();
-    console.log(user);
 
     dispatch({ type: 'UPDATE_FRIENDS', payload: {'friends': user.friends}});
     localStorage.setItem('friends', JSON.stringify(user.friends));
@@ -135,7 +134,6 @@ export async function unfollowFriends(dispatch, token, friend) {
       body: JSON.stringify(data),
     });
     const user = await response.json();
-    console.log(user);
 
     dispatch({ type: 'UPDATE_FRIENDS', payload: {'friends': user.friends}});
     localStorage.setItem('friends', JSON.stringify(user.friends));
@@ -163,9 +161,8 @@ export async function updateProductsLists(dispatch, newList) {
     localStorage.setItem('list_of_products', JSON.stringify(newList));
 }
 
-
 export async function createProductLists(dispatch, token, title, privacy, imageUrl){  
-    const response = await fetch(`/create-list`, {
+    await fetch(`/create-list`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -177,11 +174,6 @@ export async function createProductLists(dispatch, token, title, privacy, imageU
         private: privacy
       }),
     });
-    if (response.ok) {
-      console.log("Success");
-    } else {
-      console.log(response);
-    }
     
     const res = await fetch('/lists', {
       method: "GET",
