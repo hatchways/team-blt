@@ -5,7 +5,7 @@ import {
 } from "@material-ui/core";
 import FriendCard from "./FriendCard";
 import { useAuthState } from "../context/context"
-import { getFriends } from "../context/actions";
+
 const useStyles = makeStyles(() => ({
   container: {
     display: "flex",
@@ -28,11 +28,11 @@ const Following = () => {
         body: JSON.stringify(),
       });
       const user = await response.json();
+
       setFriendDetails(user.friends)
     }
     getFriends();
   }, []);
-  console.log(friendDetails)
 
   return (
     <Paper className={classes.container}>
