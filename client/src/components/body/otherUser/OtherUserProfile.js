@@ -24,6 +24,13 @@ function OtherUserProfile({ image, name, email }) {
     const classes = useStyles();
     const currentUser = useAuthState();
     const dispatch = useAuthDispatch();
+    const parsedListOfFriends = currentUser.friends.map(friend => JSON.parse(friend));
+    /*
+    Since the current user's list of friends is an array of stringified JSON, 
+    we must parse the JSON strings before comaring if the other user's email
+    is present within the list of friends.
+    */
+    
 
     // Handling following and unfollowing of the other user in their page
     const handleFollowClick = () => {
@@ -45,7 +52,7 @@ function OtherUserProfile({ image, name, email }) {
             />
             <Typography variant="h4">{name}</Typography>
             <Typography variant="subtitle2" style={{ color: "#9b9a9a"}}>{email}</Typography>
-            {currentUser.friends.includes(email) ? 
+            {parsedListOfFriends.some(friend => friend.email == email) ? 
                 <Button 
                     className={classes.button}
                     variant="contained" 
