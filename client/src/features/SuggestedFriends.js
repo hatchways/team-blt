@@ -13,33 +13,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Suggested = (props) => {
+const Suggested = () => {
+  const classes = useStyles();
   const currentUser = useAuthState();
   const [randomUsers, setRandomUsers] = useState([]);
-  useEffect(
-    () => {
-      getRandomUsers(currentUser.friends)
-
-    },[currentUser]);
-    const getRandomUsers = async (myfriends) => {
-      const input = {
-        getFriends : false,
-        friends : myfriends
-      }
-
-      const response = await fetch(`/users`, {
-        method: "PUT",
+  
+  useEffect(() => {
+    async function fetchUsers() {
+      const response = await fetch('/users', {
+        method: "GET",
         headers: {
-          "Content-Type": "aplication/json",
-        },
-        body: JSON.stringify(input),
-      });
-
-      const result = await response.json();
-      setRandomUsers(result);
-
-    };
-  const classes = useStyles();
+          "Content-Type": "application/json"
+        }
+      })
+      const users = await response.json();
+      console.log(users)
+      setRandomUsers(users)
+    }
+    fetchUsers();
+  }, [currentUser]);
+  
 
   return (
     <Paper className={classes.container}>
