@@ -22,7 +22,6 @@ function App() {
       <AuthProvider>
         <OtherUserContext>
           <BrowserRouter>
-            <Navbar />
             <Switch>
               <LoginRoute 
                 path={'/login'}
@@ -33,6 +32,7 @@ function App() {
                 component={SignUp}
               />
               <ProtectedRoute>
+                <Navbar />
                 <Route exact path={'/'} component={UserDashboard} />
                 <Route exact path={'/friends'} component={Friends} />
                 <Route exact path={'/notifications'} component={Notifications} />
