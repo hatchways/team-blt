@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Tabs,
@@ -19,12 +19,14 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const Friends = (props) => {
+const Friends = () => {
   const classes = useStyles();
-  const [selectTab, setSelectTab] = React.useState(0);
-  const handleChange = (newValue) => {
+  const [selectTab, setSelectTab] = useState(0);
+
+  const handleChange = (event, newValue) => {
     setSelectTab(newValue);
   }
+  
   return (
     <Paper className={classes.container}>
       <h2>Friends</h2>
