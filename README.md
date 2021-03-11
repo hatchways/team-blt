@@ -42,4 +42,5 @@ In order to upload images to your profile and/or images to the products list you
 
 4. Start the App using `npm start` or `yarn start`.
 
-
+## Contibutors
+[Jason](https://github.com/jason1794c), [Ziqi](https://github.com/shenziq1), [Milan](https://github.com/MillanAir)
