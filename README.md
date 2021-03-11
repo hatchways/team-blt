@@ -19,12 +19,12 @@ The database used for this web app is MongoDB. A simple way to get started with 
 1. Open a terminal and go to the server folder. Make sure you have **pipenv** installed (`pip install pipenv`)
 2. Install the dependencies with `pipenv install`. This also createa a virtual environment, if there isn't one already
 3. In order to run db locally, make sure you go to the server/.env file and have the following key, value pairs in the .env file:
-`
-FLASK_ENV="development"
-SECRET_KEY = "Make up a secret key."
-MONGODB_HOST = "The MongoDB server URL given to you by MongoDB after you create a database."
-JWT_SECRET_KEY = "Make up a JWT secret key"
-`
+
+`FLASK_ENV="development"`<br>
+`SECRET_KEY = "Make up a secret key."`<br>
+`MONGODB_HOST = "The MongoDB server URL given to you by MongoDB after you create a database."`<br>
+`JWT_SECRET_KEY = "Make up a JWT secret key"`
+
 4. Activate the virtual environment and start the app with `pipenv run flask run`
 
 ## Setting up AWS S3
@@ -34,12 +34,12 @@ In order to upload images to your profile and/or images to the products list you
 1. Open a terminal and go the client folder. 
 2. Install the dependencies using `npm install` or `yarn install`.
 3. In order to utilize Amazon's AWS S3 service for uploading images for your profile image and/or list image, make sure to go to the client/.env file and have the following key, value pairs in the .env file:
-`
-REACT_APP_BUCKET_NAME=Your bucket name
-REACT_APP_REGION=Your chosen region
-REACT_APP_ACCESS_ID=Your access ID
-REACT_APP_ACCESS_KEY=Your access key
-`
+
+`REACT_APP_BUCKET_NAME=Your bucket name`<br>
+`REACT_APP_REGION=Your chosen region`<br>
+`REACT_APP_ACCESS_ID=Your access ID`<br>
+`REACT_APP_ACCESS_KEY=Your access key`<br>
+
 4. Start the App using `npm start` or `yarn start`.
 
 
