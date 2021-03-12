@@ -7,9 +7,10 @@ import Avatar from "@material-ui/core/Avatar";
 import logo from "../../assets/logo.png";
 import UserSetting from "../body/UserSetting";
 import MenuTabs from "./MenuTabs";
-import {Menu, MenuItem} from "@material-ui/core/"
-import { UserModel } from "../../context/UserContext";
-import { useAuthState } from "../../context/context";
+import { Link } from "react-router-dom";
+import { Menu, MenuItem } from "@material-ui/core/"
+import { useAuthState, useAuthDispatch } from '../../context/context';
+import { logout } from '../../context/actions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,13 +38,17 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: "auto",
   },
   avatar: {
-    marginRight: theme.spacing(1),    
+    marginRight: theme.spacing(1),
   },
-  button: {    
+  button: {
     textTransform: "none",
-    color:"inherit",
+    color: "inherit",
     marginTop: theme.spacing(6),
   },
+  link: {
+    textDecoration: "none",
+    color: "inherit"
+  }
 }));
 
 export default function Navbar() {
@@ -51,6 +56,7 @@ export default function Navbar() {
   const [anchorEl, setAnchorEl] = useState(null);
   const isMenuOpen = Boolean(anchorEl);
   const currentUser = useAuthState();
+  const dispatch = useAuthDispatch();
 
   // Handling user setting modal
   const [openSettingDialogue, setOpenSettingDialogue] = useState(false);
@@ -63,7 +69,7 @@ export default function Navbar() {
       handleMenuClose();
     }
   };
-  
+
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -84,9 +90,26 @@ export default function Navbar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Go to Profile</MenuItem>
+      <Link to='/' className={classes.link}><MenuItem onClick={handleMenuClose}>Go to Profile</MenuItem></Link>
       <MenuItem onClick={handleSetting}>Settings</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
+      <MenuItem onClick={async () => {
+        const response = await fetch("/logout", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${currentUser.token}`
+          },
+        });
+
+        if (response.status == 422) {
+          console.log('already logout, please log in');
+        }
+
+        if (response.ok) {
+          console.log('logout successfully');
+          logout(dispatch);
+        }
+      }}>Logout</MenuItem>
     </Menu>
   );
 
@@ -95,13 +118,13 @@ export default function Navbar() {
       <AppBar position="static">
         <Toolbar className={classes.appBar}>
           <div className={classes.title}>
-            <img src={logo} className={classes.logo} alt="Deals Mate"></img>
+            <Link to="/" ><img src={logo} className={classes.logo} alt="Deals Mate"></img></Link>
           </div>
           <div className={classes.tabContainer}>
             <MenuTabs />
           </div>
-          
-          <Button            
+
+          <Button
             className={classes.button}
             edge="end"
             aria-label="account of current user"
@@ -109,12 +132,12 @@ export default function Navbar() {
             aria-haspopup="true"
             onClick={handleProfileMenuOpen}
           >
-            <Avatar 
-              alt="Profile Pic" 
+            <Avatar
+              alt="Profile Pic"
               src={
-                  currentUser.profile_pic ? currentUser.profile_pic 
+                currentUser.profile_pic ? currentUser.profile_pic
                   : 'https://dealsmateprofilepic.s3.us-east-2.amazonaws.com/mr-anonymous.png'
-                } 
+              }
               className={classes.avatar}
             />
             Profile
