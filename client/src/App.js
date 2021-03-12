@@ -14,6 +14,7 @@ import OtherUserDashboard from "./components/body/otherUser/OtherUserDashboard";
 import OtherUserContext from "./context/OtherUserContext";
 import Friends from "./features/Friends";
 import Notifications from "./features/Notifications";
+import Navbar from "./components/header/Navbar";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
                 component={SignUp}
               />
               <ProtectedRoute>
+                <Navbar />
                 <Route exact path={'/'} component={UserDashboard} />
                 <Route exact path={'/friends'} component={Friends} />
                 <Route exact path={'/notifications'} component={Notifications} />

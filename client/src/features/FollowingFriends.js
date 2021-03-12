@@ -4,41 +4,41 @@ import {
   Paper
 } from "@material-ui/core";
 import FriendCard from "./FriendCard";
-import {useAuthState} from "../context/context"
-const useStyles = makeStyles((theme) => ({
+import { useAuthState } from "../context/context"
+
+const useStyles = makeStyles(() => ({
   container: {
     display: "flex",
     flexDirection: "column",
   },
 }));
-const Following = (props) => {
+const Following = () => {
+  const classes = useStyles();
   const currentUser = useAuthState();
   const [friendDetails, setFriendDetails] = useState([]);
-  useEffect(
-    () => {
-      getFriendDetails(currentUser.friends)
-    },[currentUser]);
-    const getFriendDetails = async (myfriends) => {
-      const input = {
-        getFriends : true,
-        friends : myfriends
-      }
-      const response = await fetch(`/users`, {
-        method: "PUT",
+  
+  useEffect(() => {
+    async function getFriends() {
+      const response = await fetch(`/user`, {
+        method: "GET",
         headers: {
-          "Content-Type": "aplication/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${currentUser.token}`,
         },
-        body: JSON.stringify(input),
+        body: JSON.stringify(),
       });
-      const result = await response.json();
-      console.log(result)
-      setFriendDetails(result);
-    };
-  const classes = useStyles();
+      const user = await response.json();
 
+      setFriendDetails(user.friends)
+    }
+    getFriends();
+  }, [currentUser]);
+  
   return (
     <Paper className={classes.container}>
-      {friendDetails.map((friendDetail) =>
+      {friendDetails
+        .map(friendDetail => JSON.parse(friendDetail))
+        .map(friendDetail =>
         <FriendCard 
             key={friendDetail._id.$oid} 
             friendId={friendDetail._id.$oid}

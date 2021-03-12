@@ -74,8 +74,6 @@ function AddListDialogue (props) {
   const currentUser = useAuthState();
   const dispatch = useAuthDispatch();
 
-  console.log(currentUser)
-
   const addList = async (title, privacy, imageUrl="") => {    
     createProductLists(dispatch, currentUser.token, title, privacy, imageUrl);
   };
