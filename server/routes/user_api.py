@@ -6,7 +6,7 @@ import datetime
 
 class UsersApi(Resource):
     def get(self):
-        users = User.objects().to_json()
+        users = User.objects().only('id', 'name', 'email', 'profile_pic', 'list_of_products', 'friends').to_json()
         return Response(users, mimetype="application/json", status=200)
 
     def post(self):
