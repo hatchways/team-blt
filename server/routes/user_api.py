@@ -18,20 +18,6 @@ class UsersApi(Resource):
         user.hash_password()
         user.save()
         return {'name': str(name)}, 201
-    
-    def put(self):
-        size = len(User.objects)
-        body = request.get_json(force=True)
-        getFriends = body.get('getFriends')
-        friends = body.get('friends')
-
-        if getFriends:
-            userInfo = User.objects(email__in=friends).only('email', 'name', 'profile_pic')
-        else:
-            userInfo = User.objects(email__nin=friends).only('email', 'name', 'profile_pic')
-        
-        return Response(userInfo.to_json(), mimetype="application/json", status=200)
-
 
 class UserApi(Resource):
     @jwt_required()
@@ -77,12 +63,6 @@ class FriendApi(Resource):
         user.save()
         user.reload()
         return Response(user.to_json(), mimetype="application/json", status=200)
-
-    @jwt_required()
-    def get(self):
-        user_id = get_jwt_identity()
-        user = User.objects.get(email=user_id).to_json()
-        return Response(user, mimetype="application/json", status=200)
 
 class SignupApi(Resource):
     def post(self):
