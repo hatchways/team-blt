@@ -19,7 +19,7 @@ const Following = () => {
   
   useEffect(() => {
     async function getFriends() {
-      const response = await fetch(`/friends`, {
+      const response = await fetch(`/user`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
