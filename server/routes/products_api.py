@@ -92,7 +92,9 @@ class ProductApi(Resource):
             product_name = product.product_name
             user_list.update(push__products=product)
             user_list.save()
-            return {'name': str(product_name)}, 201
+            # After updating the list of products, return the user's new list of products lists
+            list_of_products = List.objects(added_by=user).to_json()
+            return Response(list_of_products, mimetype="application/json", status=200)
         except:
             return 'Unable to add product to your list.'
 
