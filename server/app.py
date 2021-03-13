@@ -3,6 +3,7 @@ from db import initialize_db
 from flask_restful import Api
 from routes.user_api import UsersApi, UserApi, SignupApi, LoginApi, LogoutApi, OtherUserApi, FriendApi
 from routes.products_api import ProductApi, ProductsListApi, OtherUserProductsListApi, OtherUserProductApi
+from api.scrape_handler import scrape_handler
 from flask_jwt_extended import JWTManager
 import os
 
