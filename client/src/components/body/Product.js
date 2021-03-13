@@ -50,7 +50,7 @@ function Product({ productName, url, price, image, otherUser, deleteProduct }) {
                             fontWeight: "bold"
                         }}
                     >
-                        {productName}
+                        {productName.substr(0, 50)}
                     </Typography>
                     <Typography 
                         variant="subtitle2" 
