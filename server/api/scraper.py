@@ -88,7 +88,7 @@ class ScrapeAmazon:
         id = get_id(soup)
         name = get_title(soup)
         image = get_image(soup)
-        price = get_price(soup)
+        price = float(get_price(soup)[5:].replace(',',''))
 
         # Function calls to display all necessary product information
         print("Product ID =", id)
