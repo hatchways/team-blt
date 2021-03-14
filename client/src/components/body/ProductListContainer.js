@@ -108,12 +108,9 @@ function ProductListContainer({
     useEffect(() => {
         otherUser ? otherUserListOfProducts() : fetchListOfProducts()
     }, [currentUser, otherUser])
-    console.log(listOfProducts)
 
     useEffect(() => {
-        return () => {
-            console.log("Cleaned up")
-        }
+        return () => {}
     }, [])
     
     // This function toggles the list's privacy setting.

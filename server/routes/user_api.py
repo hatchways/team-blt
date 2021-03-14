@@ -4,10 +4,9 @@ from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identi
 from models.user import User
 import datetime
 
-
 class UsersApi(Resource):
     def get(self):
-        users = User.objects().to_json()
+        users = User.objects().only('id', 'name', 'email', 'profile_pic', 'list_of_products', 'friends').to_json()
         return Response(users, mimetype="application/json", status=200)
 
     def post(self):
@@ -19,20 +18,6 @@ class UsersApi(Resource):
         user.hash_password()
         user.save()
         return {'name': str(name)}, 201
-    
-    def put(self):
-        size = len(User.objects)
-        body = request.get_json(force=True)
-        getFriends = body.get('getFriends')
-        friends = body.get('friends')
-
-        if getFriends:
-            userInfo = User.objects(email__in=friends).only('email', 'name', 'profile_pic')
-        else:
-            userInfo = User.objects(email__nin=friends).only('email', 'name', 'profile_pic')
-        
-        return Response(userInfo.to_json(), mimetype="application/json", status=200)
-
 
 class UserApi(Resource):
     @jwt_required()
@@ -62,8 +47,8 @@ class FriendApi(Resource):
         user_id = get_jwt_identity()
         user = User.objects.get(email=user_id)
         body = request.get_json(force=True)
-        friend = body.get('friends')
-        user.friends.append(friend)
+        friend = User.objects.get(email=body.get('friends')).to_json()
+        user.update(push__friends=friend)
         user.save()
         user.reload()
         return Response(user.to_json(), mimetype="application/json", status=200)
@@ -73,16 +58,10 @@ class FriendApi(Resource):
         user_id = get_jwt_identity()
         user = User.objects.get(email=user_id)
         body = request.get_json(force=True)
-        friend = body.get('friends')
+        friend = User.objects.get(email=body.get('friends')).to_json()
         user.update(pull__friends=friend)
         user.save()
         user.reload()
-        return Response(user.to_json(), mimetype="application/json", status=200)
-
-    @jwt_required()
-    def get(self):
-        user_id = get_jwt_identity()
-        user = User.objects.get(email=user_id)
         return Response(user.to_json(), mimetype="application/json", status=200)
 
 class SignupApi(Resource):
