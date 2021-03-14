@@ -65,7 +65,6 @@ function OtherUserDashboard(props) {
         return <Redirect exact to='/' />
     }
 
-
     return (
         <>
             <Navbar />

@@ -87,12 +87,14 @@ class ProductApi(Resource):
             body = request.get_json()
             user = User.objects.get(email=user_id)
             user_list = List.objects.get(list_title=list_title, added_by=user)
-            product = Product(**body, added_by=user)
+            product = Product(**body, added_by=user, in_list=user_list)
             product.save()
             product_name = product.product_name
             user_list.update(push__products=product)
             user_list.save()
-            return {'name': str(product_name)}, 201
+            # After updating the list of products, return the user's new list of products lists
+            list_of_products = List.objects(added_by=user).to_json()
+            return Response(list_of_products, mimetype="application/json", status=200)
         except:
             return 'Unable to add product to your list.'
 
@@ -112,30 +114,32 @@ class ProductApi(Resource):
 
     # Delete a product from its list
     @jwt_required()
-    def delete(self,list_title, product_name):
-        try:
-            user_id = get_jwt_identity()
-            user = User.objects.get(email=user_id)
-            list_of_products = List.objects.get(list_title=list_title, added_by=user).to_json()
-            product = Product.objects(product_name=product_name, added_by=user)
-            product.delete()
-            return 'Product has been deleted.', 200
-        except:
-            return 'Unable to delete your product from the list.'
+    def delete(self, list_title, id):
+        user_id = get_jwt_identity()
+        user = User.objects.get(email=user_id)
+        list_of_products = List.objects.get(
+            list_title=list_title, added_by=user)
+        product = Product.objects.get(id=id, added_by=user, in_list=list_of_products)
+        product.delete()
+        new_list_of_products = List.objects(added_by=user).to_json()
+        # Returning a new list of product lists for the client to update
+        return Response(new_list_of_products, mimetype="application/json", status=200)
 
     # Read a product
     @jwt_required()
-    def get(self, list_title, product_name=None):
+    def get(self, list_title, id=None):
         try:
             user_id = get_jwt_identity()
             user = User.objects.get(email=user_id)
-            list_of_products = List.objects.get(list_title=list_title, added_by=user).to_json()
+            list_of_products = List.objects.get(
+                list_title=list_title, added_by=user)
             # Retrieve one of the user's product based on the product name.
-            if product_name:
-                product = Product.objects.get(product_name=product_name, added_by=user).to_json()
+            if id:
+                product = Product.objects.get(
+                    id=id, added_by=user, in_list=list_of_products).to_json()
             # Retrieve all of the products in the user's specified list.
             else:
-                product = Product.objects(added_by=user).to_json()
+                product = Product.objects(added_by=user, in_list=list_of_products).to_json()
             return Response(product, mimetype="application/json", status=200)
         except:
             return 'Unable to find your product(s).'

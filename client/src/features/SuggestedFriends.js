@@ -44,7 +44,14 @@ const Suggested = (props) => {
   return (
     <Paper className={classes.container}>
       {randomUsers.filter(randomUser => currentUser.email != randomUser.email).map((randomUser) =>
-        <FriendCard key={randomUser.email} friendemail = {randomUser.email} friendname = {randomUser.name} image = {randomUser.profile_pic} followstate = {0}/>
+        <FriendCard 
+            key={randomUser._id.$oid}
+            friendId={randomUser._id.$oid} 
+            friendemail={randomUser.email} 
+            friendname={randomUser.name} 
+            image={randomUser.profile_pic}
+            followstate={0}
+        />
       )}
     </Paper>
   );

@@ -1,6 +1,8 @@
 import React from 'react';
 import Image from 'material-ui-image'
 import { Button, makeStyles, Typography } from '@material-ui/core';
+import { useAuthDispatch, useAuthState } from '../../../context/context';
+import { followFriends, unfollowFriends } from '../../../context/actions';
 
 const useStyles = makeStyles(() => ({
     container: {
@@ -20,6 +22,18 @@ const useStyles = makeStyles(() => ({
 
 function OtherUserProfile({ image, name, email }) {
     const classes = useStyles();
+    const currentUser = useAuthState();
+    const dispatch = useAuthDispatch();
+
+    // Handling following and unfollowing of the other user in their page
+    const handleFollowClick = () => {
+        followFriends(dispatch, currentUser.token, email);
+        };
+
+    const handleUnfollowClick = () => {
+        unfollowFriends(dispatch, currentUser.token, email);
+    };
+
     return (
         <div className={classes.container}>
             <Image 
@@ -31,13 +45,25 @@ function OtherUserProfile({ image, name, email }) {
             />
             <Typography variant="h4">{name}</Typography>
             <Typography variant="subtitle2" style={{ color: "#9b9a9a"}}>{email}</Typography>
-            <Button 
-                className={classes.button}
-                variant="contained" 
-                color="primary"
-            >
-                Follow
-            </Button>
+            {currentUser.friends.includes(email) ? 
+                <Button 
+                    className={classes.button}
+                    variant="contained" 
+                    color="primary"
+                    onClick={handleUnfollowClick}
+                >
+                    Unfollow
+                </Button>
+            : <Button 
+                    className={classes.button}
+                    variant="contained" 
+                    color="primary"
+                    onClick={handleFollowClick}
+                >
+                    Follow
+                </Button>
+            }
+            
         </div>
     )
 }

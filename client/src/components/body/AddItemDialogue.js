@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import {
   Box,
   Typography,
@@ -66,34 +66,21 @@ const AddItemDialogue = (props) => {
   const classes = useStyles();
   const currentUser = useAuthState();
   const dispatch = useAuthDispatch();
-  const {inputLink, openDialogue, closeDialogue, selectedListIndex } = props; 
+  const {inputLink, openDialogue, closeDialogue, selectedListIndex } = props;     
 
-  //Test code starts  
-   // const [inputLink, setInputLink] = useState("");    
-    const [item, setItem] = useState({});    
+  const addButtonClick = async () => {
+    const response = await fetch('/scrape', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ url: inputLink})
+    });
+    const item = await response.json();
+    console.log(item)
 
-    const getItem = async (input) => {
-        const response = await fetch("/scrape", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ url: input })
-        });
-        return response.json();
-    };
-  //Test Code ends
-
-  const addButtonClick = async (e) => {
-    
-    //closeDialogue();
-    if (inputLink.length > 0) {
-      //openPopup();
-      const newItem = await getItem(inputLink);
-      setItem(newItem);     
-  }
-  let message = item.short_URL +"\n" +item.id + "\n" +item.name + "\n"+ item.image + "\n" + item.price;
-  alert(message);
-  const list_title = currentUser.list_of_products[selectedListIndex].list_title;
-  addProducts(dispatch, currentUser.token, list_title, item.name, item.short_URL, item.image, item.price);
+    const list_title = currentUser.list_of_products[selectedListIndex].list_title;
+    addProducts(dispatch, currentUser.token, list_title, item.name, item.short_URL, item.image, item.price);
   };
 
 

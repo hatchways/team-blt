@@ -111,6 +111,8 @@ function UserSetting({ handleSetting, openSettingDialogue }) {
       open={openSettingDialogue}
       onClose={handleSetting}
       className={classes.dialog}
+      maxWidth="xs"
+      fullWidth
     >
       <DialogTitle id="alert-dialog-add-item">
         {"Settings"}
