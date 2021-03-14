@@ -31,6 +31,8 @@ server.env
 .vs
 
 
+
 server/.env
 client/.env
 client/src/.env
+server/.env

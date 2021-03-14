@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   Box,
   Typography,
@@ -87,7 +87,7 @@ function UserSetting({ handleSetting, openSettingDialogue }) {
       updateProfilePic(dispatch, image);
       // Send post request to backend to update User model
       const postImage = async () => {
-        const response = await fetch(`/users/:${currentUser.email}`, {
+        const response = await fetch(`/user`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -111,6 +111,8 @@ function UserSetting({ handleSetting, openSettingDialogue }) {
       open={openSettingDialogue}
       onClose={handleSetting}
       className={classes.dialog}
+      maxWidth="xs"
+      fullWidth
     >
       <DialogTitle id="alert-dialog-add-item">
         {"Settings"}

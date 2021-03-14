@@ -24,7 +24,7 @@ export async function loginUser(dispatch, loginPayload) {
       const token = Cookies.get(email);
       // Fetch the profile picture URL and the user's list of lists of products from the server
       async function fetchUserData() {
-        const response = await fetch(`/users/${email}`, {
+        const response = await fetch(`/user`, {
           method: "GET",
           headers: {
             "Content-Type": "aplication/json",
@@ -89,6 +89,79 @@ export async function logout(dispatch) {
   localStorage.removeItem('login');
   localStorage.removeItem('profile_pic');
   localStorage.removeItem('list_of_products');
+  localStorage.removeItem('friends');
+}
+
+export async function getFriends(dispatch, token) {
+  async function fetchData() {
+    const response = await fetch(`/friends`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "aplication/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(),
+    });
+    const user = await response.json();
+    console.log(user)
+
+    dispatch({ type: 'UPDATE_FRIENDS', payload: {'friends': user.friends}});
+    localStorage.setItem('friends', JSON.stringify(user.friends));
+
+  };
+  fetchData();
+
+}
+
+export async function followFriends(dispatch, token, friend) {
+  async function fetchData() {
+    const data = {
+      friends: friend
+    }
+
+    const response = await fetch(`/friends`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "aplication/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    });
+    const user = await response.json();
+    console.log(user);
+
+    dispatch({ type: 'UPDATE_FRIENDS', payload: {'friends': user.friends}});
+    localStorage.setItem('friends', JSON.stringify(user.friends));
+
+  };
+  fetchData();
+
+
+}
+
+export async function unfollowFriends(dispatch, token, friend) {
+  async function fetchData() {
+    const data = {
+      friends: friend
+    }
+
+    const response = await fetch(`/friends`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "aplication/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    });
+    const user = await response.json();
+    console.log(user);
+
+    dispatch({ type: 'UPDATE_FRIENDS', payload: {'friends': user.friends}});
+    localStorage.setItem('friends', JSON.stringify(user.friends));
+
+  };
+  fetchData();
+
 }
 
 /* 
@@ -107,7 +180,8 @@ to 'UPDATE_PRODUCTS_LISTS'. When the user adds a new list, the list_of_products
 attribute's list will be updated to include the new list.
 */
 export async function updateProductsLists(dispatch, newList) {
-  dispatch({ type: 'UPDATE_PRODUCTS_LISTS', payload: newList})
+    dispatch({ type: 'UPDATE_PRODUCTS_LISTS', payload: {'list_of_products': newList}});
+    localStorage.setItem('list_of_products', JSON.stringify(newList));
 }
 
 export async function addProducts(dispatch, token, list_title, name, short_URL, image, price){
@@ -124,23 +198,45 @@ export async function addProducts(dispatch, token, list_title, name, short_URL, 
       price: price,
     }),
   });
-  if (response.ok) {
-    console.log("Success");
-  } else {
-    console.log(response);
-  }
 
-  const res = await fetch('/lists', {
-    method: "GET",
-    headers: {
-      "Content-Type": "aplication/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(),
-  });
-  const lists = await res.json();
+  const lists = await response.json();
 
   // Set the dispatch typ to UPDATE_PRODUCTS_LISTS and update the list_of_products value of the initial state objecti n reducer.js
   dispatch({ type: 'UPDATE_PRODUCTS_LISTS', payload: {'list_of_products': lists}});
   localStorage.setItem('list_of_products', JSON.stringify(lists));
 }
+
+export async function createProductLists(dispatch, token, title, privacy, imageUrl){  
+    const response = await fetch(`/create-list`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        list_title: title,
+        cover_image_url: `${imageUrl}`,
+        private: privacy
+      }),
+    });
+    if (response.ok) {
+      console.log("Success");
+    } else {
+      console.log(response);
+    }
+    
+    const res = await fetch('/lists', {
+      method: "GET",
+      headers: {
+        "Content-Type": "aplication/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(),
+    });
+    const lists = await res.json();
+
+    // Set the dispatch typ to UPDATE_PRODUCTS_LISTS and update the list_of_products value of the initial state objecti n reducer.js
+    dispatch({ type: 'UPDATE_PRODUCTS_LISTS', payload: {'list_of_products': lists}});
+    localStorage.setItem('list_of_products', JSON.stringify(lists));
+}
+

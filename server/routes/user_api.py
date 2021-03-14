@@ -19,11 +19,24 @@ class UsersApi(Resource):
         user.hash_password()
         user.save()
         return {'name': str(name)}, 201
+    
+    def put(self):
+        size = len(User.objects)
+        body = request.get_json(force=True)
+        getFriends = body.get('getFriends')
+        friends = body.get('friends')
+
+        if getFriends:
+            userInfo = User.objects(email__in=friends).only('email', 'name', 'profile_pic')
+        else:
+            userInfo = User.objects(email__nin=friends).only('email', 'name', 'profile_pic')
+        
+        return Response(userInfo.to_json(), mimetype="application/json", status=200)
 
 
 class UserApi(Resource):
     @jwt_required()
-    def put(self, email):
+    def put(self):
         user_id = get_jwt_identity()
         user = User.objects.get(email=user_id)
         body=request.get_json()
@@ -31,18 +44,46 @@ class UserApi(Resource):
         return '', 200
 
     @jwt_required()
-    def delete(self, email):
+    def delete(self):
         user_id = get_jwt_identity()
-        if email == user_id:
-            user = User.objects.get(email=user_id)
-            user.delete()
-            return '', 200
+        user = User.objects.get(email=user_id)
+        user.delete()
+        return '', 200
 
     @jwt_required()
-    def get(self, email):
-        user = User.objects.get(email=email).to_json()
+    def get(self):
+        user_id = get_jwt_identity()
+        user = User.objects.get(email=user_id).to_json()
         return Response(user, mimetype="application/json", status=200)
 
+class FriendApi(Resource):
+    @jwt_required()
+    def put(self):
+        user_id = get_jwt_identity()
+        user = User.objects.get(email=user_id)
+        body = request.get_json(force=True)
+        friend = body.get('friends')
+        user.friends.append(friend)
+        user.save()
+        user.reload()
+        return Response(user.to_json(), mimetype="application/json", status=200)
+
+    @jwt_required()
+    def delete(self):
+        user_id = get_jwt_identity()
+        user = User.objects.get(email=user_id)
+        body = request.get_json(force=True)
+        friend = body.get('friends')
+        user.update(pull__friends=friend)
+        user.save()
+        user.reload()
+        return Response(user.to_json(), mimetype="application/json", status=200)
+
+    @jwt_required()
+    def get(self):
+        user_id = get_jwt_identity()
+        user = User.objects.get(email=user_id)
+        return Response(user.to_json(), mimetype="application/json", status=200)
 
 class SignupApi(Resource):
     def post(self):
@@ -82,3 +123,10 @@ class LogoutApi(Resource):
         response = jsonify({"msg": "logout successful"})
         response.delete_cookie(user_id)
         return response
+
+class OtherUserApi(Resource):
+    @jwt_required()
+    def get(self, id):
+        if id:
+            user = User.objects.get(id=id).to_json()
+        return Response(user, mimetype="application/json", status=200)

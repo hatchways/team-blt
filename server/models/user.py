@@ -4,17 +4,18 @@ from .product import *
 from .list import *
 
 class User(db.Document):
-    name = db.StringField(required=True, unique=True)
+    name = db.StringField(required=True)
     email = db.EmailField(required=True, unique=True, min_length=6)
     password = db.StringField(required=True, min_length=6)
     profile_pic = db.StringField(default="")
     list_of_products = db.ListField(db.ReferenceField('List', reverse_delete_rule=db.PULL))
+    friends = db.ListField(db.EmailField(required=True, unique=True, min_length=6))
 
     def hash_password(self):
         self.password = generate_password_hash(self.password).decode('utf8')
 
     def check_password(self, password):
-        return check_password_hash(self.password, password)
+        return check_password_hash(self.password, password)    
 
 # This line creates anoter delete rule where if a user is deleted,
 # then the products listed by the user is also deleted.
