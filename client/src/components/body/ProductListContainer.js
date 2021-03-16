@@ -151,7 +151,7 @@ function ProductListContainer({
                         listTitle={listTitle}
                         otherUser={otherUser}
                         deleteProduct={async () => {
-                            const response = await fetch(`/lists/${listTitle}/products/${product.product_name}`, {
+                            const response = await fetch(`/lists/${listTitle}/products/${product._id.$oid}`, {
                                 method: "DELETE",
                                 headers: {
                                     "Content-Type": "aplication/json",
