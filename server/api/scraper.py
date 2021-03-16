@@ -91,11 +91,11 @@ class ScrapeAmazon:
         price = float(get_price(soup)[5:].replace(',',''))
 
         # Function calls to display all necessary product information
-        print("Product ID =", id)
-        print("Product URL =", short_URL)
-        print("Product Title =", name)
-        print("Product Price =", price)
-        print("Product Image =", image)
+        #print("Product ID =", id)
+        #print("Product URL =", short_URL)
+        #print("Product Title =", name)
+        #print("Product Price =", price)
+        #print("Product Image =", image)
 
         
         
