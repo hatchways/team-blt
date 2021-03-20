@@ -66,7 +66,7 @@ const AddItemDialogue = (props) => {
   const classes = useStyles();
   const currentUser = useAuthState();
   const dispatch = useAuthDispatch();
-  const {inputLink, openDialogue, closeDialogue, selectedListIndex } = props;     
+  const {inputLink, openDialogue, closeDialogue, selectedListIndex, onChangeList, setInputLink } = props;     
 
   const addButtonClick = async () => {
     const response = await fetch('/scrape', {
@@ -101,6 +101,7 @@ const AddItemDialogue = (props) => {
               disableUnderline
               className={classes.pasteLink}
               value={inputLink}
+              onChange={e => {setInputLink(e.target.value)}}
             />
           </Box>
           <Box className={classes.boxSelect}>
@@ -111,6 +112,7 @@ const AddItemDialogue = (props) => {
               <Select
                 value={selectedListIndex}
                 className={classes.listDropdown}
+                onChange={onChangeList}
                 displayEmpty
                 disableUnderline
                 inputProps={{ "aria-label": "Without label" }}

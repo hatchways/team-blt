@@ -133,7 +133,14 @@ const AddItem = () => {
         
 
         {
-           <AddItemDialogue {...{inputLink, openDialogue, closeDialogue, selectedListIndex}}/>
+           <AddItemDialogue {...{
+             inputLink, 
+             openDialogue, 
+             closeDialogue, 
+             selectedListIndex, 
+             onChangeList, 
+             setInputLink
+            }}/>
         }
       </Grid>
     </Grid>
