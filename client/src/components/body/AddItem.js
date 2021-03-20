@@ -65,7 +65,6 @@ const AddItem = () => {
   const openItemDialogue = ()=> setOpenDialogue(true);
   const closeDialogue = ()=> setOpenDialogue(false);
   const [selectedListIndex, setSelectedListIndex] = useState("");
-  let list_title = "";
   const [inputLink, setInputLink] = useState("");
 
   const addButtonClick = async (e) => {    
