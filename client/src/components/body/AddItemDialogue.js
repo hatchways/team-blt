@@ -85,7 +85,6 @@ const AddItemDialogue = (props) => {
       body: JSON.stringify({ url: inputLink})
     });
     const item = await response.json();
-    console.log(item)
 
     const list_title = currentUser.list_of_products[selectedListIndex].list_title;
     addProducts(dispatch, currentUser.token, list_title, item.name, item.short_URL, item.image, item.price);
