@@ -58,7 +58,8 @@ function ProductListContainer({
     openList, 
     handleList,  
     privateList,
-    otherUser
+    otherUser,
+    index
 }) 
 {
     const classes = useStyles();
@@ -68,8 +69,6 @@ function ProductListContainer({
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
     const {
         openDialogue,
-        setOpenDialogue,
-        openItemDialogue,
         closeDialogue,
         selectedListIndex,
         setSelectedListIndex,
@@ -78,6 +77,14 @@ function ProductListContainer({
         addButtonClick,
         onChangeList
     } = useContext(AddItemProvider);
+
+    /* 
+    Set setSelectedListIndex to the index number of the list so that when the user tries to add
+    an item, the menu will default to the list's title first.
+    */
+    useEffect(() => {
+        setSelectedListIndex(index);
+    }, [])
 
     // Handling the delete dialog when the user clicks the delete button
     const handleDeleteDialog = () => {
