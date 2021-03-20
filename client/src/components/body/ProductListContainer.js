@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Typography,
   Button,
@@ -12,6 +12,8 @@ import Product from "./Product";
 import { updateProductsLists } from "../../context/actions";
 import "../../themes/scrollbar.css";
 import DeleteDialogue from "./DeleteDialogue";
+import { AddItemProvider } from "../../context/AddItemContext";
+import AddItemDialogue from "./AddItemDialogue";
 
 const useStyles = makeStyles((theme) => ({
   dialog: {
@@ -64,6 +66,18 @@ function ProductListContainer({
     const currentUser = useAuthState();
     const dispatch = useAuthDispatch();
     const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+    const {
+        openDialogue,
+        setOpenDialogue,
+        openItemDialogue,
+        closeDialogue,
+        selectedListIndex,
+        setSelectedListIndex,
+        inputLink,
+        setInputLink,
+        addButtonClick,
+        onChangeList
+    } = useContext(AddItemProvider);
 
     // Handling the delete dialog when the user clicks the delete button
     const handleDeleteDialog = () => {
@@ -175,6 +189,7 @@ function ProductListContainer({
                         variant="contained" 
                         color="primary"
                         className={classes.addButton}
+                        onClick={addButtonClick}
                     >
                         Add New Item
                     </Button>
@@ -205,13 +220,25 @@ function ProductListContainer({
                     </Button>
                 }
             </DialogActions>
-            {openDeleteDialog ? 
+            { 
                 <DeleteDialogue 
                     openDeleteDialog={openDeleteDialog}
                     handleDeleteDialog={handleDeleteDialog}
                     listTitle={listTitle}
                 />
-            : null}
+            }
+            {
+                <AddItemDialogue {...{
+                    inputLink, 
+                    openDialogue, 
+                    closeDialogue, 
+                    selectedListIndex, 
+                    onChangeList, 
+                    setInputLink,
+                    setSelectedListIndex
+                    }}
+                />
+            }
         </Dialog>
     );
 }
