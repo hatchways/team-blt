@@ -15,6 +15,7 @@ import OtherUserContext from "./context/OtherUserContext";
 import Friends from "./features/Friends";
 import Notifications from "./features/Notifications";
 import Navbar from "./components/header/Navbar";
+import AddItemContext from "./context/AddItemContext";
 
 function App() {
   return (
@@ -33,7 +34,9 @@ function App() {
               />
               <ProtectedRoute>
                 <Navbar />
-                <Route exact path={'/'} component={UserDashboard} />
+                <AddItemContext>
+                  <Route exact path={'/'} component={UserDashboard} />
+                </AddItemContext>
                 <Route exact path={'/friends'} component={Friends} />
                 <Route exact path={'/notifications'} component={Notifications} />
                 <Route exact path={'/users/:id'} component={OtherUserDashboard} />    
