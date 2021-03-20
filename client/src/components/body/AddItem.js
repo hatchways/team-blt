@@ -138,7 +138,8 @@ const AddItem = () => {
              closeDialogue, 
              selectedListIndex, 
              onChangeList, 
-             setInputLink
+             setInputLink,
+             setSelectedListIndex
             }}/>
         }
       </Grid>

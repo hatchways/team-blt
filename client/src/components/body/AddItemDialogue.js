@@ -66,7 +66,15 @@ const AddItemDialogue = (props) => {
   const classes = useStyles();
   const currentUser = useAuthState();
   const dispatch = useAuthDispatch();
-  const {inputLink, openDialogue, closeDialogue, selectedListIndex, onChangeList, setInputLink } = props;     
+  const {
+    inputLink, 
+    openDialogue, 
+    closeDialogue, 
+    selectedListIndex, 
+    onChangeList, 
+    setInputLink, 
+    setSelectedListIndex 
+  } = props;     
 
   const addButtonClick = async () => {
     const response = await fetch('/scrape', {
@@ -81,6 +89,10 @@ const AddItemDialogue = (props) => {
 
     const list_title = currentUser.list_of_products[selectedListIndex].list_title;
     addProducts(dispatch, currentUser.token, list_title, item.name, item.short_URL, item.image, item.price);
+
+    setInputLink('');
+    setSelectedListIndex('');
+    closeDialogue();
   };
 
 
