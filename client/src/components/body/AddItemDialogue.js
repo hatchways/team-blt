@@ -95,7 +95,6 @@ const AddItemDialogue = (props) => {
     closeDialogue();
   };
 
-
   return (    
     <Dialog
       open={openDialogue}
