@@ -42,5 +42,26 @@ In order to upload images to your profile and/or images to the products list you
 
 4. Start the App using `npm start` or `yarn start`.
 
+## Features
+### Sign Up and Sign In
+* User can sign up and sign into their account which authenticates them to allow access to the website
+
+![alt sign up and sign in](https://github.com/hatchways/team-blt/blob/dev/client/src/assets/gifs/sign-up-sign-in.gif)
+
+### Upload Profile Image
+* User can upload a profile image of their choice through the user's setting
+
+![alt profile image upload](https://github.com/hatchways/team-blt/blob/dev/client/src/assets/gifs/update-profile-img.gif)
+
+### Creating Products Lists and Adding Products
+* User can create lists where they populate with products they wish to have tracked
+
+![alt create lists and products](https://github.com/hatchways/team-blt/blob/dev/client/src/assets/gifs/add-list-and-product.gif)
+
+### Follow and Unfollow Other Users
+* User can follow/unfollow other users
+
+![alt follow/unfollow](https://github.com/hatchways/team-blt/blob/dev/client/src/assets/gifs/follow-unfollow.gif)
+
 ## Contibutors
 [Jason](https://github.com/jason1794c), [Ziqi](https://github.com/shenziq1), [Milan](https://github.com/MillanAir)
