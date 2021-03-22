@@ -66,7 +66,15 @@ const AddItemDialogue = (props) => {
   const classes = useStyles();
   const currentUser = useAuthState();
   const dispatch = useAuthDispatch();
-  const {inputLink, openDialogue, closeDialogue, selectedListIndex } = props;     
+  const {
+    inputLink, 
+    openDialogue, 
+    closeDialogue, 
+    selectedListIndex, 
+    onChangeList, 
+    setInputLink, 
+    setSelectedListIndex 
+  } = props;     
 
   const addButtonClick = async () => {
     const response = await fetch('/scrape', {
@@ -77,12 +85,14 @@ const AddItemDialogue = (props) => {
       body: JSON.stringify({ url: inputLink})
     });
     const item = await response.json();
-    console.log(item)
 
     const list_title = currentUser.list_of_products[selectedListIndex].list_title;
     addProducts(dispatch, currentUser.token, list_title, item.name, item.short_URL, item.image, item.price);
-  };
 
+    setInputLink('');
+    setSelectedListIndex('');
+    closeDialogue();
+  };
 
   return (    
     <Dialog
@@ -101,6 +111,7 @@ const AddItemDialogue = (props) => {
               disableUnderline
               className={classes.pasteLink}
               value={inputLink}
+              onChange={e => {setInputLink(e.target.value)}}
             />
           </Box>
           <Box className={classes.boxSelect}>
@@ -111,6 +122,7 @@ const AddItemDialogue = (props) => {
               <Select
                 value={selectedListIndex}
                 className={classes.listDropdown}
+                onChange={onChangeList}
                 displayEmpty
                 disableUnderline
                 inputProps={{ "aria-label": "Without label" }}

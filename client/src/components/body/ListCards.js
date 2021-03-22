@@ -32,13 +32,14 @@ const ListCards = ({ otherUser }) => {
             otherUser={otherUser}
           />
         ))
-        : currentUser.list_of_products.map((list) => (
+        : currentUser.list_of_products.map((list, index) => (
           <ProductListCard
             key={list._id.$oid}
             listTitle={list.list_title}
             cover_image_url={list.cover_image_url}
             numberOfProducts={list.products.length}
             privateList={list.private}
+            index={index}
           />
         ))}
       {otherUser ? null : <AddNewList />}

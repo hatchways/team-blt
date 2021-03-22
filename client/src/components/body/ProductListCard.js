@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-function ProductListCard({ listTitle, cover_image_url, numberOfProducts, privateList, otherUser }) {
+function ProductListCard({ listTitle, cover_image_url, numberOfProducts, privateList, otherUser, index }) {
     const classes = useStyles();
     // Handling product list modal
     const [openList, setOpenList] = useState(false)
@@ -67,6 +67,7 @@ function ProductListCard({ listTitle, cover_image_url, numberOfProducts, private
                 openList={openList}
                 privateList={privateList}
                 otherUser={otherUser}
+                index={index}
             /> : null}
         </>
     )

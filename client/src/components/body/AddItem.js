@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   Grid,
   Input,
@@ -11,6 +11,7 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import AddItemDialogue from "./AddItemDialogue";
 import { useAuthState } from "../../context/context";
+import { AddItemProvider } from "../../context/AddItemContext";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -60,26 +61,19 @@ const useStyles = makeStyles((theme) => ({
 
 const AddItem = () => {
   const classes = useStyles();
-  const [openDialogue, setOpenDialogue] = useState(false);
   const currentUser = useAuthState();
-  const openItemDialogue = ()=> setOpenDialogue(true);
-  const closeDialogue = ()=> setOpenDialogue(false);
-  const [selectedListIndex, setSelectedListIndex] = useState("");
-  let list_title = "";
-  const [inputLink, setInputLink] = useState("");
-
-  const addButtonClick = async (e) => {    
-    openItemDialogue();   
-  };
-
-  
-
-  const onChangeList = (e) => {
-    const newIndex = parseInt(e.target.value);
-    setSelectedListIndex(newIndex);    
-};
-
-
+  const {
+    openDialogue,
+    setOpenDialogue,
+    openItemDialogue,
+    closeDialogue,
+    selectedListIndex,
+    setSelectedListIndex,
+    inputLink,
+    setInputLink,
+    addButtonClick,
+    onChangeList
+} = useContext(AddItemProvider);
 
   return (
     <Grid className={classes.container}>
@@ -97,8 +91,6 @@ const AddItem = () => {
             onChange={(e) => setInputLink(e.target.value)}
           />
      
-
-       
           <FormControl className={classes.formControl}>
             <InputLabel className={classes.border}>Select List</InputLabel>
             <Select
@@ -120,9 +112,7 @@ const AddItem = () => {
               ))}
             </Select>
           </FormControl>
-        
 
-        
           <Button
             onClick={addButtonClick}
             className={classes.addButton}
@@ -130,10 +120,17 @@ const AddItem = () => {
           >
             ADD
           </Button>
-        
 
         {
-           <AddItemDialogue {...{inputLink, openDialogue, closeDialogue, selectedListIndex}}/>
+           <AddItemDialogue {...{
+             inputLink, 
+             openDialogue, 
+             closeDialogue, 
+             selectedListIndex, 
+             onChangeList, 
+             setInputLink,
+             setSelectedListIndex
+            }}/>
         }
       </Grid>
     </Grid>
