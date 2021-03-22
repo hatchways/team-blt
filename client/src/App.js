@@ -36,10 +36,10 @@ function App() {
                 <Navbar />
                 <AddItemContext>
                   <Route exact path={'/'} component={UserDashboard} />
+                  <Route exact path={'/friends'} component={Friends} />
+                  <Route exact path={'/notifications'} component={Notifications} />
+                  <Route exact path={'/users/:id'} component={OtherUserDashboard} />    
                 </AddItemContext>
-                <Route exact path={'/friends'} component={Friends} />
-                <Route exact path={'/notifications'} component={Notifications} />
-                <Route exact path={'/users/:id'} component={OtherUserDashboard} />    
               </ProtectedRoute>
             </Switch>
           </BrowserRouter>
