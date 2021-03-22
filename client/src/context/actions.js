@@ -72,7 +72,6 @@ export async function loginUser(dispatch, loginPayload) {
       localStorage.setItem('token', JSON.stringify(token));
       localStorage.setItem('login', true);
 
-      console.log(email + ' is login!')
       return {'email':email, 'token': token}
     }
     return;

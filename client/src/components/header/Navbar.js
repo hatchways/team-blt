@@ -101,12 +101,7 @@ export default function Navbar() {
           },
         });
 
-        if (response.status == 422) {
-          console.log('already logout, please log in');
-        }
-
         if (response.ok) {
-          console.log('logout successfully');
           logout(dispatch);
         }
       }}>Logout</MenuItem>
