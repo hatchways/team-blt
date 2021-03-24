@@ -51,7 +51,7 @@ function OtherUserProfile({ image, name, email }) {
             />
             <Typography variant="h4">{name}</Typography>
             <Typography variant="subtitle2" style={{ color: "#9b9a9a"}}>{email}</Typography>
-            {parsedListOfFriends.some(friend => friend.email == email) ? 
+            {parsedListOfFriends.some(friend => friend.email === email) ? 
                 <Button 
                     className={classes.button}
                     variant="contained" 

@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { Formik, Form, Field } from "formik";
 import { TextField } from "formik-material-ui";
 import Modal from "react-modal";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { formStyles, modalStyles, signUpStyles } from "../themes/theme";
 
 Modal.setAppElement("#root");
 
 function SignUp({ history }) {
-  const [modalIsOpen, setModalIsOpen] = useState(true);
+  const [modalIsOpen, ] = useState(true);
 
   return (
     <Modal isOpen={modalIsOpen} style={modalStyles}>

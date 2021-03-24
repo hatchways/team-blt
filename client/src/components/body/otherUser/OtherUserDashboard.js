@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react'
+import React, { useEffect, useContext, useCallback } from 'react'
 import { Redirect } from 'react-router-dom';
 import { useAuthState } from '../../../context/context';
 import { OtherUserProvider } from '../../../context/OtherUserContext';
@@ -12,7 +12,7 @@ function OtherUserDashboard(props) {
     const currentUser = useAuthState();
     
     // Fetching the other user's data
-    async function fetchOtherUser() {
+    const fetchOtherUser = useCallback(async () => {
         const response = await fetch(`/users/${otherUserId}`, {
             method: "GET",
             headers: {
@@ -29,10 +29,10 @@ function OtherUserDashboard(props) {
             // Redirect back to the user dashboard if there's an error.
             return props.history.push('/');
         }                 
-    }
+    }, [otherUserId, currentUser.token, props.history, dispatch])
 
     // Fetching the other user's lists
-    async function fetchOtherUserLists() {
+    const fetchOtherUserLists = useCallback(async () => {
         const response = await fetch(`/users/${otherUserId}/lists`, {
             method: "GET",
             headers: {
@@ -48,19 +48,19 @@ function OtherUserDashboard(props) {
         catch(error) {
             console.log(error)
         }
-    }
+    }, [otherUserId, currentUser.token, dispatch])
 
     // On arrival to the friend dashboard, make a GET request with the endpoing /users/:id and save the user model to a state
     useEffect(() => {
         fetchOtherUser();
         fetchOtherUserLists();
-    }, [otherUserId])
+    }, [fetchOtherUser, fetchOtherUserLists])
 
     /* 
     If the current user visits their own page via the endpoint, /users/<their own id>, 
     redirect the user back to their personal dashboard.
     */
-    if (currentUser.email == otherUser.email) {
+    if (currentUser.email === otherUser.email) {
         return <Redirect exact to='/' />
     }
 

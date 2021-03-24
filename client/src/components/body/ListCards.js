@@ -23,7 +23,7 @@ const ListCards = ({ otherUser }) => {
   return (
     <Grid className={classes.cardContainer}>
       {otherUser ?
-        otherUser.list_of_products.filter(list => list.private != true).map(list => (
+        otherUser.list_of_products.filter(list => list.private !== true).map(list => (
           <ProductListCard
             key={list._id.$oid}
             listTitle={list.list_title}

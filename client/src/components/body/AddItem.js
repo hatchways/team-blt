@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import {
   Grid,
   Input,
@@ -64,8 +64,6 @@ const AddItem = () => {
   const currentUser = useAuthState();
   const {
     openDialogue,
-    setOpenDialogue,
-    openItemDialogue,
     closeDialogue,
     selectedListIndex,
     setSelectedListIndex,

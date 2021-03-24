@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import {
   Box,
   Typography,
@@ -147,7 +147,7 @@ function UserSetting({ handleSetting, openSettingDialogue }) {
               >
                 <CropOriginalIcon className={classes.dropImage} />
                 <input {...getInputProps()} />
-                {acceptedFiles.length == 0
+                {acceptedFiles.length === 0
                   ? "Drop an image here or select a file"
                   : acceptedFiles.map((file) => file.name)}
                 {isDragReject && "the file type is not accepted"}

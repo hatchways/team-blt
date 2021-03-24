@@ -1,7 +1,6 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
 
-const Notifications = (props) => {
+const Notifications = () => {
     return (
         <h2 style={{textAlign: 'center'}}>Under maintenance</h2>
     );

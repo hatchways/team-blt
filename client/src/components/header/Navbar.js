@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -62,7 +62,7 @@ export default function Navbar() {
   const [openSettingDialogue, setOpenSettingDialogue] = useState(false);
   const handleSetting = (event) => {
     event.preventDefault();
-    if (openSettingDialogue == true) {
+    if (openSettingDialogue === true) {
       setOpenSettingDialogue(false);
     } else {
       setOpenSettingDialogue(true);

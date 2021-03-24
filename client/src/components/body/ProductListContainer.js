@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useCallback } from "react";
 import {
   Typography,
   Button,
@@ -84,11 +84,11 @@ function ProductListContainer({
     */
     useEffect(() => {
         setSelectedListIndex(index);
-    }, [])
+    }, [index, setSelectedListIndex])
 
     // Handling the delete dialog when the user clicks the delete button
     const handleDeleteDialog = () => {
-        if (openDeleteDialog == true) {
+        if (openDeleteDialog === true) {
             setOpenDeleteDialog(false);
         } else {
             setOpenDeleteDialog(true);
@@ -96,7 +96,7 @@ function ProductListContainer({
       };
 
     // Fetching current user's list of products
-    async function fetchListOfProducts() {
+    const fetchListOfProducts = useCallback(async () => {
         const response = await fetch(`/lists/${listTitle}/products`, {
             method: "GET",
             headers: {
@@ -107,10 +107,10 @@ function ProductListContainer({
         })
         const list = await response.json();
         setListOfProducts(list);
-    }
+    }, [currentUser.token, listTitle])
 
     // Fetching other user's list of products
-    async function otherUserListOfProducts() {
+    const otherUserListOfProducts = useCallback(async () => {
         const response = await fetch(`/users/${otherUser.id}/lists/${listTitle}/products`, {
             method: "GET",
             headers: {
@@ -121,14 +121,14 @@ function ProductListContainer({
         })
         const list = await response.json();
         setListOfProducts(list);
-    }
+    }, [otherUser, listTitle, currentUser.token])
     /*
     The list of of products is fetched from the server on first render of the product list container
     and when the currentUser object is updated and changed.
     */
     useEffect(() => {
         otherUser ? otherUserListOfProducts() : fetchListOfProducts()
-    }, [currentUser, otherUser])
+    }, [currentUser, otherUser, otherUserListOfProducts, fetchListOfProducts])
 
     useEffect(() => {
         return () => {}

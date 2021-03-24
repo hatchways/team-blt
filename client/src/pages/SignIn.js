@@ -12,7 +12,7 @@ import { useAuthDispatch } from '../context/context';
 Modal.setAppElement("#root");
 
 function Login({ history }) {
-  const [modalIsOpen, setModalIsOpen] = useState(true);
+  const [modalIsOpen, ] = useState(true);
   const dispatch = useAuthDispatch();
 
   return (

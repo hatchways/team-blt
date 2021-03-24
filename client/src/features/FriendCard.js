@@ -1,10 +1,9 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { red } from "@material-ui/core/colors";
-import { followFriends, getFriends, unfollowFriends } from "../context/actions";
+import { followFriends, unfollowFriends } from "../context/actions";
 import { useAuthDispatch } from "../context/context";
 import { Link, Redirect} from "react-router-dom";
-import { createBrowserHistory } from "history";
 import {
   Card,
   CardHeader,

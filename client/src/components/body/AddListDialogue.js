@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import {
   Box,
   Typography,
@@ -97,7 +97,7 @@ function AddListDialogue (props) {
   const onSubmit = async () => {
     if (title !== "") {
       // Check if the list title is already used by the user
-      if (currentUser.list_of_products.filter(list => title == list.list_title).length != 0) {
+      if (currentUser.list_of_products.filter(list => title === list.list_title).length !== 0) {
         setTitleError(true)
         alert('The title is currently in use.')
         return

@@ -58,6 +58,7 @@ function Product({ productName, url, price, image, otherUser, deleteProduct }) {
                         <a 
                             href={url.includes("https://") ? url : '//'+url} 
                             target="_blank"
+                            rel="noreferrer"
                             className={classes.link}
                         >{url.substr(0, 30)}</a>
                     </Typography>

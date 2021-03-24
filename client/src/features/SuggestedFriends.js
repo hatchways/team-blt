@@ -6,7 +6,7 @@ import {
 import FriendCard from "./FriendCard";
 import {useAuthState} from "../context/context"
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   container: {
     display: "flex",
     flexDirection: "column",
@@ -42,7 +42,7 @@ const Suggested = () => {
   return (
     <Paper className={classes.container}>
       {randomUsers
-        .filter(randomUser => currentUser.email != randomUser.email) // Filter out current user
+        .filter(randomUser => currentUser.email !== randomUser.email) // Filter out current user
         .filter(randomUser => !(parsedListOfFriendsEmail.includes(randomUser.email))) // Filter out any user in the current user's list of friends
         .map(randomUser =>
         <FriendCard 
