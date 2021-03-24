@@ -1,6 +1,13 @@
 # Deals Mate
 Have you ever wanted to buy an item from Amazon, but it was too expensive? Well you can't change the price, but with Deals Mate, you can keep track of when the item goes on sale! Deals Mate is an easy to use website where you, the user, can input an Amazon link of a product that you want to track and get notifications of when it goes on sale!
 
+## Demo
+[Deals Mate Demo](https://dealsmate123.herokuapp.com/)
+
+### Demo Account:
+Email: arnold@gmail.com\
+Password: asdfasdf
+
 ## Tech Stack
 ### Frontend
 * React (Hooks)
